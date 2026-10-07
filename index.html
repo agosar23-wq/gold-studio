@@ -132,6 +132,25 @@ header.nav.scrolled{border-bottom-color:var(--line)}
 .step h3{font-size:24px;margin-bottom:10px}
 .step p{color:var(--on-dark-2);font-size:15.5px}
 
+/* paquetes */
+.plans{background:var(--bg-2)}
+.launch{display:flex;gap:16px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 22px;margin-bottom:28px;max-width:760px}
+.launch svg{flex:none;width:30px;height:30px;color:var(--gold)}
+.launch p{font-size:16px;color:var(--ink-2)}
+.launch b{color:var(--ink);font-weight:500}
+.plan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:34px 30px;display:flex;flex-direction:column;gap:16px;position:relative}
+.plan.star{border-color:var(--gold);box-shadow:0 24px 50px -30px color-mix(in srgb,var(--gold) 60%,transparent)}
+.plan .tag{position:absolute;top:-13px;left:30px;background:var(--gold);color:var(--on-gold);font-size:12px;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px;border-radius:999px}
+.plan h3{font-size:30px}
+.plan .for{font-size:15px;color:var(--ink-2);min-height:3.2em}
+.plan ul{list-style:none;margin:0;padding:18px 0 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px;font-size:15.5px;flex:1}
+.plan li{display:flex;gap:10px;align-items:baseline}
+.plan li::before{content:"";flex:none;width:5px;height:5px;background:var(--gold);transform:rotate(45deg) translateY(-2px)}
+.plan .btn{justify-content:center;margin-top:8px}
+.extras{margin-top:28px;display:flex;flex-wrap:wrap;gap:10px 28px;color:var(--ink-2);font-size:15.5px}
+.extras b{color:var(--ink);font-weight:500}
+
 /* sobre mi */
 .about-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:72px;align-items:center}
 .about-art{aspect-ratio:4/5;border-radius:220px 220px var(--r) var(--r);background:var(--gold-2);display:grid;place-items:center;position:relative;overflow:hidden;max-width:420px;width:100%}
@@ -189,6 +208,7 @@ footer{padding:56px 0 40px;background:var(--dark);color:var(--on-dark-2)}
 @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}.ring,.spark{animation:none!important}html{scroll-behavior:auto}}
 
 @media (max-width: 960px){
+  .plan-grid{grid-template-columns:1fr;max-width:520px}
   section{padding:84px 0}
   .hero-grid,.case,.about-grid,.contact-grid{grid-template-columns:1fr;gap:44px}
   .hero-art{justify-self:center;max-width:300px;order:-1}
@@ -241,6 +261,7 @@ footer{padding:56px 0 40px;background:var(--dark);color:var(--on-dark-2)}
       <a href="#servicios">Servicios</a>
       <a href="#trabajos">Trabajos</a>
       <a href="#proceso">Cómo trabajo</a>
+      <a href="#paquetes">Paquetes</a>
       <a href="#sobre-mi">Sobre mí</a>
       <a class="btn gold" href="#contacto">Hablemos</a>
     </nav>
@@ -365,6 +386,42 @@ footer{padding:56px 0 40px;background:var(--dark);color:var(--on-dark-2)}
   </div>
 </section>
 
+<section class="plans" id="paquetes">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Paquetes</div>
+      <h2>Elegí por dónde <em>empezar</em>.</h2>
+      <p class="muted">Cada proyecto es distinto, así que te armo un presupuesto según lo que necesites. Estos paquetes son una guía para arrancar.</p>
+    </div>
+    <div class="launch reveal">
+      <svg aria-hidden="true"><use href="#spark"/></svg>
+      <p><b>Precio de lanzamiento.</b> Gold Studio está empezando, así que los primeros proyectos tienen un precio especial. Si es tu primera vez trabajando conmigo, preguntame.</p>
+    </div>
+    <div class="plan-grid">
+      <article class="plan reveal">
+        <h3>Esencial</h3>
+        <p class="for">Para empezar a estar online con una presencia linda y simple.</p>
+        <ul><li>Página de una sección</li><li>Tus servicios y datos de contacto</li><li>Botón directo a WhatsApp</li><li>Se ve perfecta en el celular</li><li>La publico por vos</li></ul>
+        <a class="btn ghost" data-plan="Esencial" href="#contacto">Consultar</a>
+      </article>
+      <article class="plan star reveal">
+        <span class="tag">Recomendado</span>
+        <h3>Profesional</h3>
+        <p class="for">Para marcas que quieren mostrar todo lo que hacen y recibir consultas.</p>
+        <ul><li>Página completa con varias secciones</li><li>Galería de trabajos o productos</li><li>Formulario de contacto</li><li>Dominio propio (tumarca.com)</li><li>Un mes de cambios incluidos</li></ul>
+        <a class="btn gold" data-plan="Profesional" href="#contacto">Consultar</a>
+      </article>
+      <article class="plan reveal">
+        <h3>A medida</h3>
+        <p class="for">Para proyectos con usuarios, ventas o algo especial.</p>
+        <ul><li>Apps con cuentas para tus clientes</li><li>Tiendas online con pagos</li><li>Panel para manejar todo vos</li><li>Diseño con tu identidad</li><li>Te acompaño después del lanzamiento</li></ul>
+        <a class="btn ghost" data-plan="A medida" href="#contacto">Consultar</a>
+      </article>
+    </div>
+    <div class="extras reveal"><span><b>Branding:</b> logo, colores y portadas para tus redes.</span><span><b>Community manager:</b> plan mensual para tu Instagram.</span></div>
+  </div>
+</section>
+
 <section id="sobre-mi">
   <div class="wrap about-grid">
     <div class="about-art reveal" aria-hidden="true">
@@ -468,6 +525,10 @@ footer{padding:56px 0 40px;background:var(--dark);color:var(--on-dark-2)}
     say('Copiado: ' + text);
   }
   document.querySelectorAll('[data-copy]').forEach(function(b){ b.addEventListener('click', function(){ copy(b.dataset.copy); }); });
+
+  document.querySelectorAll('[data-plan]').forEach(function(a){ a.addEventListener('click', function(){
+    var m = document.getElementById('f-msg'); if (m && !m.value) m.value = 'Hola! Me interesa el paquete ' + a.dataset.plan + '. ';
+  }); });
 
   var form = document.getElementById('form'), ok = document.getElementById('form-ok');
   form.addEventListener('submit', function(e){
