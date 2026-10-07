@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#FAF6EE">
 </head>
 <body>
-<title>Rossero Nutrición</title>
+<title>Consultorio de nutrición</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Figtree:wght@400;500;600&display=swap">
@@ -359,7 +359,7 @@ table.wt td:last-child,table.wt th:last-child{text-align:right}
   const I = (n) => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
   const LOGO = '<svg viewBox="0 0 120 184" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 84V60a56 56 0 0 1 112 0v24M4 100v24a56 56 0 0 0 112 0v-24"/><path d="M81.3 56.4A28.6 28.6 0 0 0 25.3 63.3v56.5a28.6 28.6 0 0 0 52.3 14.2"/><path d="M56.4 49v87.9M77.6 34.7a19 19 0 0 1 19 19V70a19 19 0 0 1-19 19H58.8M58.8 93.2l40.9 48.2"/></svg>';
   const ghost = (cls='ghostlogo') => `<div class="${cls}">${LOGO.replace('stroke-width="3"','stroke-width="2"')}</div>`;
-  const brand = `<div class="brand"><div class="mark">${LOGO}</div><div><div class="brand-name">Cecilia Rossero</div><div class="brand-sub">Lic. en Nutrición</div></div></div>`;
+  const brand = `<div class="brand"><div class="mark">${LOGO}</div></div>`;
   const kindIcon = (k) => ({ 'Plan alimentario':'file', 'Receta':'bowl', 'Estudio':'flask', 'Recetario':'book' }[k] || 'file');
   const TONES = [['#E9DFD5','#5E5046'],['#DDE4D7','#465A40'],['#F0DFD8','#7D4E43'],['#E3E0E9','#544C6B'],['#EDE5CF','#6A5726']];
 
@@ -381,7 +381,7 @@ table.wt td:last-child,table.wt th:last-child{text-align:right}
           appts:[{id:uid(), date:iso(8), time:'17:30', mode:'Presencial'},{id:uid(), date:iso(-6), time:'18:00', mode:'Presencial'}],
           msgs:[
             {from:'nutri', text:'Hola Lucía. Te dejé el plan nuevo en Mis documentos. Cualquier duda me escribís.', at:iso(-6)},
-            {from:'pac', text:'¡Gracias Ceci! ¿El yogur de la colación puede ser descremado saborizado?', at:iso(-1)}
+            {from:'pac', text:'¡Gracias! ¿El yogur de la colación puede ser descremado saborizado?', at:iso(-1)}
           ]},
         { id:'p2', name:'Martín Gómez', email:'martin@ejemplo.com', pass:'demo', status:'activo', since:iso(-60), goal:'Aumento de masa muscular', height:1.78,
           docs:[{id:uid(), title:'Plan de entrenamiento + alimentación', kind:'Plan alimentario', date:iso(-20), size:'420 KB'}],
@@ -406,7 +406,7 @@ table.wt td:last-child,table.wt th:last-child{text-align:right}
     };
   }
 
-  const KEY = 'rossero-demo-v3';
+  const KEY = 'nutri-demo-v1';
   let db;
   try { db = JSON.parse(localStorage.getItem(KEY)) || seed(); } catch(e){ db = seed(); }
   const blobs = {};
@@ -552,7 +552,7 @@ table.wt td:last-child,table.wt th:last-child{text-align:right}
   function chat(p, me){
     const other = me === 'nutri'
       ? `<span class="avatar">${initials(p.name)}</span><div><b>${esc(p.name)}</b><div class="meta">${esc(p.email)}</div></div>`
-      : `<div class="mark">${LOGO}</div><div><b>Lic. Cecilia Rossero</b><div class="meta">Tus consultas sobre el plan</div></div>`;
+      : `<div class="mark">${LOGO}</div><div><b>Tu nutricionista</b><div class="meta">Tus consultas sobre el plan</div></div>`;
     return `<div class="chat"><div class="chat-head">${other}</div>
       <div class="msgs" id="msgs">${p.msgs.length ? p.msgs.map(m=>`<div class="bubble ${m.from===me?'me':''}">${esc(m.text)}<small>${fmt(m.at,{day:'numeric',month:'short'})}</small></div>`).join('') : '<p class="empty" style="text-align:center;margin:auto">Todavía no hay mensajes. Escribí el primero.</p>'}</div>
       <form class="composer" data-form="msg"><label for="msg-text" hidden>Mensaje</label><input class="input" id="msg-text" name="text" placeholder="Escribí un mensaje…" autocomplete="off" required><button class="sendbtn" type="submit" aria-label="Enviar">${I('send')}</button></form></div>`;
@@ -567,7 +567,7 @@ table.wt td:last-child,table.wt th:last-child{text-align:right}
     let card;
     if (ui.auth==='pending') card = `<div class="card login-card">${brand}
       <h2>Recibimos tu solicitud</h2>
-      <p style="margin:0">Cuando la Lic. Rossero apruebe tu cuenta, vas a poder entrar con tu mail y tu contraseña. Te avisamos por mail.</p>
+      <p style="margin:0">Cuando tu nutricionista apruebe tu cuenta, vas a poder entrar con tu mail y tu contraseña. Te avisamos por mail.</p>
       <p class="meta" style="margin:0;background:var(--warn-soft);color:var(--warn);padding:12px 14px;border-radius:14px">Para probar la demo: entrá como nutricionista y aprobá la solicitud.</p>
       <div><button class="btn primary" data-action="auth" data-k="login">Volver a ingresar</button></div></div>`;
     else if (ui.auth==='signup') card = `<form class="card login-card" data-form="signup">${brand}
@@ -589,12 +589,12 @@ table.wt td:last-child,table.wt th:last-child{text-align:right}
       <button class="btn primary" type="submit">Ingresar ${I('arrow')}</button>
       <div class="try-row" style="justify-content:space-between"><button type="button" class="link" data-action="forgot">Me olvidé la contraseña</button><span class="meta">¿Primera vez? <button type="button" class="link" data-action="auth" data-k="signup">Creá tu cuenta</button></span></div>
       <div class="try">Para probar la demo
-        <div class="try-row"><button type="button" class="btn small" data-action="fill" data-u="cecilia@ejemplo.com">Entrar como nutricionista</button><button type="button" class="btn small" data-action="fill" data-u="lucia@ejemplo.com">Entrar como paciente</button></div></div></form>`;
+        <div class="try-row"><button type="button" class="btn small" data-action="fill" data-u="nutri@ejemplo.com">Entrar como nutricionista</button><button type="button" class="btn small" data-action="fill" data-u="lucia@ejemplo.com">Entrar como paciente</button></div></div></form>`;
     app.innerHTML = `<section class="login fade">
       <div class="hero">${ghost()}
         <div class="eyebrow" style="position:relative">Consultorio de nutrición</div>
         <h1>Tu plan de alimentación, siempre a mano.</h1>
-        <p>Entrá para ver tu plan, tus recetarios, tu progreso y tus próximos turnos con la Lic. Cecilia Rossero.</p>
+        <p>Entrá para ver tu plan, tus recetarios, tu progreso y tus próximos turnos con tu nutricionista.</p>
         <ul class="feat"><li>${I('file')}Plan alimentario</li><li>${I('book')}Recetarios</li><li>${I('chart')}Tu progreso</li><li>${I('cal')}Turnos</li><li>${I('chat')}Consultas</li></ul>
       </div>${card}</section>`;
   }
@@ -622,7 +622,7 @@ table.wt td:last-child,table.wt th:last-child{text-align:right}
               ${l ? `<div class="big">${kg(l.kg)}<small>kg</small></div>${spark(ws)}` : '<p class="empty">Todavía no hay registros.</p>'}</div>
             ${plan ? `<div class="card plan-card"><div class="pdfthumb">PDF</div><div class="grow"><div class="eyebrow">Tu plan actual</div><h3>${esc(plan.title)}</h3><div class="meta">Actualizado el ${fmt(plan.date,{day:'numeric',month:'long'})}</div></div><button class="btn primary small" data-action="open" data-id="${plan.id}">Ver</button></div>` : ''}
           </div>
-          ${p.notes[0] ? `<div class="card quote span-2"><div class="eyebrow" style="margin-bottom:8px">Indicación de la licenciada</div><p>${esc(p.notes[0].text)}</p><div class="sign">Lic. Cecilia Rossero · ${fmt(p.notes[0].date,{day:'numeric',month:'long'})}</div></div>` : ''}
+          ${p.notes[0] ? `<div class="card quote span-2"><div class="eyebrow" style="margin-bottom:8px">Indicación de la licenciada</div><p>${esc(p.notes[0].text)}</p><div class="sign">Tu nutricionista · ${fmt(p.notes[0].date,{day:'numeric',month:'long'})}</div></div>` : ''}
           <div class="span-2"><div class="sec-head"><h2>Recetarios</h2><button class="link" data-action="pac" data-k="docs">Ver todo</button></div>
             <div class="covers scroll">${db.library.map(cover).join('')}</div></div>
         </div>`;
@@ -661,7 +661,7 @@ table.wt td:last-child,table.wt th:last-child{text-align:right}
     let c = '';
     if (ui.nv==='panel'){
       const week = active().flatMap(p => p.appts.filter(a => a.date>=today && daysUntil(a.date)<=7).map(a => ({...a, who:p.name, pid:p.id}))).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
-      c = `<div class="page-head"><div><div class="eyebrow">${longToday()}</div><h1>${greet()}, Cecilia</h1></div></div>
+      c = `<div class="page-head"><div><div class="eyebrow">${longToday()}</div><h1>${greet()}</h1></div></div>
         <div class="kpis">
           <button class="kpi" data-action="nv" data-k="pacientes"><div class="top">Pacientes activos ${I('users')}</div><div class="n">${active().length}</div></button>
           <button class="kpi ${nPend?'alert':''}" data-action="nv" data-k="pacientes"><div class="top">Solicitudes nuevas ${I('inbox')}</div><div class="n">${nPend}</div></button>
@@ -710,7 +710,7 @@ table.wt td:last-child,table.wt th:last-child{text-align:right}
     if (ui.nv==='recetarios') c = `<div class="page-head"><div><div class="eyebrow">Para todos los pacientes</div><h1>Recetarios</h1></div></div>
       <div class="stack" style="gap:28px">${uploadForm('lib')}
         <div class="covers">${db.library.map((d,i)=>`<div class="cover-wrap">${cover(d,i)}<button class="btn small danger ${ui.armed===d.id?'armed':''}" data-action="delDoc" data-id="${d.id}" data-scope="lib">${ui.armed===d.id?'¿Quitar? Confirmar':'Quitar'}</button></div>`).join('')}</div></div>`;
-    app.innerHTML = shell(nav, ui.nv, 'nv', {name:'Cecilia Rossero', role:'Nutricionista'}, c);
+    app.innerHTML = shell(nav, ui.nv, 'nv', {name:'Consultorio', role:'Nutricionista'}, c);
   }
 
   function render(){
@@ -737,7 +737,7 @@ table.wt td:last-child,table.wt th:last-child{text-align:right}
   // ---------- eventos ----------
   function login(email, pass){
     email = email.trim().toLowerCase();
-    if (email==='cecilia@ejemplo.com' && pass==='demo'){ session={role:'nutri'}; ui.nv='panel'; ui.loginErr=''; }
+    if (email==='nutri@ejemplo.com' && pass==='demo'){ session={role:'nutri'}; ui.nv='panel'; ui.loginErr=''; }
     else { const p = db.patients.find(x=>x.email===email && x.pass===pass);
       if (p && p.status==='pendiente'){ ui.auth='pending'; ui.loginErr=''; }
       else if (p){ session={role:'pac', id:p.id}; ui.pac='inicio'; ui.loginErr=''; }
@@ -781,11 +781,11 @@ table.wt td:last-child,table.wt th:last-child{text-align:right}
     const showErr = (msg) => { let el=f.querySelector('.error'); if(!el){ el=document.createElement('p'); el.className='error'; el.setAttribute('role','alert'); f.querySelector('button[type=submit]').before(el); } el.textContent=msg; };
     const p = session?.role==='nutri' ? Pt(ui.sel) : session && Pt(session.id);
     switch(f.dataset.form){
-      case 'login': { const em=v.email.trim().toLowerCase(); const ok = (em==='cecilia@ejemplo.com'&&v.pass==='demo') || db.patients.some(x=>x.email===em&&x.pass===v.pass);
+      case 'login': { const em=v.email.trim().toLowerCase(); const ok = (em==='nutri@ejemplo.com'&&v.pass==='demo') || db.patients.some(x=>x.email===em&&x.pass===v.pass);
         if (!ok) { showErr('Mail o contraseña incorrectos. Revisá que no haya espacios de más.'); return; } login(v.email, v.pass); return; }
       case 'signup': {
         const email = v.email.trim().toLowerCase();
-        if (email==='cecilia@ejemplo.com' || db.patients.some(x=>x.email===email)) return showErr('Ya hay una cuenta con ese mail. Probá ingresar o recuperar la contraseña.');
+        if (email==='nutri@ejemplo.com' || db.patients.some(x=>x.email===email)) return showErr('Ya hay una cuenta con ese mail. Probá ingresar o recuperar la contraseña.');
         if (v.pass.length<8) return showErr('La contraseña tiene que tener al menos 8 caracteres.');
         if (v.pass!==v.pass2) return showErr('Las contraseñas no coinciden. Escribilas de nuevo.');
         db.patients.push({ id:uid(), name:v.name.trim(), email, pass:v.pass, status:'pendiente', since:today, goal:'Sin definir', height:1.65, docs:[], notes:[], weights:[], appts:[], msgs:[] });
