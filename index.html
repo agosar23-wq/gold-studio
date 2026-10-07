@@ -81,11 +81,8 @@ header.nav.scrolled{border-bottom-color:var(--line)}
 .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:38px}
 .hero-art{position:relative;aspect-ratio:1/1;max-width:440px;justify-self:end;width:100%}
 .ring{position:absolute;inset:8%;border-radius:50%;border:clamp(22px,4.2vw,40px) solid var(--gold);animation:spin 40s linear infinite}
-.ring::after{content:"";position:absolute;inset:-1px;border-radius:50%;background:conic-gradient(from 210deg,transparent 0 70%,color-mix(in srgb,var(--on-gold) 35%,transparent) 80%,transparent 90%);mask:radial-gradient(farthest-side,transparent calc(100% - 1px),#000 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 1px),#000 0)}
 .spark{position:absolute;color:var(--gold-2)}
 .spark.s1{width:24%;right:2%;top:0;animation:twinkle 3.6s ease-in-out infinite}
-.spark.s2{width:9%;left:4%;bottom:14%;animation:twinkle 3.6s ease-in-out 1.2s infinite;color:var(--gold)}
-.spark.s3{width:6%;right:12%;bottom:4%;animation:twinkle 3.6s ease-in-out 2.1s infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes twinkle{0%,100%{transform:scale(1) rotate(0);opacity:1}50%{transform:scale(.78) rotate(12deg);opacity:.75}}
 .hero-tags{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:64px;padding-top:28px;border-top:1px solid var(--line);color:var(--ink-2);font-size:14px;letter-spacing:.14em;text-transform:uppercase}
@@ -267,8 +264,6 @@ footer{padding:56px 0 40px;background:var(--dark);color:var(--on-dark-2)}
       <div class="hero-art" aria-hidden="true">
         <div class="ring"></div>
         <svg class="spark s1"><use href="#spark"/></svg>
-        <svg class="spark s2"><use href="#spark"/></svg>
-        <svg class="spark s3"><use href="#spark"/></svg>
       </div>
     </div>
     <div class="hero-tags reveal">
