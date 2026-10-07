@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#FAF6EE">
+</head>
+<body>
+<title>Rossero Nutrición</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Figtree:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F7F3EF; --bg-2:#EFE8E1; --surface:#FFFDFB; --surface-2:#F3EDE7; --ink:#2B2420; --muted:#7B7068; --line:#E6DDD4;
+  --accent:#7A6A5D; --accent-2:#B3A497; --accent-ink:#FFFFFF; --accent-soft:#EEE5DC;
+  --good:#56704F; --good-soft:#E5ECE1; --warn:#946524; --warn-soft:#F5EBDA; --danger:#A3473A;
+  --shadow:0 1px 2px rgba(60,45,35,.05),0 10px 30px rgba(60,45,35,.07);
+  --display:"Jost",ui-sans-serif,system-ui,sans-serif;
+  --body:"Figtree",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#151210; --bg-2:#1C1815; --surface:#1F1B18; --surface-2:#29231F; --ink:#EFE9E3; --muted:#A99D93; --line:#352E29;
+    --accent:#CDBBAA; --accent-2:#8F8174; --accent-ink:#171412; --accent-soft:#2D2621;
+    --good:#9DBB94; --good-soft:#22301F; --warn:#E0B66E; --warn-soft:#352B1A; --danger:#E08A7C;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#151210; --bg-2:#1C1815; --surface:#1F1B18; --surface-2:#29231F; --ink:#EFE9E3; --muted:#A99D93; --line:#352E29;
+  --accent:#CDBBAA; --accent-2:#8F8174; --accent-ink:#171412; --accent-soft:#2D2621;
+  --good:#9DBB94; --good-soft:#22301F; --warn:#E0B66E; --warn-soft:#352B1A; --danger:#E08A7C;
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;padding-inline:16px;padding-block:0 40px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.15;letter-spacing:-.01em}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+svg.i{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.wrap{max-width:1160px;margin:0 auto}
+.eyebrow{font-family:var(--display);font-weight:500;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.meta{font-size:12.5px;color:var(--muted)}
+
+/* demo strip */
+.demo-bar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;padding-block:10px;font-size:12.5px;color:var(--muted)}
+.demo-bar b{font-family:var(--display);font-weight:500;letter-spacing:.14em;font-size:10.5px;background:var(--warn-soft);color:var(--warn);padding:3px 9px;border-radius:99px;margin-right:6px}
+.link{background:none;border:0;padding:0;color:var(--accent);text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-size:13px}
+
+/* buttons, inputs */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:99px;border:1px solid var(--line);background:var(--surface);padding:9px 18px;cursor:pointer;font-weight:500;color:var(--ink);white-space:nowrap;text-decoration:none;transition:border-color .15s,background .15s}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.small{padding:6px 13px;font-size:13px}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--danger)}
+.btn.danger.armed{background:var(--danger);border-color:var(--danger);color:var(--surface)}
+.btn svg.i{width:17px;height:17px}
+.field{display:grid;gap:6px}
+.field label{font-size:13px;font-weight:500;color:var(--muted)}
+.input{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:11px 14px}
+.input:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 4px var(--accent-soft)}
+textarea.input{resize:vertical;min-height:90px}
+.form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;align-items:end}
+.error{color:var(--danger);font-size:14px;margin:0}
+
+/* surfaces */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:22px}
+.stack{display:grid;gap:16px}
+.row{display:flex;gap:12px;align-items:center}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
+.sec-head h2{font-size:22px}
+.empty{color:var(--muted);font-size:14px;margin:0;padding:6px 0}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--accent-soft);color:var(--accent)}
+.chip.good{background:var(--good-soft);color:var(--good)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+
+/* brand */
+.brand{display:flex;align-items:center;gap:12px;color:inherit}
+.mark{width:28px;height:43px;color:var(--accent-2);flex:none}
+.mark svg{width:100%;height:100%;display:block}
+.brand-name{font-family:var(--display);font-weight:400;text-transform:uppercase;letter-spacing:.22em;font-size:14px;line-height:1.2}
+.brand-sub{font-family:var(--display);text-transform:uppercase;letter-spacing:.16em;font-size:9.5px;color:var(--muted)}
+
+/* ===== Login ===== */
+.login{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch;padding-block:12px 20px}
+.hero{position:relative;overflow:hidden;border-radius:999px 999px 32px 32px;background:linear-gradient(180deg,var(--bg-2),var(--surface-2));border:1px solid var(--line);padding:72px 40px 40px;display:flex;flex-direction:column;justify-content:flex-end;gap:16px;min-height:560px}
+.hero .ghostlogo{position:absolute;top:56px;left:50%;transform:translateX(-50%);width:170px;height:261px;color:var(--accent-2);opacity:.55}
+.hero h1{font-size:clamp(32px,4.2vw,46px);font-weight:300;position:relative}
+.hero p{margin:0;color:var(--muted);max-width:40ch;position:relative}
+.feat{list-style:none;margin:6px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;position:relative}
+.feat li{display:flex;gap:9px;align-items:center;font-size:14px}
+.feat svg.i{color:var(--accent);width:18px;height:18px}
+.login-card{display:grid;gap:16px;align-content:center;padding:36px;box-shadow:var(--shadow)}
+.login-card h2{font-size:28px;font-weight:300}
+.try{border-top:1px solid var(--line);padding-top:16px;display:grid;gap:10px;font-size:13px;color:var(--muted)}
+.try-row{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ===== App shell ===== */
+.shell{display:grid;grid-template-columns:232px 1fr;gap:36px;align-items:start;padding-top:8px}
+.side{position:sticky;top:calc(16px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;gap:28px;padding:24px 18px;background:var(--surface);border:1px solid var(--line);border-radius:28px;min-height:calc(100vh - 90px)}
+.nav{display:grid;gap:4px}
+.nav button{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:0;background:none;padding:11px 14px;border-radius:14px;cursor:pointer;color:var(--muted);font-weight:500}
+.nav button:hover{background:var(--surface-2);color:var(--ink)}
+.nav button[aria-current="true"]{background:var(--accent-soft);color:var(--ink)}
+.nav button[aria-current="true"] svg.i{color:var(--accent)}
+.nav .badge{margin-left:auto}
+.badge{min-width:20px;height:20px;padding:0 6px;border-radius:99px;background:var(--accent);color:var(--accent-ink);font-size:11px;font-weight:600;display:inline-grid;place-items:center;font-variant-numeric:tabular-nums}
+.badge.warn{background:var(--warn);color:var(--surface)}
+.side .brand-name{letter-spacing:.16em;font-size:13px}
+.side-foot{margin-top:auto;display:flex;align-items:center;gap:10px;padding-top:16px;border-top:1px solid var(--line)}
+.side-foot .who{flex:1;min-width:0;font-size:13px;line-height:1.3}
+.side-foot .who b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.iconbtn{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);cursor:pointer;color:var(--muted);flex:none}
+.iconbtn:hover{color:var(--ink);border-color:var(--accent)}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-family:var(--display);font-weight:500;font-size:14px;letter-spacing:.04em;flex:none}
+.avatar.lg{width:64px;height:64px;font-size:22px}
+.topbar{display:none}
+.tabbar{display:none}
+.main{min-width:0;padding-bottom:20px}
+.page-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:24px}
+.page-head h1{font-size:clamp(30px,3.6vw,40px);font-weight:300;margin-top:6px}
+
+/* ===== Patient home ===== */
+.home{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px}
+.home > *, .main, .cols > *, .split > *{min-width:0}
+.appt-hero{position:relative;overflow:hidden;border-radius:999px 999px 28px 28px;background:var(--accent);color:var(--accent-ink);padding:64px 28px 28px;display:grid;gap:4px;justify-items:center;text-align:center;min-height:330px;align-content:end}
+.appt-hero .ghostlogo{position:absolute;top:30px;width:90px;height:138px;opacity:.18}
+.appt-hero .eyebrow{color:inherit;opacity:.8}
+.appt-hero .daynum{font-family:var(--display);font-weight:300;font-size:84px;line-height:1;font-variant-numeric:tabular-nums}
+.appt-hero .month{font-family:var(--display);font-size:20px;text-transform:capitalize}
+.appt-hero .when{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:10px;font-size:14px;opacity:.92}
+.appt-hero .when span{display:inline-flex;gap:6px;align-items:center}
+.appt-hero .when svg.i{width:16px;height:16px}
+.appt-hero .count{margin-top:12px;background:rgba(255,255,255,.16);border-radius:99px;padding:5px 14px;font-size:13px;font-weight:500}
+.appt-hero.none{background:var(--surface-2);color:var(--ink)}
+.home-side{display:grid;gap:18px;align-content:start}
+.weight-card{display:grid;gap:10px}
+.weight-card .big{font-family:var(--display);font-weight:300;font-size:46px;line-height:1;font-variant-numeric:tabular-nums}
+.weight-card .big small{font-size:18px;color:var(--muted);margin-left:4px}
+.spark{width:100%;height:56px;display:block}
+.plan-card{display:flex;gap:16px;align-items:center}
+.pdfthumb{width:52px;height:66px;flex:none;border-radius:10px 18px 10px 10px;background:var(--surface-2);border:1px solid var(--line);display:grid;place-items:end center;padding-bottom:8px;font-family:var(--display);font-size:10px;font-weight:500;letter-spacing:.12em;color:var(--accent);position:relative}
+.pdfthumb::before{content:"";position:absolute;top:14px;left:10px;right:10px;height:2px;background:var(--line);box-shadow:0 7px 0 var(--line),0 14px 0 var(--line),0 21px 0 var(--line)}
+.plan-card .grow{flex:1;min-width:0}
+.plan-card h3{font-size:19px}
+.quote{position:relative;padding:26px 26px 22px 64px}
+.quote::before{content:"“";position:absolute;left:22px;top:6px;font-family:Georgia,serif;font-size:72px;line-height:1;color:var(--accent-2)}
+.quote p{margin:0;font-size:16px;line-height:1.6}
+.quote .sign{margin-top:12px;font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:center}
+.quote .sign::before{content:"";width:22px;height:1px;background:var(--accent-2)}
+.span-2{grid-column:1/-1}
+
+/* recetario covers */
+.covers{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
+.covers.scroll{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:thin}
+.covers.scroll .cover{flex:0 0 160px;scroll-snap-align:start}
+.cover{position:relative;overflow:hidden;border:0;cursor:pointer;text-align:left;border-radius:999px 999px 18px 18px;aspect-ratio:3/4.1;max-width:100%;padding:52px 16px 16px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;color:var(--c-ink);background:var(--c-bg);transition:transform .2s}
+.cover:hover{transform:translateY(-3px)}
+.cover .ghostlogo{position:absolute;top:22px;left:50%;transform:translateX(-50%);width:46px;height:71px;opacity:.35}
+.cover .eyebrow{color:inherit;opacity:.75;font-size:9.5px}
+.cover .t{font-family:var(--display);font-size:16px;line-height:1.2}
+.cover .meta{color:inherit;opacity:.7;font-size:11px}
+.cover-wrap{display:grid;gap:8px}
+
+/* lists */
+.list{display:grid;gap:10px}
+.list > *{min-width:0}
+.item{display:flex;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px 16px}
+.item .ico{width:44px;height:44px;border-radius:14px;background:var(--surface-2);display:grid;place-items:center;color:var(--accent);flex:none}
+.item .grow{flex:1;min-width:0}
+.item .t{font-weight:600;overflow-wrap:anywhere}
+.item .sub{font-size:12.5px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:2px}
+.item .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+button.item{width:100%;text-align:left;cursor:pointer;font:inherit;color:inherit}
+button.item:hover{border-color:var(--accent-2)}
+
+/* timeline notes */
+.timeline{display:grid;gap:0;position:relative;padding-left:22px}
+.timeline::before{content:"";position:absolute;left:5px;top:8px;bottom:8px;width:1px;background:var(--line)}
+.tl{position:relative;padding-bottom:18px}
+.tl::before{content:"";position:absolute;left:-22px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--surface);border:2px solid var(--accent-2)}
+.tl:first-child::before{background:var(--accent);border-color:var(--accent)}
+.tl time{font-size:12px;color:var(--muted)}
+.tl p{margin:4px 0 0;white-space:pre-wrap}
+
+/* stats + chart */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px 18px}
+.stat .lbl{font-size:12.5px;color:var(--muted);display:flex;gap:7px;align-items:center}
+.stat .lbl svg.i{width:16px;height:16px;color:var(--accent-2)}
+.stat .val{font-family:var(--display);font-weight:300;font-size:32px;font-variant-numeric:tabular-nums;margin-top:4px;line-height:1.1}
+.stat .val small{font-family:var(--body);font-size:13px;color:var(--muted);margin-left:2px}
+.val.good{color:var(--good)}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:18px;overflow-x:auto}
+.chart svg{display:block;width:100%;min-width:320px;height:auto}
+table.wt{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14px}
+table.wt td,table.wt th{padding:9px 4px;border-bottom:1px solid var(--line);text-align:left}
+table.wt tr:last-child td{border-bottom:0}
+table.wt th{font-size:12px;color:var(--muted);font-weight:500}
+table.wt td:last-child,table.wt th:last-child{text-align:right}
+
+/* appointments */
+.datebox{width:56px;flex:none;text-align:center;border-radius:99px 99px 14px 14px;background:var(--accent-soft);color:var(--accent);padding:10px 0 7px}
+.datebox .d{font-family:var(--display);font-size:22px;line-height:1;font-variant-numeric:tabular-nums}
+.datebox .m{font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;margin-top:3px}
+.item.past{opacity:.6}
+
+/* chat */
+.chat{background:var(--surface);border:1px solid var(--line);border-radius:24px;display:flex;flex-direction:column;height:min(560px,70vh)}
+.chat-head{display:flex;gap:12px;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)}
+.chat-head .mark{width:22px;height:34px}
+.msgs{padding:18px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;flex:1;background:linear-gradient(var(--surface),var(--bg))}
+.bubble{max-width:78%;padding:10px 14px;border-radius:20px;background:var(--surface-2);align-self:flex-start;white-space:pre-wrap;overflow-wrap:anywhere}
+.bubble.me{align-self:flex-end;background:var(--accent);color:var(--accent-ink);border-bottom-right-radius:6px}
+.bubble:not(.me){border-bottom-left-radius:6px}
+.bubble small{display:block;font-size:11px;opacity:.7;margin-top:3px}
+.composer{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
+.composer .input{border-radius:99px}
+.sendbtn{width:44px;height:44px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;cursor:pointer;flex:none}
+
+/* nutri */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:18px;display:grid;gap:6px;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.kpi:hover{border-color:var(--accent-2)}
+.kpi .top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}
+.kpi .top svg.i{color:var(--accent-2)}
+.kpi .n{font-family:var(--display);font-weight:300;font-size:40px;line-height:1;font-variant-numeric:tabular-nums}
+.kpi.alert{background:var(--warn-soft);border-color:transparent}
+.kpi.alert .top,.kpi.alert .top svg.i,.kpi.alert .n{color:var(--warn)}
+.cols{display:grid;grid-template-columns:1.3fr 1fr;gap:18px;align-items:start}
+.requests{display:grid;gap:10px}
+.req{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--warn-soft);border-radius:18px;padding:12px 14px}
+.req .t{font-weight:600}
+.split{display:grid;grid-template-columns:290px 1fr;gap:20px;align-items:start}
+.plist{display:grid;gap:8px}
+.search{position:relative}
+.search svg.i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);width:18px;height:18px}
+.search .input{padding-left:40px;border-radius:99px}
+.prow{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:10px 12px;cursor:pointer;font:inherit;color:inherit}
+.prow:hover{border-color:var(--accent-2)}
+.prow[aria-current="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.prow .nm{font-weight:600}
+.phead{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-bottom:18px}
+.phead h2{font-size:28px;font-weight:300}
+.mini{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:20px;scrollbar-width:none;padding-bottom:2px}
+.tab{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:8px 14px;cursor:pointer;color:var(--muted);font-weight:500;white-space:nowrap}
+.tab svg.i{width:16px;height:16px}
+.tab[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.tab .n{font-size:11px;opacity:.75;font-variant-numeric:tabular-nums}
+.back{display:none}
+
+/* modal + toast */
+.overlay{position:fixed;inset:0;background:rgba(30,22,18,.45);display:grid;place-items:center;padding:16px;z-index:30}
+.modal{background:var(--surface);border-radius:28px;max-width:520px;width:100%;padding:26px;display:grid;gap:14px;box-shadow:var(--shadow)}
+.paper{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:18px;font-size:14px;display:grid;gap:8px}
+.paper .r{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dotted var(--line);padding-bottom:6px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(24px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:99px;font-size:14px;z-index:40;max-width:calc(100% - 32px)}
+
+/* ===== Mobile ===== */
+@media (max-width:860px){
+  .login{grid-template-columns:1fr;gap:16px}
+  .hero{min-height:0;padding:150px 24px 28px;border-radius:999px 999px 28px 28px}
+  .hero .ghostlogo{top:34px;width:70px;height:108px}
+  .feat{grid-template-columns:1fr 1fr}
+  .login-card{padding:24px}
+  .shell{display:block}
+  .side{display:none}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:6px 14px}
+  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
+  .tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;border:0;background:none;color:var(--muted);font-size:10.5px;font-weight:500;padding:6px 2px;cursor:pointer;position:relative;border-radius:14px}
+  .tabbar button[aria-current="true"]{color:var(--accent)}
+  .tabbar button[aria-current="true"] svg.i{stroke-width:2}
+  .tabbar .badge{position:absolute;top:2px;left:calc(50% + 6px);min-width:16px;height:16px;font-size:10px}
+  body{padding-bottom:96px}
+  .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+  .home{grid-template-columns:minmax(0,1fr)}
+  .appt-hero{min-height:290px}
+  .kpis{grid-template-columns:1fr 1fr}
+  .cols{grid-template-columns:1fr}
+  .split{grid-template-columns:1fr}
+  .split.has-sel .plist-col{display:none}
+  .split:not(.has-sel) .detail{display:none}
+  .back{display:inline-flex}
+  .stats{grid-template-columns:1fr 1fr}
+  .stats .stat:last-child{grid-column:1/-1}
+  .item{flex-wrap:wrap}
+  .item .acts{width:100%;justify-content:flex-start;padding-left:58px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .toast{animation:up .25s ease-out}
+  @keyframes up{from{transform:translate(-50%,10px);opacity:0}}
+  .fade{animation:fade .35s ease-out}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}}
+}
+</style>
+
+<div class="wrap">
+  <div class="demo-bar">
+    <span><b>DEMO</b>Datos de ejemplo. Todo queda en este navegador.</span>
+    <button class="link" data-action="reset">Reiniciar demo</button>
+  </div>
+  <div id="app"></div>
+</div>
+<div id="layer"></div>
+
+<script>
+(function(){
+  // ---------- utilidades ----------
+  const DAY = 864e5;
+  const iso = (o) => { const d = new Date(Date.now() + o * DAY); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); };
+  const parse = (s) => { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); };
+  const fmt = (s, o) => parse(s).toLocaleDateString('es-AR', o || {day:'numeric', month:'short', year:'numeric'});
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const uid = () => Math.random().toString(36).slice(2, 9);
+  const initials = (n) => n.split(' ').filter(Boolean).map(w => w[0]).slice(0,2).join('').toUpperCase();
+  const today = iso(0);
+  const kg = (n) => Number(n).toLocaleString('es-AR', {minimumFractionDigits:1, maximumFractionDigits:1});
+  const first = (n) => n.split(' ')[0];
+  const daysUntil = (s) => Math.round((parse(s) - parse(today)) / DAY);
+  const greet = () => { const h = new Date().getHours(); return h < 12 ? 'Buen día' : h < 20 ? 'Buenas tardes' : 'Buenas noches'; };
+  const longToday = () => new Date().toLocaleDateString('es-AR', {weekday:'long', day:'numeric', month:'long'});
+
+  // ---------- íconos (línea fina, como el logo) ----------
+  const P = {
+    home:'<path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"/>',
+    file:'<path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5"/>',
+    chart:'<path d="M4 19h16"/><path d="M5 15l4-4 3 3 7-7"/><path d="M15 7h4v4"/>',
+    cal:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+    chat:'<path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/>',
+    users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2A6.5 6.5 0 0 1 21.5 20"/>',
+    book:'<path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19v-3"/>',
+    grid:'<rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/>',
+    out:'<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 17l-5-5 5-5M5 12h11"/>',
+    up:'<path d="M12 15V4M7 9l5-5 5 5M5 20h14"/>',
+    check:'<path d="M5 12.5l4.5 4.5L19 7"/>',
+    clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    video:'<rect x="3" y="6" width="13" height="12" rx="3"/><path d="M16 10l5-3v10l-5-3"/>',
+    pin:'<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+    scale:'<rect x="4" y="4" width="16" height="16" rx="5"/><path d="M8.5 10a5 5 0 0 1 7 0M12 12.5l1.6-2.6"/>',
+    plus:'<path d="M12 5v14M5 12h14"/>',
+    send:'<path d="M5 12l15-7-5 15-3-6z"/><path d="M12 14l8-9"/>',
+    search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',
+    arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',
+    left:'<path d="M19 12H5M11 6l-6 6 6 6"/>',
+    bowl:'<path d="M3.5 11h17a8.5 8.5 0 0 1-17 0z"/><path d="M9 7.5c0-1.5 1-2 1-3.5M13.5 7.5c0-1.5 1-2 1-3.5"/>',
+    flask:'<path d="M9 3h6M10 3v6l-5.3 9.2A2 2 0 0 0 6.4 21h11.2a2 2 0 0 0 1.7-2.8L14 9V3"/><path d="M7.5 15h9"/>',
+    ruler:'<path d="M12 3v18M8 7h8M9 12h6M8 17h8"/>',
+    target:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/>',
+    inbox:'<path d="M4 13l2.5-7h11l2.5 7v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M4 13h5l1 2h4l1-2h5"/>',
+  };
+  const I = (n) => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
+  const LOGO = '<svg viewBox="0 0 120 184" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 84V60a56 56 0 0 1 112 0v24M4 100v24a56 56 0 0 0 112 0v-24"/><path d="M81.3 56.4A28.6 28.6 0 0 0 25.3 63.3v56.5a28.6 28.6 0 0 0 52.3 14.2"/><path d="M56.4 49v87.9M77.6 34.7a19 19 0 0 1 19 19V70a19 19 0 0 1-19 19H58.8M58.8 93.2l40.9 48.2"/></svg>';
+  const ghost = (cls='ghostlogo') => `<div class="${cls}">${LOGO.replace('stroke-width="3"','stroke-width="2"')}</div>`;
+  const brand = `<div class="brand"><div class="mark">${LOGO}</div><div><div class="brand-name">Cecilia Rossero</div><div class="brand-sub">Lic. en Nutrición</div></div></div>`;
+  const kindIcon = (k) => ({ 'Plan alimentario':'file', 'Receta':'bowl', 'Estudio':'flask', 'Recetario':'book' }[k] || 'file');
+  const TONES = [['#E9DFD5','#5E5046'],['#DDE4D7','#465A40'],['#F0DFD8','#7D4E43'],['#E3E0E9','#544C6B'],['#EDE5CF','#6A5726']];
+
+  // ---------- datos de ejemplo ----------
+  function seed(){
+    return {
+      patients: [
+        { id:'p1', name:'Lucía Fernández', email:'lucia@ejemplo.com', pass:'demo', status:'activo', since:iso(-180), goal:'Descenso de peso', height:1.64,
+          docs:[
+            {id:uid(), title:'Plan alimentario · 1800 kcal', kind:'Plan alimentario', date:iso(-6), size:'312 KB'},
+            {id:uid(), title:'Lista de compras semanal', kind:'Receta', date:iso(-6), size:'88 KB'},
+            {id:uid(), title:'Análisis de sangre (marzo)', kind:'Estudio', date:iso(-170), size:'1,2 MB'}
+          ],
+          notes:[
+            {date:iso(-6), text:'Sumamos una colación a media tarde (yogur + fruta). Tomar 2 litros de agua por día. Caminata de 30 minutos, 4 veces por semana.'},
+            {date:iso(-40), text:'Muy buen avance. Mantener cenas livianas y evitar picoteo después de las 21 h.'}
+          ],
+          weights:[[-180,78.4],[-150,77.1],[-120,75.9],[-90,75.2],[-60,74.0],[-35,73.1],[-6,72.3]].map(([o,k])=>({date:iso(o), kg:k})),
+          appts:[{id:uid(), date:iso(8), time:'17:30', mode:'Presencial'},{id:uid(), date:iso(-6), time:'18:00', mode:'Presencial'}],
+          msgs:[
+            {from:'nutri', text:'Hola Lucía. Te dejé el plan nuevo en Mis documentos. Cualquier duda me escribís.', at:iso(-6)},
+            {from:'pac', text:'¡Gracias Ceci! ¿El yogur de la colación puede ser descremado saborizado?', at:iso(-1)}
+          ]},
+        { id:'p2', name:'Martín Gómez', email:'martin@ejemplo.com', pass:'demo', status:'activo', since:iso(-60), goal:'Aumento de masa muscular', height:1.78,
+          docs:[{id:uid(), title:'Plan de entrenamiento + alimentación', kind:'Plan alimentario', date:iso(-20), size:'420 KB'}],
+          notes:[{date:iso(-20), text:'Aumentar proteínas en el desayuno. Después de entrenar: licuado con banana y leche.'}],
+          weights:[[-60,70.2],[-40,71.0],[-20,71.8]].map(([o,k])=>({date:iso(o), kg:k})),
+          appts:[{id:uid(), date:iso(5), time:'10:00', mode:'Videollamada'}],
+          msgs:[{from:'pac', text:'Hola! ¿Puedo cambiar la avena por granola?', at:iso(0)}] },
+        { id:'p3', name:'Sofía Ramírez', email:'sofia@ejemplo.com', pass:'demo', status:'activo', since:iso(-25), goal:'Alimentación sin TACC', height:1.60,
+          docs:[{id:uid(), title:'Guía de alimentos aptos celíacos', kind:'Receta', date:iso(-25), size:'640 KB'}],
+          notes:[], weights:[{date:iso(-25), kg:58.5}], appts:[{id:uid(), date:iso(2), time:'16:00', mode:'Presencial'}], msgs:[] },
+        { id:'p4', name:'Julieta Paz', email:'julieta@ejemplo.com', pass:'demo', status:'activo', since:iso(-10), goal:'Ordenar comidas', height:1.70,
+          docs:[], notes:[], weights:[{date:iso(-10), kg:66.0}], appts:[], msgs:[] },
+        { id:'p5', name:'Camila Torres', email:'camila.torres@ejemplo.com', pass:'demo', status:'pendiente', since:iso(-1), goal:'Mejorar la alimentación', height:1.62,
+          docs:[], notes:[], weights:[], appts:[], msgs:[] }
+      ],
+      library:[
+        {id:uid(), title:'Desayunos y meriendas', kind:'Recetario', date:iso(-30), size:'2,4 MB'},
+        {id:uid(), title:'Colaciones de 150 kcal', kind:'Recetario', date:iso(-15), size:'780 KB'},
+        {id:uid(), title:'Viandas para la semana', kind:'Recetario', date:iso(-2), size:'1,8 MB'},
+        {id:uid(), title:'Ensaladas completas', kind:'Recetario', date:iso(-45), size:'1,1 MB'}
+      ]
+    };
+  }
+
+  const KEY = 'rossero-demo-v3';
+  let db;
+  try { db = JSON.parse(localStorage.getItem(KEY)) || seed(); } catch(e){ db = seed(); }
+  const blobs = {};
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(db)); } catch(e){} };
+
+  let session = null;
+  const ui = { nv:'panel', sel:null, ptab:'docs', pac:'inicio', search:'', armed:null, auth:'login', loginErr:'' };
+  const app = document.getElementById('app');
+  const layer = document.getElementById('layer');
+  const Pt = (id) => db.patients.find(p => p.id === id);
+  const active = () => db.patients.filter(p => p.status === 'activo');
+  const pending = () => db.patients.filter(p => p.status === 'pendiente');
+  const unanswered = () => active().filter(p => p.msgs.length && p.msgs[p.msgs.length-1].from === 'pac');
+  const sortedW = (p) => [...p.weights].sort((a,b) => a.date.localeCompare(b.date));
+  const nextAppt = (p) => p.appts.filter(a => a.date >= today).sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time))[0];
+
+  function toast(t){
+    layer.querySelector('.toast')?.remove();
+    const el = document.createElement('div'); el.className = 'toast'; el.textContent = t; el.setAttribute('role','status');
+    layer.appendChild(el); setTimeout(() => el.remove(), 2800);
+  }
+
+  // ---------- piezas ----------
+  function shell(navItems, current, action, who, content){
+    const nav = navItems.map(([k,l,ic,b]) => `<button data-action="${action}" data-k="${k}" aria-current="${current===k}">${I(ic)}<span>${l}</span>${b ? `<span class="badge ${b.warn?'warn':''}">${b.n}</span>` : ''}</button>`).join('');
+    const tabs = navItems.map(([k,l,ic,b]) => `<button data-action="${action}" data-k="${k}" aria-current="${current===k}">${I(ic)}<span>${l.replace('Mis d','D')}</span>${b ? `<span class="badge ${b.warn?'warn':''}">${b.n}</span>` : ''}</button>`).join('');
+    return `<div class="shell">
+      <aside class="side">${brand}<nav class="nav">${nav}</nav>
+        <div class="side-foot"><span class="avatar">${initials(who.name)}</span><div class="who"><b>${esc(who.name)}</b><span class="muted">${esc(who.role)}</span></div>
+        <button class="iconbtn" data-action="logout" aria-label="Salir" title="Salir">${I('out')}</button></div></aside>
+      <div class="main">
+        <div class="topbar">${brand}<button class="iconbtn" data-action="logout" aria-label="Salir">${I('out')}</button></div>
+        <div class="fade">${content}</div>
+      </div>
+      <nav class="tabbar">${tabs}</nav>
+    </div>`;
+  }
+
+  function cover(d, i){
+    const [bg, ink] = TONES[i % TONES.length];
+    return `<button class="cover" style="--c-bg:${bg};--c-ink:${ink}" data-action="open" data-id="${d.id}" aria-label="Abrir ${esc(d.title)}">
+      ${ghost()}<span class="eyebrow">Recetario</span><span class="t">${esc(d.title)}</span><span class="meta">PDF · ${esc(d.size)}</span></button>`;
+  }
+
+  function docItem(d, opts={}){
+    const armed = ui.armed === d.id;
+    return `<div class="item"><span class="ico">${I(kindIcon(d.kind))}</span>
+      <div class="grow"><div class="t">${esc(d.title)}</div><div class="sub"><span class="chip">${esc(d.kind)}</span><span>${fmt(d.date)}</span><span>${esc(d.size)}</span></div></div>
+      <div class="acts">${blobs[d.id] ? `<a class="btn small" href="${blobs[d.id]}" target="_blank" rel="noopener">Abrir</a>` : `<button class="btn small" data-action="open" data-id="${d.id}">Abrir</button>`}
+      ${opts.remove ? `<button class="btn small danger ${armed?'armed':''}" data-action="delDoc" data-id="${d.id}" data-scope="${opts.scope}">${armed?'¿Quitar? Confirmar':'Quitar'}</button>` : ''}</div></div>`;
+  }
+
+  function uploadForm(scope){
+    return `<form class="card stack" data-form="upload" data-scope="${scope}">
+      <div class="row">${I('up')}<h3 style="font-size:18px">${scope==='lib' ? 'Subir recetario para todos' : 'Subir documento'}</h3></div>
+      <div class="form-row">
+        <div class="field"><label for="up-title-${scope}">Título</label><input class="input" id="up-title-${scope}" name="title" placeholder="${scope==='lib'?'Ej.: Recetas de otoño':'Ej.: Plan alimentario octubre'}" required></div>
+        ${scope==='lib' ? '' : `<div class="field"><label for="up-kind">Tipo</label><select class="input" id="up-kind" name="kind"><option>Plan alimentario</option><option>Receta</option><option>Estudio</option><option>Otro</option></select></div>`}
+        <div class="field"><label for="up-file-${scope}">Archivo PDF</label><input class="input" type="file" id="up-file-${scope}" name="file" accept="application/pdf,.pdf"></div>
+      </div>
+      <div><button class="btn primary" type="submit">${I('up')}Subir</button></div>
+    </form>`;
+  }
+
+  function spark(ws){
+    if (ws.length < 2) return '';
+    const W=240,H=56,pad=4, vals=ws.map(w=>w.kg), lo=Math.min(...vals), hi=Math.max(...vals);
+    const x=i=>pad+i/(ws.length-1)*(W-2*pad), y=v=>pad+(hi-v)/((hi-lo)||1)*(H-2*pad);
+    const pts = ws.map((w,i)=>`${x(i).toFixed(1)},${y(w.kg).toFixed(1)}`).join(' ');
+    return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">
+      <polygon points="${pad},${H} ${pts} ${W-pad},${H}" fill="var(--accent-2)" fill-opacity=".18"/>
+      <polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>`;
+  }
+
+  function chart(ws){
+    if (ws.length < 2) return `<div class="chart"><p class="empty">Con dos registros de peso o más aparece el gráfico de evolución.</p></div>`;
+    const W=640,H=240,L=44,R=20,T=20,B=32;
+    const vals=ws.map(w=>w.kg); const lo=Math.floor(Math.min(...vals)-1), hi=Math.ceil(Math.max(...vals)+1);
+    const t0=parse(ws[0].date).getTime(), t1=parse(ws[ws.length-1].date).getTime();
+    const x=d=>L+(parse(d).getTime()-t0)/((t1-t0)||1)*(W-L-R), y=v=>T+(hi-v)/(hi-lo)*(H-T-B);
+    const step=Math.max(1,Math.ceil((hi-lo)/4)); let grid='';
+    for(let v=lo; v<=hi; v+=step) grid+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L-10}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="var(--muted)">${v}</text>`;
+    const pts=ws.map(w=>`${x(w.date).toFixed(1)},${y(w.kg).toFixed(1)}`);
+    const last=ws[ws.length-1];
+    return `<div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Evolución del peso de ${kg(ws[0].kg)} a ${kg(last.kg)} kg">
+      <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent-2)" stop-opacity=".35"/><stop offset="1" stop-color="var(--accent-2)" stop-opacity="0"/></linearGradient></defs>
+      ${grid}<path d="M${x(ws[0].date)},${H-B} L${pts.join(' L')} L${x(last.date)},${H-B} Z" fill="url(#g)"/>
+      <polyline points="${pts.join(' ')}" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+      ${ws.map(w=>`<circle cx="${x(w.date)}" cy="${y(w.kg)}" r="3.5" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.8"/>`).join('')}
+      <circle cx="${x(last.date)}" cy="${y(last.kg)}" r="6.5" fill="var(--accent)"/>
+      <text x="${x(last.date)-12}" y="${y(last.kg)-14}" text-anchor="end" font-size="13" font-weight="600" fill="var(--ink)">${kg(last.kg)} kg</text>
+      <text x="${x(ws[0].date)}" y="${H-10}" font-size="11" fill="var(--muted)">${fmt(ws[0].date,{day:'numeric',month:'short'})}</text>
+      <text x="${x(last.date)}" y="${H-10}" text-anchor="end" font-size="11" fill="var(--muted)">${fmt(last.date,{day:'numeric',month:'short'})}</text></svg></div>`;
+  }
+
+  function weightView(p, canEdit){
+    const ws = sortedW(p), f = ws[0], l = ws[ws.length-1];
+    const diff = f && l ? l.kg - f.kg : 0;
+    const imc = l ? l.kg/(p.height*p.height) : null;
+    const good = (diff<0 && /descen|baj/i.test(p.goal)) || (diff>0 && /aument|masa/i.test(p.goal));
+    return `<div class="stack">
+      <div class="stats">
+        <div class="stat"><div class="lbl">${I('scale')}Peso actual</div><div class="val">${l?kg(l.kg):'—'}<small>kg</small></div></div>
+        <div class="stat"><div class="lbl">${I('chart')}Desde el inicio</div><div class="val ${good?'good':''}">${diff>0?'+':''}${kg(diff)}<small>kg</small></div></div>
+        <div class="stat"><div class="lbl">${I('ruler')}IMC</div><div class="val">${imc?imc.toFixed(1).replace('.',','):'—'}<small>kg/m²</small></div></div>
+      </div>
+      ${chart(ws)}
+      ${canEdit ? `<form class="card" data-form="weight"><div class="form-row">
+        <div class="field"><label for="w-date">Fecha</label><input class="input" type="date" id="w-date" name="date" value="${today}" required></div>
+        <div class="field"><label for="w-kg">Peso (kg)</label><input class="input" type="number" id="w-kg" name="kg" step="0.1" min="20" max="300" placeholder="72,3" required></div>
+        <button class="btn primary" type="submit">${I('plus')}Registrar</button></div></form>` : ''}
+      ${ws.length ? `<div class="card" style="padding:10px 20px"><table class="wt"><thead><tr><th>Fecha</th><th>Peso</th></tr></thead><tbody>
+        ${[...ws].reverse().map(w=>`<tr><td>${fmt(w.date)}</td><td>${kg(w.kg)} kg</td></tr>`).join('')}</tbody></table></div>` : ''}
+    </div>`;
+  }
+
+  function apptItem(a, canEdit, isPast, who, pid){
+    const d = parse(a.date);
+    const tag = pid ? 'button' : 'div';
+    return `<${tag} class="item ${isPast?'past':''}" ${pid ? `data-action="select" data-id="${pid}"` : ''}>
+      <div class="datebox"><div class="d">${d.getDate()}</div><div class="m">${d.toLocaleDateString('es-AR',{month:'short'}).replace('.','')}</div></div>
+      <div class="grow"><div class="t" style="text-transform:capitalize">${who ? esc(who) : d.toLocaleDateString('es-AR',{weekday:'long'})}</div>
+        <div class="sub">${who ? `<span style="text-transform:capitalize">${d.toLocaleDateString('es-AR',{weekday:'long'})}</span>` : ''}<span>${esc(a.time)} h</span><span class="row" style="gap:4px">${I(a.mode==='Videollamada'?'video':'pin')}${esc(a.mode)}</span>${isPast?'<span>Realizado</span>':''}</div></div>
+      ${canEdit && !isPast ? `<div class="acts"><button class="btn small danger ${ui.armed===a.id?'armed':''}" data-action="delAppt" data-id="${a.id}">${ui.armed===a.id?'¿Cancelar? Confirmar':'Cancelar'}</button></div>`:''}
+      ${pid ? I('arrow') : ''}
+    </${tag}>`;
+  }
+
+  function apptList(p, canEdit){
+    const list = [...p.appts].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+    const up = list.filter(a=>a.date>=today), past = list.filter(a=>a.date<today).reverse();
+    return `<div class="stack">
+      ${canEdit ? `<form class="card" data-form="appt"><div class="form-row">
+        <div class="field"><label for="a-date">Día</label><input class="input" type="date" id="a-date" name="date" min="${today}" value="${iso(7)}" required></div>
+        <div class="field"><label for="a-time">Hora</label><input class="input" type="time" id="a-time" name="time" value="17:00" required></div>
+        <div class="field"><label for="a-mode">Modalidad</label><select class="input" id="a-mode" name="mode"><option>Presencial</option><option>Videollamada</option></select></div>
+        <button class="btn primary" type="submit">${I('plus')}Agendar</button></div></form>` : ''}
+      <div><div class="eyebrow" style="margin-bottom:10px">Próximos</div><div class="list">${up.length ? up.map(a=>apptItem(a,canEdit,false)).join('') : '<p class="empty">No hay turnos agendados.</p>'}</div></div>
+      ${past.length ? `<div><div class="eyebrow" style="margin-bottom:10px">Anteriores</div><div class="list">${past.map(a=>apptItem(a,canEdit,true)).join('')}</div></div>` : ''}
+    </div>`;
+  }
+
+  function chat(p, me){
+    const other = me === 'nutri'
+      ? `<span class="avatar">${initials(p.name)}</span><div><b>${esc(p.name)}</b><div class="meta">${esc(p.email)}</div></div>`
+      : `<div class="mark">${LOGO}</div><div><b>Lic. Cecilia Rossero</b><div class="meta">Tus consultas sobre el plan</div></div>`;
+    return `<div class="chat"><div class="chat-head">${other}</div>
+      <div class="msgs" id="msgs">${p.msgs.length ? p.msgs.map(m=>`<div class="bubble ${m.from===me?'me':''}">${esc(m.text)}<small>${fmt(m.at,{day:'numeric',month:'short'})}</small></div>`).join('') : '<p class="empty" style="text-align:center;margin:auto">Todavía no hay mensajes. Escribí el primero.</p>'}</div>
+      <form class="composer" data-form="msg"><label for="msg-text" hidden>Mensaje</label><input class="input" id="msg-text" name="text" placeholder="Escribí un mensaje…" autocomplete="off" required><button class="sendbtn" type="submit" aria-label="Enviar">${I('send')}</button></form></div>`;
+  }
+
+  function timeline(p){
+    return p.notes.length ? `<div class="timeline">${p.notes.map(n=>`<div class="tl"><time>${fmt(n.date)}</time><p>${esc(n.text)}</p></div>`).join('')}</div>` : '<p class="empty">Todavía no hay indicaciones.</p>';
+  }
+
+  // ---------- login ----------
+  function renderLogin(){
+    let card;
+    if (ui.auth==='pending') card = `<div class="card login-card">${brand}
+      <h2>Recibimos tu solicitud</h2>
+      <p style="margin:0">Cuando la Lic. Rossero apruebe tu cuenta, vas a poder entrar con tu mail y tu contraseña. Te avisamos por mail.</p>
+      <p class="meta" style="margin:0;background:var(--warn-soft);color:var(--warn);padding:12px 14px;border-radius:14px">Para probar la demo: entrá como nutricionista y aprobá la solicitud.</p>
+      <div><button class="btn primary" data-action="auth" data-k="login">Volver a ingresar</button></div></div>`;
+    else if (ui.auth==='signup') card = `<form class="card login-card" data-form="signup">${brand}
+      <h2>Crear cuenta</h2>
+      <div class="field"><label for="s-name">Nombre y apellido</label><input class="input" id="s-name" name="name" autocomplete="name" required></div>
+      <div class="field"><label for="s-email">Mail</label><input class="input" id="s-email" name="email" type="email" autocomplete="email" required></div>
+      <div class="form-row">
+        <div class="field"><label for="s-pass">Contraseña</label><input class="input" id="s-pass" name="pass" type="password" autocomplete="new-password" minlength="8" placeholder="Mínimo 8 caracteres" required></div>
+        <div class="field"><label for="s-pass2">Repetir contraseña</label><input class="input" id="s-pass2" name="pass2" type="password" autocomplete="new-password" required></div>
+      </div>
+      ${ui.loginErr ? `<p class="error" role="alert">${esc(ui.loginErr)}</p>` : ''}
+      <button class="btn primary" type="submit">Crear cuenta</button>
+      <p class="meta" style="margin:0">¿Ya tenés cuenta? <button type="button" class="link" data-action="auth" data-k="login">Ingresá</button></p></form>`;
+    else card = `<form class="card login-card" data-form="login">${brand}
+      <div><div class="eyebrow">Bienvenida, bienvenido</div><h2 style="margin-top:6px">Ingresar</h2></div>
+      <div class="field"><label for="l-email">Mail</label><input class="input" id="l-email" name="email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="l-pass">Contraseña</label><input class="input" id="l-pass" name="pass" type="password" autocomplete="current-password" required></div>
+      ${ui.loginErr ? `<p class="error" role="alert">${esc(ui.loginErr)}</p>` : ''}
+      <button class="btn primary" type="submit">Ingresar ${I('arrow')}</button>
+      <div class="try-row" style="justify-content:space-between"><button type="button" class="link" data-action="forgot">Me olvidé la contraseña</button><span class="meta">¿Primera vez? <button type="button" class="link" data-action="auth" data-k="signup">Creá tu cuenta</button></span></div>
+      <div class="try">Para probar la demo
+        <div class="try-row"><button type="button" class="btn small" data-action="fill" data-u="cecilia@ejemplo.com">Entrar como nutricionista</button><button type="button" class="btn small" data-action="fill" data-u="lucia@ejemplo.com">Entrar como paciente</button></div></div></form>`;
+    app.innerHTML = `<section class="login fade">
+      <div class="hero">${ghost()}
+        <div class="eyebrow" style="position:relative">Consultorio de nutrición</div>
+        <h1>Tu plan de alimentación, siempre a mano.</h1>
+        <p>Entrá para ver tu plan, tus recetarios, tu progreso y tus próximos turnos con la Lic. Cecilia Rossero.</p>
+        <ul class="feat"><li>${I('file')}Plan alimentario</li><li>${I('book')}Recetarios</li><li>${I('chart')}Tu progreso</li><li>${I('cal')}Turnos</li><li>${I('chat')}Consultas</li></ul>
+      </div>${card}</section>`;
+  }
+
+  // ---------- paciente ----------
+  function renderPac(){
+    const p = Pt(session.id);
+    const unread = p.msgs.length && p.msgs[p.msgs.length-1].from === 'nutri' ? 1 : 0;
+    const nav = [['inicio','Inicio','home'],['docs','Mis documentos','file'],['progreso','Progreso','chart'],['turnos','Turnos','cal'],['mensajes','Mensajes','chat', unread ? {n:'•'} : null]];
+    let c = '';
+    if (ui.pac==='inicio'){
+      const nx = nextAppt(p), ws = sortedW(p), l = ws[ws.length-1], diff = ws.length>1 ? l.kg-ws[0].kg : 0;
+      const plan = [...p.docs].filter(d=>d.kind==='Plan alimentario').sort((a,b)=>b.date.localeCompare(a.date))[0];
+      const n = nx ? daysUntil(nx.date) : null;
+      c = `<div class="page-head"><div><div class="eyebrow">${longToday()}</div><h1>${greet()}, ${esc(first(p.name))}</h1></div></div>
+        <div class="home">
+          ${nx ? `<div class="appt-hero">${ghost()}<div class="eyebrow">Tu próximo turno</div>
+            <div class="daynum">${parse(nx.date).getDate()}</div>
+            <div class="month">${parse(nx.date).toLocaleDateString('es-AR',{weekday:'long'})} · ${parse(nx.date).toLocaleDateString('es-AR',{month:'long'})}</div>
+            <div class="when"><span>${I('clock')}${esc(nx.time)} h</span><span>${I(nx.mode==='Videollamada'?'video':'pin')}${esc(nx.mode)}</span></div>
+            <div class="count">${n===0?'Es hoy':n===1?'Es mañana':`Faltan ${n} días`}</div></div>`
+          : `<div class="appt-hero none">${ghost()}<div class="eyebrow">Próximo turno</div><p style="margin:0">No tenés turnos agendados.</p><button class="btn small" data-action="pac" data-k="mensajes" style="margin-top:8px">Escribirle a la licenciada</button></div>`}
+          <div class="home-side">
+            <div class="card weight-card"><div class="sec-head" style="margin:0"><span class="eyebrow">Mi peso</span>${ws.length>1 ? `<span class="chip ${diff<0?'good':''}">${diff>0?'+':''}${kg(diff)} kg desde ${fmt(ws[0].date,{month:'long'})}</span>`:''}</div>
+              ${l ? `<div class="big">${kg(l.kg)}<small>kg</small></div>${spark(ws)}` : '<p class="empty">Todavía no hay registros.</p>'}</div>
+            ${plan ? `<div class="card plan-card"><div class="pdfthumb">PDF</div><div class="grow"><div class="eyebrow">Tu plan actual</div><h3>${esc(plan.title)}</h3><div class="meta">Actualizado el ${fmt(plan.date,{day:'numeric',month:'long'})}</div></div><button class="btn primary small" data-action="open" data-id="${plan.id}">Ver</button></div>` : ''}
+          </div>
+          ${p.notes[0] ? `<div class="card quote span-2"><div class="eyebrow" style="margin-bottom:8px">Indicación de la licenciada</div><p>${esc(p.notes[0].text)}</p><div class="sign">Lic. Cecilia Rossero · ${fmt(p.notes[0].date,{day:'numeric',month:'long'})}</div></div>` : ''}
+          <div class="span-2"><div class="sec-head"><h2>Recetarios</h2><button class="link" data-action="pac" data-k="docs">Ver todo</button></div>
+            <div class="covers scroll">${db.library.map(cover).join('')}</div></div>
+        </div>`;
+    }
+    if (ui.pac==='docs') c = `<div class="page-head"><div><div class="eyebrow">Biblioteca</div><h1>Mis documentos</h1></div></div>
+      <div class="stack" style="gap:32px">
+        <section><div class="sec-head"><h2>Para vos</h2></div><div class="list">${p.docs.length ? [...p.docs].sort((a,b)=>b.date.localeCompare(a.date)).map(d=>docItem(d)).join('') : '<p class="empty">La licenciada todavía no subió documentos para vos.</p>'}</div></section>
+        <section><div class="sec-head"><h2>Recetarios</h2><span class="meta">Para todos los pacientes</span></div><div class="covers">${db.library.map(cover).join('')}</div></section>
+        <section><div class="sec-head"><h2>Indicaciones</h2></div><div class="card">${timeline(p)}</div></section>
+      </div>`;
+    if (ui.pac==='progreso') c = `<div class="page-head"><div><div class="eyebrow">Evolución</div><h1>Mi progreso</h1></div></div>${weightView(p,false)}`;
+    if (ui.pac==='turnos') c = `<div class="page-head"><div><div class="eyebrow">Agenda</div><h1>Mis turnos</h1></div></div>${apptList(p,false)}`;
+    if (ui.pac==='mensajes') c = `<div class="page-head"><div><div class="eyebrow">Consultas</div><h1>Mensajes</h1></div></div>${chat(p,'pac')}`;
+    app.innerHTML = shell(nav, ui.pac, 'pac', {name:p.name, role:'Paciente'}, c);
+  }
+
+  // ---------- nutricionista ----------
+  function patientRows(){
+    const q = ui.search.trim().toLowerCase();
+    const list = active().filter(p => !q || p.name.toLowerCase().includes(q)).sort((a,b)=>a.name.localeCompare(b.name));
+    if (!list.length) return '<p class="empty">No hay pacientes con ese nombre.</p>';
+    return list.map(p => { const nx = nextAppt(p); const un = unanswered().includes(p);
+      return `<button class="prow" data-action="select" data-id="${p.id}" aria-current="${ui.sel===p.id}"><span class="avatar">${initials(p.name)}</span>
+        <span style="flex:1;min-width:0"><span class="nm">${esc(p.name)}</span><br><span class="meta">${nx ? 'Turno ' + fmt(nx.date,{day:'numeric',month:'short'}) : 'Sin turno'} · ${p.docs.length} doc.</span></span>${un?'<span class="badge" title="Mensaje sin responder">1</span>':''}</button>`; }).join('');
+  }
+
+  function requestsBlock(){
+    const list = pending(); if (!list.length) return '';
+    return `<div class="requests">${list.map(p=>`<div class="req"><div><div class="t">${esc(p.name)}</div><div class="meta">${esc(p.email)} · pidió acceso el ${fmt(p.since,{day:'numeric',month:'short'})}</div></div>
+      <div class="try-row"><button class="btn small primary" data-action="approve" data-id="${p.id}">${I('check')}Aprobar</button><button class="btn small danger ${ui.armed===p.id?'armed':''}" data-action="reject" data-id="${p.id}">${ui.armed===p.id?'¿Rechazar? Confirmar':'Rechazar'}</button></div></div>`).join('')}</div>`;
+  }
+
+  function renderNutri(){
+    const nPend = pending().length, nUn = unanswered().length;
+    const nav = [['panel','Panel','grid'],['pacientes','Pacientes','users', nPend ? {n:nPend, warn:true} : null],['mensajes','Mensajes','chat', nUn ? {n:nUn} : null],['recetarios','Recetarios','book']];
+    let c = '';
+    if (ui.nv==='panel'){
+      const week = active().flatMap(p => p.appts.filter(a => a.date>=today && daysUntil(a.date)<=7).map(a => ({...a, who:p.name, pid:p.id}))).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+      c = `<div class="page-head"><div><div class="eyebrow">${longToday()}</div><h1>${greet()}, Cecilia</h1></div></div>
+        <div class="kpis">
+          <button class="kpi" data-action="nv" data-k="pacientes"><div class="top">Pacientes activos ${I('users')}</div><div class="n">${active().length}</div></button>
+          <button class="kpi ${nPend?'alert':''}" data-action="nv" data-k="pacientes"><div class="top">Solicitudes nuevas ${I('inbox')}</div><div class="n">${nPend}</div></button>
+          <button class="kpi" data-action="nv" data-k="panel"><div class="top">Turnos esta semana ${I('cal')}</div><div class="n">${week.length}</div></button>
+          <button class="kpi" data-action="nv" data-k="mensajes"><div class="top">Sin responder ${I('chat')}</div><div class="n">${nUn}</div></button>
+        </div>
+        <div class="cols">
+          <section><div class="sec-head"><h2>Agenda de la semana</h2></div>
+            <div class="list">${week.length ? week.map(a=>apptItem(a,false,false,a.who,a.pid)).join('') : '<p class="empty">No hay turnos en los próximos 7 días.</p>'}</div></section>
+          <section class="stack" style="gap:28px">
+            ${nPend ? `<div><div class="sec-head"><h2>Solicitudes</h2></div>${requestsBlock()}</div>` : ''}
+            <div><div class="sec-head"><h2>Mensajes sin responder</h2></div><div class="list">${nUn ? unanswered().map(p=>{ const m=p.msgs[p.msgs.length-1]; return `<button class="item" data-action="openChat" data-id="${p.id}"><span class="avatar">${initials(p.name)}</span><div class="grow"><div class="t">${esc(p.name)}</div><div class="sub" style="display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(m.text)}</div></div>${I('arrow')}</button>`; }).join('') : '<p class="empty">Estás al día. 🌿</p>'}</div></div>
+          </section>
+        </div>`;
+    }
+    if (ui.nv==='pacientes'){
+      const p = ui.sel && Pt(ui.sel);
+      let detail;
+      if (p){
+        const ws = sortedW(p), l = ws[ws.length-1], nx = nextAppt(p);
+        const tabs = [['docs','Documentos','file',p.docs.length],['notas','Indicaciones','target',p.notes.length],['peso','Peso','scale'],['turnos','Turnos','cal'],['mensajes','Mensajes','chat',p.msgs.length]];
+        let inner = '';
+        if (ui.ptab==='docs') inner = `<div class="stack">${uploadForm('pac')}<div class="list">${p.docs.length ? p.docs.map(d=>docItem(d,{remove:true,scope:'pac'})).join('') : '<p class="empty">Todavía no subiste documentos para este paciente.</p>'}</div></div>`;
+        if (ui.ptab==='notas') inner = `<div class="stack"><form class="card stack" data-form="note"><div class="field"><label for="note-text">Nueva indicación (la ve el paciente)</label><textarea class="input" id="note-text" name="text" required placeholder="Ej.: Esta semana sumamos verduras en el almuerzo…"></textarea></div><div><button class="btn primary" type="submit">Guardar indicación</button></div></form><div class="card">${timeline(p)}</div></div>`;
+        if (ui.ptab==='peso') inner = weightView(p, true);
+        if (ui.ptab==='turnos') inner = apptList(p, true);
+        if (ui.ptab==='mensajes') inner = chat(p, 'nutri');
+        detail = `<button class="btn small back" data-action="back" style="margin-bottom:14px">${I('left')}Pacientes</button>
+          <div class="phead"><span class="avatar lg">${initials(p.name)}</span><div style="flex:1;min-width:0"><h2>${esc(p.name)}</h2>
+            <div class="mini"><span class="chip">${I('target').replace('class="i"','class="i" style="width:14px;height:14px"')}${esc(p.goal)}</span>${l?`<span class="chip good">${kg(l.kg)} kg</span>`:''}${nx?`<span class="chip warn">Turno ${fmt(nx.date,{day:'numeric',month:'short'})} · ${esc(nx.time)} h</span>`:''}</div>
+            <div class="meta" style="margin-top:6px">${esc(p.email)} · paciente desde ${fmt(p.since,{month:'long',year:'numeric'})}</div></div></div>
+          <div class="tabs" role="tablist">${tabs.map(([k,lb,ic,n])=>`<button class="tab" role="tab" aria-selected="${ui.ptab===k}" data-action="ptab" data-k="${k}">${I(ic)}${lb}${n!==undefined?` <span class="n">${n}</span>`:''}</button>`).join('')}</div>${inner}`;
+      } else detail = `<div class="card" style="text-align:center;padding:48px 24px"><div class="mark" style="margin:0 auto 14px;width:40px;height:62px">${LOGO}</div><h3 style="font-size:22px">Elegí un paciente</h3><p class="muted" style="margin:6px auto 0;max-width:42ch">Desde su ficha subís el plan, dejás indicaciones, registrás el peso, agendás turnos y respondés mensajes.</p></div>`;
+      c = `<div class="page-head"><div><div class="eyebrow">${active().length} activos</div><h1>Pacientes</h1></div></div>
+        <div class="split ${p?'has-sel':''}"><div class="plist-col stack" style="gap:12px">${requestsBlock()}
+          <div class="search">${I('search')}<label for="search" hidden>Buscar paciente</label><input class="input" id="search" placeholder="Buscar paciente…" value="${esc(ui.search)}"></div>
+          <div class="plist" id="plist">${patientRows()}</div></div>
+        <div class="detail">${detail}</div></div>`;
+    }
+    if (ui.nv==='mensajes'){
+      const withMsgs = active().filter(p=>p.msgs.length).sort((a,b)=>b.msgs[b.msgs.length-1].at.localeCompare(a.msgs[a.msgs.length-1].at));
+      c = `<div class="page-head"><div><div class="eyebrow">Consultas</div><h1>Mensajes</h1></div></div>
+        <div class="list">${withMsgs.length ? withMsgs.map(p=>{ const m=p.msgs[p.msgs.length-1]; const un=m.from==='pac';
+          return `<button class="item" data-action="openChat" data-id="${p.id}"><span class="avatar">${initials(p.name)}</span><div class="grow"><div class="t">${esc(p.name)}</div><div class="sub" style="display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${m.from==='nutri'?'Vos: ':''}${esc(m.text)}</div></div>${un?'<span class="chip warn">Sin responder</span>':`<span class="meta">${fmt(m.at,{day:'numeric',month:'short'})}</span>`}</button>`; }).join('') : '<p class="empty">Todavía no hay conversaciones.</p>'}</div>`;
+    }
+    if (ui.nv==='recetarios') c = `<div class="page-head"><div><div class="eyebrow">Para todos los pacientes</div><h1>Recetarios</h1></div></div>
+      <div class="stack" style="gap:28px">${uploadForm('lib')}
+        <div class="covers">${db.library.map((d,i)=>`<div class="cover-wrap">${cover(d,i)}<button class="btn small danger ${ui.armed===d.id?'armed':''}" data-action="delDoc" data-id="${d.id}" data-scope="lib">${ui.armed===d.id?'¿Quitar? Confirmar':'Quitar'}</button></div>`).join('')}</div></div>`;
+    app.innerHTML = shell(nav, ui.nv, 'nv', {name:'Cecilia Rossero', role:'Nutricionista'}, c);
+  }
+
+  function render(){
+    const draft = document.getElementById('msg-text'); const dv = draft?.value;
+    if (!session) renderLogin(); else if (session.role==='nutri') renderNutri(); else renderPac();
+    const m = document.getElementById('msgs'); if (m) m.scrollTop = m.scrollHeight;
+    if (dv) { const d = document.getElementById('msg-text'); if (d) d.value = dv; }
+  }
+
+  function previewModal(id){
+    const d = [...db.library, ...db.patients.flatMap(p=>p.docs)].find(x=>x.id===id); if (!d) return;
+    layer.innerHTML = `<div class="overlay" data-action="close"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt">
+      <div class="row">${brand}</div><h3 id="mt" style="font-size:22px">${esc(d.title)}</h3>
+      <div class="paper"><div class="eyebrow">Ejemplo de contenido</div>
+        <div class="r"><span>Desayuno</span><span>Infusión + 2 tostadas integrales con queso untable</span></div>
+        <div class="r"><span>Almuerzo</span><span>Pollo grillado + ensalada mixta</span></div>
+        <div class="r"><span>Merienda</span><span>Yogur natural + fruta</span></div>
+        <div class="r"><span>Cena</span><span>Tarta de verduras + ensalada</span></div></div>
+      <p class="meta" style="margin:0">En la app real se abre el PDF que subió la licenciada.</p>
+      <div><button class="btn primary" data-action="close">Cerrar</button></div></div></div>`;
+    layer.querySelector('.modal .btn.primary').focus();
+  }
+
+  // ---------- eventos ----------
+  function login(email, pass){
+    email = email.trim().toLowerCase();
+    if (email==='cecilia@ejemplo.com' && pass==='demo'){ session={role:'nutri'}; ui.nv='panel'; ui.loginErr=''; }
+    else { const p = db.patients.find(x=>x.email===email && x.pass===pass);
+      if (p && p.status==='pendiente'){ ui.auth='pending'; ui.loginErr=''; }
+      else if (p){ session={role:'pac', id:p.id}; ui.pac='inicio'; ui.loginErr=''; }
+      else ui.loginErr='Mail o contraseña incorrectos. Revisá que no haya espacios de más.'; }
+    render(); scrollTo(0,0);
+  }
+
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('[data-action]'); if (!t) return;
+    const a = t.dataset.action;
+    if (a==='close'){ if (e.target===t || t.tagName==='BUTTON') layer.innerHTML=''; return; }
+    if (!['delDoc','delAppt','reject'].includes(a)) ui.armed = null;
+    switch(a){
+      case 'reset': db = seed(); save(); session=null; Object.assign(ui,{nv:'panel',sel:null,ptab:'docs',pac:'inicio',search:'',auth:'login',loginErr:''}); toast('Demo reiniciada'); break;
+      case 'fill': login(t.dataset.u, 'demo'); return;
+      case 'auth': ui.auth=t.dataset.k; ui.loginErr=''; break;
+      case 'forgot': toast('En la app real te llega un mail para crear una contraseña nueva.'); return;
+      case 'logout': session=null; ui.sel=null; ui.auth='login'; layer.innerHTML=''; break;
+      case 'nv': ui.nv=t.dataset.k; if (ui.nv!=='pacientes') ui.sel=null; scrollTo(0,0); break;
+      case 'pac': ui.pac=t.dataset.k; scrollTo(0,0); break;
+      case 'select': ui.nv='pacientes'; ui.sel=t.dataset.id; ui.ptab='docs'; scrollTo(0,0); break;
+      case 'openChat': ui.nv='pacientes'; ui.sel=t.dataset.id; ui.ptab='mensajes'; scrollTo(0,0); break;
+      case 'back': ui.sel=null; break;
+      case 'ptab': ui.ptab=t.dataset.k; break;
+      case 'open': if (blobs[t.dataset.id]) { window.open(blobs[t.dataset.id], '_blank'); return; } previewModal(t.dataset.id); return;
+      case 'approve': { const p=Pt(t.dataset.id); p.status='activo'; p.since=today; save(); toast(first(p.name)+' ya puede entrar a la app'); break; }
+      case 'reject': { const id=t.dataset.id; if (ui.armed!==id){ ui.armed=id; break; } db.patients=db.patients.filter(x=>x.id!==id); ui.armed=null; save(); toast('Solicitud rechazada'); break; }
+      case 'delDoc': { const id=t.dataset.id; if (ui.armed!==id){ ui.armed=id; break; }
+        if (t.dataset.scope==='lib') db.library=db.library.filter(d=>d.id!==id); else { const p=Pt(ui.sel); p.docs=p.docs.filter(d=>d.id!==id); }
+        ui.armed=null; save(); toast('Documento quitado'); break; }
+      case 'delAppt': { const id=t.dataset.id; if (ui.armed!==id){ ui.armed=id; break; } const p=Pt(ui.sel); p.appts=p.appts.filter(x=>x.id!==id); ui.armed=null; save(); toast('Turno cancelado'); break; }
+    }
+    render();
+  });
+  document.addEventListener('keydown', e => { if (e.key==='Escape'){ if (layer.querySelector('.overlay')) layer.innerHTML=''; else if (ui.armed){ ui.armed=null; render(); } } });
+  document.addEventListener('input', e => { if (e.target.id==='search'){ ui.search=e.target.value; document.getElementById('plist').innerHTML = patientRows(); } });
+
+  document.addEventListener('submit', e => {
+    const f = e.target; if (!f.dataset.form) return; e.preventDefault();
+    const v = Object.fromEntries(new FormData(f));
+    const showErr = (msg) => { let el=f.querySelector('.error'); if(!el){ el=document.createElement('p'); el.className='error'; el.setAttribute('role','alert'); f.querySelector('button[type=submit]').before(el); } el.textContent=msg; };
+    const p = session?.role==='nutri' ? Pt(ui.sel) : session && Pt(session.id);
+    switch(f.dataset.form){
+      case 'login': { const em=v.email.trim().toLowerCase(); const ok = (em==='cecilia@ejemplo.com'&&v.pass==='demo') || db.patients.some(x=>x.email===em&&x.pass===v.pass);
+        if (!ok) { showErr('Mail o contraseña incorrectos. Revisá que no haya espacios de más.'); return; } login(v.email, v.pass); return; }
+      case 'signup': {
+        const email = v.email.trim().toLowerCase();
+        if (email==='cecilia@ejemplo.com' || db.patients.some(x=>x.email===email)) return showErr('Ya hay una cuenta con ese mail. Probá ingresar o recuperar la contraseña.');
+        if (v.pass.length<8) return showErr('La contraseña tiene que tener al menos 8 caracteres.');
+        if (v.pass!==v.pass2) return showErr('Las contraseñas no coinciden. Escribilas de nuevo.');
+        db.patients.push({ id:uid(), name:v.name.trim(), email, pass:v.pass, status:'pendiente', since:today, goal:'Sin definir', height:1.65, docs:[], notes:[], weights:[], appts:[], msgs:[] });
+        save(); ui.auth='pending'; break; }
+      case 'upload': {
+        const file = f.querySelector('input[type=file]').files[0];
+        if (file && !/\.pdf$/i.test(file.name) && file.type!=='application/pdf'){ toast('El archivo tiene que ser un PDF'); return; }
+        const size = file ? (file.size>1e6 ? (file.size/1e6).toFixed(1).replace('.',',')+' MB' : Math.max(1,Math.round(file.size/1e3))+' KB') : '120 KB';
+        const d = { id:uid(), title:v.title.trim(), kind: f.dataset.scope==='lib' ? 'Recetario' : v.kind, date:today, size };
+        if (file) blobs[d.id] = URL.createObjectURL(file);
+        if (f.dataset.scope==='lib') db.library.unshift(d); else p.docs.unshift(d);
+        save(); toast(f.dataset.scope==='lib' ? 'Recetario publicado para todos' : 'Documento subido'); break; }
+      case 'note': p.notes.unshift({date:today, text:v.text.trim()}); save(); toast('Indicación guardada'); break;
+      case 'weight': { const val=parseFloat(String(v.kg).replace(',','.')); p.weights=p.weights.filter(w=>w.date!==v.date); p.weights.push({date:v.date, kg:val}); save(); toast('Peso registrado'); break; }
+      case 'appt': p.appts.push({id:uid(), date:v.date, time:v.time, mode:v.mode}); save(); toast('Turno agendado'); break;
+      case 'msg': { const text=v.text.trim(); if (!text) return; f.querySelector('#msg-text').value=''; p.msgs.push({from: session.role==='nutri'?'nutri':'pac', text, at:today}); save(); break; }
+    }
+    render();
+    if (f.dataset.form==='msg') document.getElementById('msg-text')?.focus();
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>
