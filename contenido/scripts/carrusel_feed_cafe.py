@@ -73,40 +73,13 @@ def p_marca():
             f'<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">{tostado(CRE, 52)}'
             f'<span style="font-size:14px;letter-spacing:.3em;color:{MAN}">CAFÉ DE ESPECIALIDAD</span></div></div>')
 # El personaje de Tostado nadando en una foto real, en distintas poses (coordenadas de la foto 1200×1877)
-SK = '#F6D9C0'
-def _limb(d): return (f'<path d="{d}" fill="none" stroke="{ESP}" stroke-width="7" stroke-linecap="round"/>'
-                      f'<path d="{d}" fill="none" stroke="{SK}" stroke-width="4.2" stroke-linecap="round"/>')
-def _wave(x, y, w, o=.95): return f'<path d="M{x-w} {y} q{w/2} -5 {w} 0 t{w} 0" fill="none" stroke="{CRE}" stroke-width="1.8" stroke-linecap="round" opacity="{o}"/>'
-def _drops(pts): return ''.join(f'<circle cx="{x}" cy="{y}" r="{r}" fill="{CRE}"/>' for x, y, r in pts)
-# cada pose devuelve (agua, personaje): el agua va sin contorno, el personaje con borde crema tipo sticker
-def pose_salvavidas():
-    agua = _wave(0, 20, 26) + _wave(4, 27, 16, .7)
-    return agua, I.swimmer_ring(0, 0, BOR).replace(I.ripple(0, 14, 22), '') + _limb('M9 3 C17 -2 21 -10 20 -19') + f'<circle cx="20" cy="-21" r="3.4" fill="{SK}" stroke="{ESP}" stroke-width="1.4"/>'
-def pose_plancha():
-    agua = (f'<path d="M-16 -14 C10 -24 50 -22 74 -10 M-16 14 C10 24 50 22 74 10" fill="none" stroke="{CRE}" stroke-width="1.8" stroke-linecap="round"/>'
-            + _wave(30, 30, 18, .7))
-    cuerpo = (_limb('M14 -6 C6 -18 -10 -18 -13 -7') + _limb('M14 6 C6 18 -10 18 -13 7')
-              + _limb('M44 -3 L62 -7') + _limb('M44 3 L62 8')
-              + f'<path d="M10 -9 C22 -11 36 -9 44 -6 C48 -3 48 3 44 6 C36 9 22 11 10 9 C6 4 6 -4 10 -9Z" fill="{BOR}" stroke="{ESP}" stroke-width="1.6"/>'
-              + f'<path d="M26 -9.5 L26 9.5" stroke="#fff" stroke-width="2.4"/>' + I.face(0, 0, 10, glasses=True))
-    return agua, cuerpo
-def pose_crol():
-    agua = _wave(14, 12, 24) + _wave(40, 4, 12, .8) + _drops([(-24, -14, 1.8), (-28, -6, 1.4), (-20, -22, 1.3), (46, -4, 1.5), (50, 2, 1.2)])
-    cuerpo = (f'<ellipse cx="18" cy="1" rx="18" ry="8" fill="{BOR}" stroke="{ESP}" stroke-width="1.6"/>'
-              + _limb('M12 6 L24 12') + _limb('M9 -5 C4 -24 -14 -24 -20 -12')
-              + f'<circle cx="-21" cy="-10" r="3.4" fill="{SK}" stroke="{ESP}" stroke-width="1.4"/>' + I.face(0, 0, 10))
-    return agua, cuerpo
+import personaje_cafe as PJ
 def nada_svg(vb='0 230 1200 1500', texto=True):
-    flt = ('<filter id="stk" x="-20%" y="-20%" width="140%" height="140%"><feMorphology in="SourceAlpha" operator="dilate" radius="1.5" result="d"/>'
-           f'<feFlood flood-color="{CRE}"/><feComposite in2="d" operator="in" result="o"/><feMerge><feMergeNode in="o"/><feMergeNode in="SourceGraphic"/></feMerge></filter>')
-    def g(pose, x, y, sc, r=0):
-        agua, cuerpo = pose
-        return f'<g transform="translate({x} {y}) rotate({r}) scale({sc})">{agua}<g filter="url(#stk)">{cuerpo}</g></g>'
     t = (f'<text x="80" y="1660" font-family="XPlayfair" font-size="82" fill="{BOR}">Nadá en <tspan font-style="italic">sabor.</tspan></text>'
          f'<text x="80" y="330" font-family="XPlayfair" font-size="54" fill="{ESP}">Tostado.</text>') if texto else ''
-    return (f'<svg viewBox="{vb}" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%"><defs>{flt}</defs>'
+    return (f'<svg viewBox="{vb}" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%"><defs>{PJ.sticker_filter()}</defs>'
             f'<image href="{PX["taza_arriba"]}" x="0" y="0" width="1200" height="1877"/>'
-            + g(pose_salvavidas(), 380, 600, 6, -8) + g(pose_crol(), 820, 820, 5.6, 4) + g(pose_plancha(), 470, 1090, 5.6, -12) + t + '</svg>')
+            + PJ.place('salvavidas', 390, 590, 3.6, -6) + PJ.place('nado', 790, 830, 3.3, 8) + PJ.place('grano', 560, 1110, 3.3, -10) + t + '</svg>')
 def p_nada():
     return f'<div class="post">{nada_svg()}</div>'
 def p_entrega():

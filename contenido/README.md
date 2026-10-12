@@ -15,6 +15,7 @@ Después se usa todo igual:
 - `scripts/caro_ejemplos.py`: carruseles de 1080×1350 (`render(nombre, láminas, css_extra)`).
 - `scratch/stories.py` (y `stories2..5.py`): historias de 1080×1920 sin emojis, con espacios vacíos para stickers.
 - `scripts/mocks.py`, `pack.py`, `mascota.py`, `yogi.py`, `ilus_cafe.py`: dibujos y maquetas reutilizables.
+- `scripts/personaje_cafe.py`: la chica de Tostado nadando en el café (poses: salvavidas, grano, nado) para poner sobre fotos.
 - `scripts/semana*.py`: lo que ya se publicó, como ejemplo.
 - `marca/`: logos, foto de perfil y paleta.
 - `scratch/pexels/`: fotos reales de Pexels (cafetería) que usa `carrusel_feed_cafe.py`.
