@@ -73,13 +73,17 @@ def p_marca():
             f'<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">{tostado(CRE, 52)}'
             f'<span style="font-size:14px;letter-spacing:.3em;color:{MAN}">CAFÉ DE ESPECIALIDAD</span></div></div>')
 # El personaje de Tostado nadando en una foto real, en distintas poses (coordenadas de la foto 1200×1877)
-import personaje_cafe as PJ
+# Ilustración de línea (generada en Canva y recortada): la misma mujer de rulos en tres poses, flotando en el café
+def _png(n): return 'data:image/png;base64,' + base64.b64encode(open(f'{SCR}/ilus/{n}.png', 'rb').read()).decode()
+MUJER = {n: _png(n) for n in ('mujer1', 'mujer2', 'mujer3')}
 def nada_svg(vb='0 230 1200 1500', texto=True):
     t = (f'<text x="80" y="1660" font-family="XPlayfair" font-size="82" fill="{BOR}">Nadá en <tspan font-style="italic">sabor.</tspan></text>'
          f'<text x="80" y="330" font-family="XPlayfair" font-size="54" fill="{ESP}">Tostado.</text>') if texto else ''
-    return (f'<svg viewBox="{vb}" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%"><defs>{PJ.sticker_filter()}</defs>'
+    fig = lambda n, x, y, w, h, r=0: f'<image href="{MUJER[n]}" x="{x}" y="{y}" width="{w}" height="{h}" transform="rotate({r} {x + w/2} {y + h/2})" filter="url(#sombra)"/>'
+    return (f'<svg viewBox="{vb}" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">'
+            '<defs><filter id="sombra" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#1a0d06" flood-opacity=".35"/></filter></defs>'
             f'<image href="{PX["taza_arriba"]}" x="0" y="0" width="1200" height="1877"/>'
-            + PJ.place('brindis', 400, 620, 7.6, -6) + PJ.place('relax', 820, 840, 7.2, 8) + PJ.place('mano_agua', 520, 1120, 7.6, -4) + t + '</svg>')
+            + fig('mujer1', 250, 400, 298, 331, -6) + fig('mujer3', 640, 560, 306, 278, 5) + fig('mujer2', 420, 840, 311, 389, -3) + t + '</svg>')
 def p_nada():
     return f'<div class="post">{nada_svg()}</div>'
 def p_entrega():
