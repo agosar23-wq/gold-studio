@@ -10,7 +10,6 @@ PX = {k: _img(i) for k, i in {
     'maquina': 4792683, 'barista': 4792684, 'jarra': 4792685, 'barra_taza': 4792686, 'vapor': 4792687,
     'latte_arte': 4792689, 'latte_arriba': 4792692, 'tamper': 4792693, 'local': 4792694, 'portafiltro': 4792695,
     'entrega': 4792696, 'mano_taza': 4792699, 'vertido': 4792700,
-    'taza_arriba': 11127537,  # taza vista desde arriba con crema (otra sesión), para el posteo con personajes
 }.items()}
 ESP, BOR, CRE, CAR, MAD, MAN, GRI = '#2A1A14', '#8A3B2A', '#EFE7DA', '#B4743F', '#6B4A33', '#E6CFA8', '#9A9C98'
 import ilus_cafe as I
@@ -73,17 +72,13 @@ def p_marca():
             f'<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">{tostado(CRE, 52)}'
             f'<span style="font-size:14px;letter-spacing:.3em;color:{MAN}">CAFÉ DE ESPECIALIDAD</span></div></div>')
 # El personaje de Tostado nadando en una foto real, en distintas poses (coordenadas de la foto 1200×1877)
-# Ilustración de línea (generada en Canva y recortada): la misma mujer de rulos en tres poses, flotando en el café
-def _png(n): return 'data:image/png;base64,' + base64.b64encode(open(f'{SCR}/ilus/{n}.png', 'rb').read()).decode()
-MUJER = {n: _png(n) for n in ('mujer1', 'mujer2', 'mujer3')}
-def nada_svg(vb='0 230 1200 1500', texto=True):
-    t = (f'<text x="80" y="1660" font-family="XPlayfair" font-size="82" fill="{BOR}">Nadá en <tspan font-style="italic">sabor.</tspan></text>'
-         f'<text x="80" y="330" font-family="XPlayfair" font-size="54" fill="{ESP}">Tostado.</text>') if texto else ''
-    fig = lambda n, x, y, w, h, r=0: f'<image href="{MUJER[n]}" x="{x}" y="{y}" width="{w}" height="{h}" transform="rotate({r} {x + w/2} {y + h/2})" filter="url(#sombra)"/>'
-    return (f'<svg viewBox="{vb}" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">'
-            '<defs><filter id="sombra" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#1a0d06" flood-opacity=".35"/></filter></defs>'
-            f'<image href="{PX["taza_arriba"]}" x="0" y="0" width="1200" height="1877"/>'
-            + fig('mujer1', 250, 400, 298, 331, -6) + fig('mujer3', 640, 560, 306, 278, 5) + fig('mujer2', 420, 840, 311, 389, -3) + t + '</svg>')
+# Ilustración de línea (hecha con Canva): la nutria de Tostado tomando un cafecito adentro de una taza
+NUTRIA = 'data:image/jpeg;base64,' + base64.b64encode(open(f'{SCR}/ilus/nutria-taza.jpg', 'rb').read()).decode()
+def nada_svg(texto=True):
+    t = (f'<text x="84" y="150" font-family="XPlayfair" font-size="62" fill="{CRE}">Tostado.</text>'
+         f'<text x="568" y="1292" text-anchor="middle" font-family="XPlayfair" font-size="104" fill="{CRE}">Nadá en <tspan font-style="italic" fill="{MAN}">sabor.</tspan></text>') if texto else ''
+    return (f'<svg viewBox="0 0 1136 1400" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">'
+            f'<image href="{NUTRIA}" x="0" y="0" width="1136" height="1400"/>{t}</svg>')
 def p_nada():
     return f'<div class="post">{nada_svg()}</div>'
 def p_entrega():
@@ -131,7 +126,7 @@ s_est = f'{step(3, "Estrategia y <em>contenidos</em>")}{est}'
 
 # 5. Diseños
 feed6 = '<div class="feed6">' + ''.join(FEED6) + '</div>'
-s_dis = (f'{step(4, "Diseñamos <em>los posteos</em>")}{feed6}<p class="cap" style="margin:0;text-align:center">Fotos del mismo lugar + una ilustración propia que le da personalidad.</p>')
+s_dis = (f'{step(4, "Diseñamos <em>los posteos</em>")}{feed6}<p class="cap" style="margin:0;text-align:center">Fotos del mismo lugar + una mascota propia que le da personalidad.</p>')
 
 # 6. Un posteo de cerca, como se ve en Instagram
 HEART = '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1C1A17" stroke-width="1.7"><path d="M12 20s-7-4.4-9-8.7C1.6 8.3 3.6 5 6.8 5c2 0 3.4 1.1 4.2 2.4h2C13.8 6.1 15.2 5 17.2 5c3.2 0 5.2 3.3 3.8 6.3-2 4.3-9 8.7-9 8.7z"/></svg>'
@@ -142,7 +137,7 @@ big = (f'<div class="shadow" style="width:690px;align-self:center;background:#ff
        f'<b style="font-size:22px;font-weight:500">tostado.cafe</b><span style="margin-left:auto;font-size:28px;letter-spacing:2px">···</span></div>'
        f'<div style="height:862px;position:relative;overflow:hidden">{nada_svg()}</div>'
        f'<div style="display:flex;gap:20px;padding:16px 20px">{HEART}{BUB}{SEND}</div></div>')
-s_big = f'<div class="eb" style="text-align:center">De cerca</div>{big}<p class="cap" style="margin:0;text-align:center">Una foto real + una ilustración propia: <b>así se vuelve inconfundible.</b></p>'
+s_big = f'<div class="eb" style="text-align:center">De cerca</div>{big}<p class="cap" style="margin:0;text-align:center">Fotos reales + una mascota propia: <b>así se vuelve inconfundible.</b></p>'
 
 # 7. Perfil
 prof = ('<div class="shadow" style="width:560px;border-radius:56px;background:#111;padding:14px;align-self:center"><div style="border-radius:44px;overflow:hidden;background:#fff;color:#1C1A17">'
