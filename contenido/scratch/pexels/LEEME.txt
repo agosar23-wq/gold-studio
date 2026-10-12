@@ -1,3 +1,4 @@
-Fotos de Pexels (licencia libre, no hace falta dar crédito) usadas en carrusel_feed_cafe.py.
+Fotos de Pexels (licencia libre, no hace falta dar crédito) que usa carrusel_feed_cafe.py.
+Son todas de la misma sesión de cottonbro studio (mismo café, misma barista), para que el feed tenga continuidad.
 Cada una está en https://www.pexels.com/photo/<número>/ (el número es el nombre del archivo).
-Reducidas a 1000 px. Se eligieron sin logos de otras marcas a la vista.
+Reducidas a 1000 px y con un retoque cálido parejo.
