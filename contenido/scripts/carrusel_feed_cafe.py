@@ -56,10 +56,24 @@ def p_frase():
             f'<div class="t" style="font-size:34px;color:{ESP}">Tu primer café del día merece ser <i style="color:{BOR}">especial.</i></div>'
             f'<div class="ph" style="height:120px;border-radius:999px 999px 0 0;{ph("latte_arriba", "center 45%")}"></div>{tostado(BOR, 22)}</div>')
 def p_guia():
-    cups = ''.join(f'<div style="display:flex;flex-direction:column;align-items:center;gap:8px;color:{CRE};font-size:17px"><div style="width:62px;height:62px;border-radius:50%;border:3px solid {CRE};background:linear-gradient({MAN} {p}%,{ESP} {p}%)"></div>{n}</div>' for n, p in [('Espresso', 10), ('Cortado', 45), ('Flat white', 70)])
+    def taza(n, leche, ancho, alto, vaso=False):
+        # tacita de costado: café abajo, leche arriba y espuma; con asa (o vaso para el cortado)
+        y0, y1 = 70 - alto, 70
+        nivel = y1 - (alto - 6) * (1 - leche)
+        cuerpo = (f'M{40-ancho/2} {y0} L{40+ancho/2} {y0} L{40+ancho/2-4} {y1-6} Q{40+ancho/2-5} {y1} {40+ancho/2-12} {y1} L{40-ancho/2+12} {y1} Q{40-ancho/2+5} {y1} {40-ancho/2+4} {y1-6}Z'
+                  if not vaso else f'M{40-ancho/2} {y0} L{40+ancho/2} {y0} L{40+ancho/2-3} {y1} L{40-ancho/2+3} {y1}Z')
+        asa = '' if vaso else f'<path d="M{40+ancho/2-1} {y0+6} C{40+ancho/2+12} {y0+6} {40+ancho/2+12} {y0+20} {40+ancho/2-3} {y0+20}" fill="none" stroke="{CRE}" stroke-width="3"/>'
+        return (f'<div style="display:flex;flex-direction:column;align-items:center;gap:6px;color:{CRE};font-size:16px">'
+                f'<svg width="74" height="78" viewBox="0 0 80 78"><defs><clipPath id="t{n.replace(' ', '')}"><path d="{cuerpo}"/></clipPath></defs>'
+                f'<g clip-path="url(#t{n.replace(' ', '')})"><rect x="0" y="0" width="80" height="80" fill="{ESP}"/><rect x="0" y="{y0+3}" width="80" height="{nivel-y0-3}" fill="{MAN}"/>'
+                f'<rect x="0" y="{y0}" width="80" height="5" fill="{CRE}"/></g>'
+                f'<path d="{cuerpo}" fill="none" stroke="{CRE}" stroke-width="3" stroke-linejoin="round"/>{asa}'
+                + (f'<path d="M{40-ancho/2-6} {y1+2} H{40+ancho/2+6}" stroke="{CRE}" stroke-width="3" stroke-linecap="round"/>' if not vaso else '')
+                + f'</svg>{n}</div>')
+    cups = taza('Espresso', 0, 34, 30) + taza('Cortado', .45, 34, 46, vaso=True) + taza('Flat white', .7, 46, 44)
     return (f'<div class="post" style="background:{BOR};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">'
             f'<div style="color:{MAN};font-size:16px;letter-spacing:.28em">GUÍA RÁPIDA</div><div class="t" style="color:{CRE};font-size:32px;text-align:center">Encontrá<br><i style="color:{MAN}">tu café ideal.</i></div>'
-            f'<div style="display:flex;gap:16px">{cups}</div></div>')
+            f'<div style="display:flex;gap:10px;align-items:flex-end">{cups}</div></div>')
 def p_reco():
     return (f'<div class="post ph" style="{ph("latte_arte", "center 60%")}"><div class="shade"></div>'
             f'<div style="position:absolute;left:16px;top:16px;background:{MAN};color:{ESP};font-size:14px;letter-spacing:.2em;padding:8px 14px;border-radius:999px">LA DE LA CASA</div>'
@@ -89,7 +103,7 @@ def p_barista():
             f'<div style="position:absolute;left:20px;right:20px;bottom:22px;color:#fff"><div style="font-size:14px;letter-spacing:.28em;color:{MAN}">DETRÁS DE LA BARRA</div>'
             f'<div class="t" style="font-size:28px;margin-top:6px">Conocé a Fran.</div></div></div>')
 def p_vertido():
-    return f'<div class="post ph" style="{ph("vertido", "center 40%")}"><div style="position:absolute;right:16px;top:16px">{PLAY}</div></div>'
+    return f'<div class="post ph" style="{ph("portafiltro", "60% center")}"><div style="position:absolute;right:16px;top:16px">{PLAY}</div></div>'
 
 FEED6 = [p_reel(), p_frase(), p_nada(), p_reco(), p_lugar(), p_marca()]
 FEED9 = [p_entrega(), p_guia(), p_vertido()] + FEED6   # lo más nuevo arriba
