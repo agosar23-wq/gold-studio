@@ -1,0 +1,11 @@
+GOLD STUDIO · Paleta de colores (regla 60-30-10)
+
+60%  Marfil         #FAF6EE   fondos
+30%  Negro cálido   #1C1A17   textos
+10%  Dorado         #B8923A   detalles, botones, el destello
+     Dorado claro   #C9A34E   fondo de la foto de perfil dorada
+     Arena          #E9DFC8   apoyo (fondos alternativos)
+
+Tipografías (gratis en Google Fonts y en Canva):
+- Logo y títulos: Bodoni Moda
+- "STUDIO" y textos: Jost

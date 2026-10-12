@@ -1,0 +1,780 @@
+<title>Plan Gold Studio · 30 días</title>
+<meta name="description" content="Calendario y guiones de 30 días para @goldstudio.ba">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..600&family=Jost:wght@300;400;500;600&display=swap">
+<style>
+/* Layout: cabecera editorial, calendario de 5 semanas, luego las 30 fichas en columna */
+:root{
+  --bg:#FAF6EE; --bg2:#F2EADA; --card:#FFFDF8; --ink:#1C1A17; --ink2:#5E5649; --line:#E6DAC2;
+  --gold:#B8923A; --gold-ink:#8A6A22; --on-gold:#FFFDF8; --reel:#1C1A17; --on-reel:#FAF6EE; --ok:#4E7A4A;
+  --serif:'Bodoni Moda', Georgia, serif; --sans:'Jost', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#171512; --bg2:#1F1C17; --card:#24201B; --ink:#F4EEE2; --ink2:#BDB2A0; --line:#3A3329;
+  --gold:#C9A34E; --gold-ink:#D8B661; --on-gold:#1C1A17; --reel:#F4EEE2; --on-reel:#1C1A17; --ok:#8DBB85; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#171512; --bg2:#1F1C17; --card:#24201B; --ink:#F4EEE2; --ink2:#BDB2A0; --line:#3A3329;
+  --gold:#C9A34E; --gold-ink:#D8B661; --on-gold:#1C1A17; --reel:#F4EEE2; --on-reel:#1C1A17; --ok:#8DBB85; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px;padding-block:40px 80px}
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.1;margin:0;text-wrap:balance}
+h1{font-size:clamp(38px,6vw,64px)} h1 em{color:var(--gold-ink)}
+h2{font-size:clamp(28px,4vw,38px);margin-bottom:18px}
+.eyebrow{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-ink);font-weight:500;margin:0 0 6px}
+.lead{font-size:18px;color:var(--ink2);max-width:62ch;font-weight:300;margin:16px 0 0}
+section{margin-top:56px}
+.info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:28px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;min-width:0}
+.box b{font-family:var(--serif);font-size:22px;font-weight:500;display:block;margin-bottom:4px}
+.box p{margin:0;color:var(--ink2);font-size:15px}
+.hours{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:6px;margin-top:10px;font-variant-numeric:tabular-nums}
+.hours span{display:flex;flex-direction:column;align-items:center;font-size:12px;color:var(--ink2);background:var(--bg2);border-radius:10px;padding:6px 2px}
+.hours span b{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--ink);margin:0}
+.week{display:grid;grid-template-columns:90px minmax(0,1fr);gap:12px;align-items:start;margin-bottom:12px}
+.wk{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2);padding-top:12px}
+.cells{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+.cell{position:relative;display:flex;flex-direction:column;gap:6px;min-height:150px;padding:10px;border-radius:14px;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);transition:transform .15s,border-color .15s;min-width:0}
+.cell:hover{transform:translateY(-2px);border-color:var(--gold)}
+.cell.empty{background:transparent;border:1px dashed var(--line)}
+.c-top{display:flex;justify-content:space-between;font-size:12px;color:var(--ink2);font-variant-numeric:tabular-nums}
+.c-date{font-weight:600;color:var(--ink)}
+.c-fmt{align-self:flex-start;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:999px}
+.f-reel .c-fmt{background:var(--reel);color:var(--on-reel)}
+.f-carrusel .c-fmt{background:var(--gold);color:var(--on-gold)}
+.c-hook{font-size:13px;line-height:1.35;overflow:hidden;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical}
+.c-done{display:none;position:absolute;right:8px;bottom:6px;color:var(--ok);font-weight:700}
+.cell.is-done{opacity:.6} .cell.is-done .c-done{display:block}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.filters button{font:500 14px var(--sans);padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.cards{display:grid;gap:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px 28px;scroll-margin-top:20px;min-width:0}
+.card:target{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 25%,transparent)}
+.card-h{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.meta{display:flex;gap:14px;flex-wrap:wrap;align-items:baseline}
+.day{font-weight:500} .time{font-variant-numeric:tabular-nums;color:var(--gold-ink);font-weight:600}
+.tags{display:flex;gap:6px}
+.tag{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--ink2)}
+.f-reel .tag.fmt{background:var(--reel);color:var(--on-reel);border-color:var(--reel)}
+.f-carrusel .tag.fmt{background:var(--gold);color:var(--on-gold);border-color:var(--gold)}
+.hook{font-size:clamp(24px,3vw,32px);margin-bottom:18px}
+.block{margin-top:16px;min-width:0} .block p{margin:0}
+.script,.slides{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:8px}
+.script li,.slides li{display:grid;grid-template-columns:62px minmax(0,1fr);gap:10px;align-items:baseline}
+.script li.note{display:block;color:var(--ink2);font-style:italic}
+.t{font-size:12px;font-variant-numeric:tabular-nums;color:var(--gold-ink);font-weight:600;background:var(--bg2);border-radius:8px;padding:2px 6px;text-align:center}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.why p{color:var(--ink2)}
+.caption{background:var(--bg2);border-radius:14px;padding:16px 18px}
+.actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.btn{font:500 14px var(--sans);padding:9px 18px;border-radius:999px;border:0;background:var(--gold);color:var(--on-gold);cursor:pointer}
+.done{display:inline-flex;gap:8px;align-items:center;font-size:14px;color:var(--ink2);cursor:pointer}
+.done input{accent-color:var(--gold);width:18px;height:18px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+.tips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.tips ul{margin:8px 0 0;padding-left:18px;color:var(--ink2)} .tips li{margin-bottom:4px}
+@media (max-width:860px){
+  .info,.tips,.row2{grid-template-columns:1fr}
+  .week{grid-template-columns:1fr;gap:6px} .wk{padding-top:0}
+  .cells{grid-template-columns:1fr 1fr}
+  .cell{min-height:0} .cell.empty{display:none}
+  .card{padding:20px 18px}
+}
+@media (prefers-reduced-motion:reduce){.cell{transition:none}}
+</style>
+<div class="wrap">
+  <p class="eyebrow">@goldstudio.ba · 12 de octubre → 10 de noviembre</p>
+  <h1>30 días de contenido <em>con brillo propio</em></h1>
+  <p class="lead">Un posteo por día y no tenés que grabar nada: los reels son animaciones de texto con tus colores y efectos de sonido, y los carruseles van listos para subir. Cada uno trae su hook, el texto para el posteo y por qué funciona.</p>
+
+  <div class="info">
+    <div class="box"><b>17 reels · 13 carruseles</b><p>Los reels te muestran a gente nueva. Los carruseles hacen que te guarden y confíen en vos.</p></div>
+    <div class="box"><b>Cuándo publicar</b><p>Tu público se conecta más a las <strong>10 h</strong> y a las <strong>18 h</strong>. Reels a la mañana, carruseles a la tarde.</p>
+      <div class="hours"><span>Lun<b>10:00</b></span><span>Mar<b>18:00</b></span><span>Mié<b>10:00</b></span><span>Jue<b>18:00</b></span><span>Vie<b>10:00</b></span><span>Sáb<b>10:00</b></span><span>Dom<b>18:30</b></span></div></div>
+    <div class="box"><b>Sin grabar nada</b><p>Te mando cada reel animado y cada carrusel listo. Vos le sumás un audio en tendencia en Instagram y publicás.</p></div>
+  </div>
+
+  <section aria-labelledby="cal-t">
+    <h2 id="cal-t">Calendario</h2>
+    <div class="week"><div class="wk">Semana 1</div><div class="cells"><a class="cell f-reel" href="#d1" data-n="1">
+  <span class="c-top"><span class="c-date">Lun 12</span><span class="c-time">10:00</span></span>
+  <span class="c-fmt">Reel</span>
+  <span class="c-hook">3 señales de que tu marca parece improvisada 😬</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-carrusel" href="#d2" data-n="2">
+  <span class="c-top"><span class="c-date">Mar 13</span><span class="c-time">18:00</span></span>
+  <span class="c-fmt">Carrusel</span>
+  <span class="c-hook">5 errores que hacen que tu Instagram parezca poco profesional</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-reel" href="#d3" data-n="3">
+  <span class="c-top"><span class="c-date">Mié 14</span><span class="c-time">10:00</span></span>
+  <span class="c-fmt">Reel</span>
+  <span class="c-hook">¿Necesitás página web si ya tenés Instagram?</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-carrusel" href="#d4" data-n="4">
+  <span class="c-top"><span class="c-date">Jue 15</span><span class="c-time">18:00</span></span>
+  <span class="c-fmt">Carrusel</span>
+  <span class="c-hook">Qué transmite cada color en tu marca 🎨</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-reel" href="#d5" data-n="5">
+  <span class="c-top"><span class="c-date">Vie 16</span><span class="c-time">10:00</span></span>
+  <span class="c-fmt">Reel</span>
+  <span class="c-hook">Así nació mi logo (casi me rindo en el intento)</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-carrusel" href="#d6" data-n="6">
+  <span class="c-top"><span class="c-date">Sáb 17</span><span class="c-time">10:00</span></span>
+  <span class="c-fmt">Carrusel</span>
+  <span class="c-hook">Checklist: lo que tiene que tener tu bio de Instagram ✅</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-reel" href="#d7" data-n="7">
+  <span class="c-top"><span class="c-date">Dom 18</span><span class="c-time">18:30</span></span>
+  <span class="c-fmt">Reel</span>
+  <span class="c-hook">Todo empezó con una app para mi tía 💛</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a></div></div><div class="week"><div class="wk">Semana 2</div><div class="cells"><a class="cell f-reel" href="#d8" data-n="8">
+  <span class="c-top"><span class="c-date">Lun 19</span><span class="c-time">10:00</span></span>
+  <span class="c-fmt">Reel</span>
+  <span class="c-hook">Le hice una app a mi tía nutricionista y esto pasó 👀</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-carrusel" href="#d9" data-n="9">
+  <span class="c-top"><span class="c-date">Mar 20</span><span class="c-time">18:00</span></span>
+  <span class="c-fmt">Carrusel</span>
+  <span class="c-hook">¿Cuánto cuesta una página web? (y por qué hay precios tan distintos)</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-reel" href="#d10" data-n="10">
+  <span class="c-top"><span class="c-date">Mié 21</span><span class="c-time">10:00</span></span>
+  <span class="c-fmt">Reel</span>
+  <span class="c-hook">Si sos nutri, psicóloga o entrenadora y mandás todo por WhatsApp, mirá esto</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-carrusel" href="#d11" data-n="11">
+  <span class="c-top"><span class="c-date">Jue 22</span><span class="c-time">18:00</span></span>
+  <span class="c-fmt">Carrusel</span>
+  <span class="c-hook">5 apps gratis para que tu marca se vea profesional 📲</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-reel" href="#d12" data-n="12">
+  <span class="c-top"><span class="c-date">Vie 23</span><span class="c-time">10:00</span></span>
+  <span class="c-fmt">Reel</span>
+  <span class="c-hook">POV: le mostrás el logo final a tu clienta ✨</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-carrusel" href="#d13" data-n="13">
+  <span class="c-top"><span class="c-date">Sáb 24</span><span class="c-time">10:00</span></span>
+  <span class="c-fmt">Carrusel</span>
+  <span class="c-hook">Página web vs. Linktree: ¿cuál te conviene?</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-reel" href="#d14" data-n="14">
+  <span class="c-top"><span class="c-date">Dom 25</span><span class="c-time">18:30</span></span>
+  <span class="c-fmt">Reel</span>
+  <span class="c-hook">Un domingo trabajando en Gold Studio ☕</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a></div></div><div class="week"><div class="wk">Semana 3</div><div class="cells"><a class="cell f-reel" href="#d15" data-n="15">
+  <span class="c-top"><span class="c-date">Lun 26</span><span class="c-time">10:00</span></span>
+  <span class="c-fmt">Reel</span>
+  <span class="c-hook">Antes y después: rediseñé el feed de una marca en 15 segundos</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-carrusel" href="#d16" data-n="16">
+  <span class="c-top"><span class="c-date">Mar 27</span><span class="c-time">18:00</span></span>
+  <span class="c-fmt">Carrusel</span>
+  <span class="c-hook">Cambié el nombre de mi marca 3 veces. Esto aprendí</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-reel" href="#d17" data-n="17">
+  <span class="c-top"><span class="c-date">Mié 28</span><span class="c-time">10:00</span></span>
+  <span class="c-fmt">Reel</span>
+  <span class="c-hook">Un logo lindo no alcanza (y nadie te lo dice)</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-carrusel" href="#d18" data-n="18">
+  <span class="c-top"><span class="c-date">Jue 29</span><span class="c-time">18:00</span></span>
+  <span class="c-fmt">Carrusel</span>
+  <span class="c-hook">Tipografías que hacen que tu marca se vea cara ✨ (y cuáles evitar)</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-reel" href="#d19" data-n="19">
+  <span class="c-top"><span class="c-date">Vie 30</span><span class="c-time">10:00</span></span>
+  <span class="c-fmt">Reel</span>
+  <span class="c-hook">Pedile esto a tu diseñadora ANTES de pagar 🚨</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-carrusel" href="#d20" data-n="20">
+  <span class="c-top"><span class="c-date">Sáb 31</span><span class="c-time">10:00</span></span>
+  <span class="c-fmt">Carrusel</span>
+  <span class="c-hook">Cosas que dan más miedo que Halloween si tenés un emprendimiento 👻</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-reel" href="#d21" data-n="21">
+  <span class="c-top"><span class="c-date">Dom 1</span><span class="c-time">18:30</span></span>
+  <span class="c-fmt">Reel</span>
+  <span class="c-hook">¿Cuánto tardo en hacer una página web? Te cuento</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a></div></div><div class="week"><div class="wk">Semana 4</div><div class="cells"><a class="cell f-reel" href="#d22" data-n="22">
+  <span class="c-top"><span class="c-date">Lun 2</span><span class="c-time">10:00</span></span>
+  <span class="c-fmt">Reel</span>
+  <span class="c-hook">3 cosas que tu página web tiene que tener SÍ o SÍ</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-carrusel" href="#d23" data-n="23">
+  <span class="c-top"><span class="c-date">Mar 3</span><span class="c-time">18:00</span></span>
+  <span class="c-fmt">Carrusel</span>
+  <span class="c-hook">Cómo armar la paleta de colores de tu marca en 5 pasos 🎨</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-reel" href="#d24" data-n="24">
+  <span class="c-top"><span class="c-date">Mié 4</span><span class="c-time">10:00</span></span>
+  <span class="c-fmt">Reel</span>
+  <span class="c-hook">Mandáselo a esa amiga que tiene un emprendimiento y todavía no tiene logo</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-carrusel" href="#d25" data-n="25">
+  <span class="c-top"><span class="c-date">Jue 5</span><span class="c-time">18:00</span></span>
+  <span class="c-fmt">Carrusel</span>
+  <span class="c-hook">Caso real: cómo una nutricionista ordenó su consultorio con una app</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-reel" href="#d26" data-n="26">
+  <span class="c-top"><span class="c-date">Vie 6</span><span class="c-time">10:00</span></span>
+  <span class="c-fmt">Reel</span>
+  <span class="c-hook">Diseñé la marca de una cafetería imaginaria en 30 segundos ☕</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-carrusel" href="#d27" data-n="27">
+  <span class="c-top"><span class="c-date">Sáb 7</span><span class="c-time">10:00</span></span>
+  <span class="c-fmt">Carrusel</span>
+  <span class="c-hook">4 mitos sobre tener una página web (que te están frenando)</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-reel" href="#d28" data-n="28">
+  <span class="c-top"><span class="c-date">Dom 8</span><span class="c-time">18:30</span></span>
+  <span class="c-fmt">Reel</span>
+  <span class="c-hook">Lo que aprendí en mi primer mes con Gold Studio</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a></div></div><div class="week"><div class="wk">Semana 5</div><div class="cells"><a class="cell f-reel" href="#d29" data-n="29">
+  <span class="c-top"><span class="c-date">Lun 9</span><span class="c-time">10:00</span></span>
+  <span class="c-fmt">Reel</span>
+  <span class="c-hook">Si estabas esperando una señal para arrancar tu marca, es esta ✨</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><a class="cell f-carrusel" href="#d30" data-n="30">
+  <span class="c-top"><span class="c-date">Mar 10</span><span class="c-time">18:00</span></span>
+  <span class="c-fmt">Carrusel</span>
+  <span class="c-hook">Todo lo que me preguntan antes de contratar una página web</span>
+  <span class="c-done" aria-hidden="true">✓</span>
+</a><div class="cell empty" aria-hidden="true"></div><div class="cell empty" aria-hidden="true"></div><div class="cell empty" aria-hidden="true"></div><div class="cell empty" aria-hidden="true"></div><div class="cell empty" aria-hidden="true"></div></div></div>
+  </section>
+
+  <section aria-labelledby="g-t">
+    <h2 id="g-t">Guiones</h2>
+    <div class="filters" role="group" aria-label="Filtrar guiones">
+      <button type="button" data-f="all" aria-pressed="true">Todos</button>
+      <button type="button" data-f="Reel" aria-pressed="false">Reels</button>
+      <button type="button" data-f="Carrusel" aria-pressed="false">Carruseles</button>
+    </div>
+    <div class="cards"><article class="card f-reel" id="d1" data-fmt="Reel" data-pilar="Educar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 1 · Lunes 12 de octubre</span><span class="time">10:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Reel</span><span class="tag">Educar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">3 señales de que tu marca parece improvisada 😬</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Animado con tus colores: cada frase aparece en pantalla, una por escena, con efectos de sonido. Vos solo le sumás un audio en tendencia.</p></div>
+  <div class="block"><p class="eyebrow">Texto en pantalla, escena por escena</p><ol class="slides"><li><span class="t">1</span>Si tu Instagram tiene alguna de estas 3 cosas, tu marca parece improvisada. Y no es tu culpa, eh.</li><li><span class="t">2</span>Uno: cada posteo tiene colores distintos. Tu cerebro no sabe qué es tuyo.</li><li><span class="t">3</span>Dos: usás cinco tipografías diferentes. Con dos alcanza.</li><li><span class="t">4</span>Tres: tu foto de perfil no se entiende en chiquito. Y es lo primero que ven.</li><li><span class="t">5</span>¿Tenés las tres? Tranqui, todo tiene arreglo. Guardalo y revisalo hoy ✨</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Guardalo para revisar tu perfil</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Error + &#x27;no es tu culpa&#x27;: la persona se siente identificada sin sentirse atacada, y lo mira hasta el final para chequear.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap1">3 señales de que tu marca parece improvisada (y cómo arreglarlo hoy) ✦ ¿Cuántas tenés? Contame en comentarios 👇</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap1">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done1" data-n="1"> Publicado</label></div></div>
+</article><article class="card f-carrusel" id="d2" data-fmt="Carrusel" data-pilar="Educar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 2 · Martes 13 de octubre</span><span class="time">18:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Carrusel</span><span class="tag">Educar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">5 errores que hacen que tu Instagram parezca poco profesional</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Carrusel con tus colores. Láminas con texto grande y un ejemplo visual de &#x27;así no / así sí&#x27;.</p></div>
+  <div class="block"><p class="eyebrow">Láminas</p><ol class="slides"><li><span class="t">1</span>Portada: 5 errores que hacen que tu Instagram parezca poco profesional (el 4 lo hace casi todo el mundo)</li><li><span class="t">2</span>1. Foto de perfil que no se lee en chiquito → usá un ícono simple o tu logo</li><li><span class="t">3</span>2. Bio que no dice qué hacés → &#x27;Diseño páginas web para emprendedores&#x27; &gt; &#x27;Amo el café ☕&#x27;</li><li><span class="t">4</span>3. Colores distintos en cada posteo → elegí 3 y repetilos</li><li><span class="t">5</span>4. Historias destacadas sin portada → con portadas iguales tu perfil se ve ordenado al toque</li><li><span class="t">6</span>5. No hay forma de contactarte → botón de WhatsApp o link en la bio</li><li><span class="t">7</span>Cierre: ¿Cuántos tenías? Guardalo y mandáselo a esa amiga emprendedora 💛</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Guardalo + mandáselo a una amiga</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>&#x27;El 4 lo hace todo el mundo&#x27; genera curiosidad y obliga a deslizar. Las listas útiles se guardan.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap2">Guardá esto antes de tu próximo posteo ✦ El número 4 es el más común (y el más fácil de arreglar).</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap2">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done2" data-n="2"> Publicado</label></div></div>
+</article><article class="card f-reel" id="d3" data-fmt="Reel" data-pilar="Opinar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 3 · Miércoles 14 de octubre</span><span class="time">10:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Reel</span><span class="tag">Opinar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">¿Necesitás página web si ya tenés Instagram?</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Animado con tus colores: cada frase aparece en pantalla, una por escena, con efectos de sonido. Vos solo le sumás un audio en tendencia.</p></div>
+  <div class="block"><p class="eyebrow">Texto en pantalla, escena por escena</p><ol class="slides"><li><span class="t">1</span>Te voy a decir algo que a muchas diseñadoras no les conviene decir: no siempre necesitás página web.</li><li><span class="t">2</span>Si recién arrancás y vendés poquito, con un Instagram ordenado y WhatsApp estás bien.</li><li><span class="t">3</span>Pero cuando la gente te busca en Google, cuando querés verte más profesional o tener turnos y pagos online… ahí sí.</li><li><span class="t">4</span>Instagram es como un local en un shopping que no es tuyo. Tu página es tu casa.</li><li><span class="t">5</span>¿Vos en qué etapa estás? Contame 👇</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Comentá en qué etapa estás</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Opinión inesperada de una diseñadora (&#x27;no siempre&#x27;) genera confianza y comentarios.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap3">¿Necesitás página web si ya tenés Instagram? Spoiler: depende ✦ Te explico cuándo sí y cuándo todavía no.</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap3">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done3" data-n="3"> Publicado</label></div></div>
+</article><article class="card f-carrusel" id="d4" data-fmt="Carrusel" data-pilar="Educar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 4 · Jueves 15 de octubre</span><span class="time">18:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Carrusel</span><span class="tag">Educar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Qué transmite cada color en tu marca 🎨</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Una lámina por color, con el fondo de ese color y 3 palabras que transmite.</p></div>
+  <div class="block"><p class="eyebrow">Láminas</p><ol class="slides"><li><span class="t">1</span>Portada: Qué transmite cada color en tu marca (elegí bien antes de hacer tu logo)</li><li><span class="t">2</span>Dorado → elegancia, valor, algo especial ✨</li><li><span class="t">3</span>Negro → lujo, seriedad, sofisticación</li><li><span class="t">4</span>Verde → salud, naturaleza, calma</li><li><span class="t">5</span>Rosa → cercanía, dulzura, cuidado</li><li><span class="t">6</span>Azul → confianza, profesionalismo, tranquilidad</li><li><span class="t">7</span>Naranja → energía, alegría, algo accesible</li><li><span class="t">8</span>Tip: usá 1 color principal, 1 secundario y 1 para detalles</li><li><span class="t">9</span>Cierre: ¿Cuál es el color de tu marca? Comentalo 👇</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Comentá el color de tu marca</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>La psicología del color es de los temas más buscados por emprendedores. Pregunta fácil de responder → muchos comentarios.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap4">Guardá esto antes de elegir los colores de tu marca ✦ ¿El tuyo transmite lo que querés?</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap4">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done4" data-n="4"> Publicado</label></div></div>
+</article><article class="card f-reel" id="d5" data-fmt="Reel" data-pilar="Transformar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 5 · Viernes 16 de octubre</span><span class="time">10:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Reel</span><span class="tag">Transformar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Así nació mi logo (casi me rindo en el intento)</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Animado con tus logos viejos (AR Studio, Magma) apareciendo y tachándose, hasta que aparece el logo Gold con el destello. Vos solo le sumás un audio en tendencia.</p></div>
+  <div class="block"><p class="eyebrow">Texto en pantalla, escena por escena</p><ol class="slides"><li><span class="t">1</span>Cambié el nombre de mi marca tres veces antes de llegar a este logo.</li><li><span class="t">2</span>Primero fue &#x27;AR Studio&#x27;. Después &#x27;Magma&#x27;, con lava chorreando y todo, jaja.</li><li><span class="t">3</span>Probé gotas, rosas, mil colores… y nada me representaba.</li><li><span class="t">4</span>Hasta que apareció Gold: un anillo dorado con un destello. Simple, elegante, mío.</li><li><span class="t">5</span>Moraleja: tu marca tiene que sentirse tuya. Si no, se nota ✨</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Contame si te pasó lo mismo con tu marca</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Proceso + historia real + vulnerabilidad: la gente se queda a ver el final (el logo) y conecta con vos.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap5">Así nació el logo de Gold Studio ✦ De la lava al dorado jaja. ¿Vos cuántas veces cambiaste tu marca?</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap5">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done5" data-n="5"> Publicado</label></div></div>
+</article><article class="card f-carrusel" id="d6" data-fmt="Carrusel" data-pilar="Educar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 6 · Sábado 17 de octubre</span><span class="time">10:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Carrusel</span><span class="tag">Educar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Checklist: lo que tiene que tener tu bio de Instagram ✅</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Una lámina tipo checklist con tildes dorados. Ejemplo de bio buena vs mala.</p></div>
+  <div class="block"><p class="eyebrow">Láminas</p><ol class="slides"><li><span class="t">1</span>Portada: Tu bio tiene 3 segundos para convencer. ¿Tiene todo esto?</li><li><span class="t">2</span>✓ Qué hacés (claro, sin vueltas)</li><li><span class="t">3</span>✓ Para quién lo hacés</li><li><span class="t">4</span>✓ Dónde estás (si trabajás en una zona)</li><li><span class="t">5</span>✓ Una llamada a la acción: &#x27;Escribime por DM&#x27; o &#x27;Turnos 👇&#x27;</li><li><span class="t">6</span>✓ Link a tu WhatsApp, página o catálogo</li><li><span class="t">7</span>Ejemplo: &#x27;Diseño páginas web y marcas para emprendedores ✦ Buenos Aires ✦ Pedí tu presupuesto 👇&#x27;</li><li><span class="t">8</span>Cierre: Guardalo y editá tu bio hoy 💛</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Guardalo y editá tu bio</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Checklist accionable = se guarda. Sábado a la mañana la gente tiene tiempo para editar su perfil.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap6">Tu bio tiene 3 segundos para convencer ✦ Checklist para revisarla hoy.</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap6">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done6" data-n="6"> Publicado</label></div></div>
+</article><article class="card f-reel" id="d7" data-fmt="Reel" data-pilar="Conectar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 7 · Domingo 18 de octubre</span><span class="time">18:30 h</span></div>
+    <div class="tags"><span class="tag fmt">Reel</span><span class="tag">Conectar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Todo empezó con una app para mi tía 💛</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Animado: texto en pantalla y al final un celular con la app (la demo, sin nombres). Vos solo le sumás un audio en tendencia.</p></div>
+  <div class="block"><p class="eyebrow">Texto en pantalla, escena por escena</p><ol class="slides"><li><span class="t">1</span>Gold Studio empezó por mi tía. Te cuento.</li><li><span class="t">2</span>Ella es nutricionista y mandaba los planes por WhatsApp. Se le perdía todo, a ella y a sus pacientes.</li><li><span class="t">3</span>Así que le hice una app: cada paciente tiene su cuenta, su plan, su progreso y sus turnos.</li><li><span class="t">4</span>Cuando la vi usándola, me di cuenta de que esto era lo que quería hacer.</li><li><span class="t">5</span>Así nació Gold Studio. Gracias por estar acá desde el principio ✨</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Seguime para ver lo que viene</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Historia de origen + familia = emoción. Domingo a la tarde la gente consume contenido más personal.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap7">Así empezó todo ✦ Una app para mi tía, y de repente Gold Studio. Gracias por estar desde el día uno 💛</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap7">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done7" data-n="7"> Publicado</label></div></div>
+</article><article class="card f-reel" id="d8" data-fmt="Reel" data-pilar="Vender">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 8 · Lunes 19 de octubre</span><span class="time">10:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Reel</span><span class="tag">Vender</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Le hice una app a mi tía nutricionista y esto pasó 👀</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Animado: celular mostrando la demo de la app mientras aparecen los textos (es el estilo del Reel 2). Vos solo le sumás un audio en tendencia.</p></div>
+  <div class="block"><p class="eyebrow">Texto en pantalla, escena por escena</p><ol class="slides"><li><span class="t">1</span>Le hice una app a mi tía nutricionista y esto pasó.</li><li><span class="t">2</span>Antes: planes por WhatsApp, turnos en un cuaderno y pacientes preguntando lo mismo diez veces.</li><li><span class="t">3</span>Ahora: cada paciente entra con su cuenta y ve su plan, sus recetas, su peso y su próximo turno.</li><li><span class="t">4</span>Y ella maneja todo desde un panel. Aprueba pacientes, sube PDFs y responde mensajes.</li><li><span class="t">5</span>Si tenés un consultorio o un negocio con clientes fijos, esto también es para vos.</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Probá la demo desde el link de la bio</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>&#x27;Esto pasó&#x27; abre una pregunta que el cerebro quiere cerrar. Es un caso real con antes/después claro.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap8">Antes y después de una app a medida para un consultorio de nutrición ✦ ¿Te imaginás una así para tu negocio?</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap8">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done8" data-n="8"> Publicado</label></div></div>
+</article><article class="card f-carrusel" id="d9" data-fmt="Carrusel" data-pilar="Educar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 9 · Martes 20 de octubre</span><span class="time">18:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Carrusel</span><span class="tag">Educar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">¿Cuánto cuesta una página web? (y por qué hay precios tan distintos)</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Láminas tipo &#x27;ticket&#x27; o lista con los factores. Sin precios exactos: rangos o &#x27;depende de&#x27;.</p></div>
+  <div class="block"><p class="eyebrow">Láminas</p><ol class="slides"><li><span class="t">1</span>Portada: ¿Cuánto cuesta una página web? Te explico por qué hay precios tan distintos</li><li><span class="t">2</span>Depende de 4 cosas 👇</li><li><span class="t">3</span>1. Cuántas secciones tiene (una página simple vs. un sitio completo)</li><li><span class="t">4</span>2. Si es diseño a medida o una plantilla</li><li><span class="t">5</span>3. Si necesita funciones: turnos, pagos, cuentas de usuarios</li><li><span class="t">6</span>4. Dominio propio y quién lo mantiene después</li><li><span class="t">7</span>Ojo con lo &#x27;muy barato&#x27;: preguntá qué incluye y si podés editarla vos</li><li><span class="t">8</span>Cierre: ¿Querés saber cuánto costaría la tuya? Escribime y te armo un presupuesto sin compromiso 💛</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Escribime por DM para tu presupuesto</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Es LA búsqueda #1 del nicho. Atrae a gente que ya está pensando en contratar.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap9">La pregunta que más me hacen ✦ ¿Cuánto cuesta una página web? Te explico qué cambia el precio.</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap9">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done9" data-n="9"> Publicado</label></div></div>
+</article><article class="card f-reel" id="d10" data-fmt="Reel" data-pilar="Vender">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 10 · Miércoles 21 de octubre</span><span class="time">10:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Reel</span><span class="tag">Vender</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Si sos nutri, psicóloga o entrenadora y mandás todo por WhatsApp, mirá esto</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Animado con tus colores: cada frase aparece en pantalla, una por escena, con efectos de sonido. Vos solo le sumás un audio en tendencia.</p></div>
+  <div class="block"><p class="eyebrow">Texto en pantalla, escena por escena</p><ol class="slides"><li><span class="t">1</span>Si sos nutri, psicóloga o entrenadora y todavía mandás todo por WhatsApp, mirá esto.</li><li><span class="t">2</span>Planes que se pierden en el chat, pacientes que te escriben a las 11 de la noche, turnos anotados en cualquier lado…</li><li><span class="t">3</span>Una app propia ordena todo: cada paciente con su cuenta, sus archivos y sus turnos.</li><li><span class="t">4</span>Vos ganás tiempo y tus pacientes te ven mucho más profesional.</li><li><span class="t">5</span>Mandáselo a esa colega que vive con el WhatsApp explotado 😅</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Mandáselo a una colega</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Le habla a alguien MUY específico → se siente para ella y se lo manda a colegas (envíos por DM).</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap10">Para las profesionales de la salud que viven con el WhatsApp explotado 😅 ✦ Hay otra forma.</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap10">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done10" data-n="10"> Publicado</label></div></div>
+</article><article class="card f-carrusel" id="d11" data-fmt="Carrusel" data-pilar="Educar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 11 · Jueves 22 de octubre</span><span class="time">18:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Carrusel</span><span class="tag">Educar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">5 apps gratis para que tu marca se vea profesional 📲</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Una lámina por app con ícono genérico (sin logos de marcas) y para qué sirve.</p></div>
+  <div class="block"><p class="eyebrow">Láminas</p><ol class="slides"><li><span class="t">1</span>Portada: 5 apps GRATIS para que tu marca se vea profesional (guardalo)</li><li><span class="t">2</span>1. Canva → posteos, historias y portadas con tus colores</li><li><span class="t">3</span>2. CapCut → editar reels con subtítulos automáticos</li><li><span class="t">4</span>3. Coolors → encontrar paletas de colores que combinan</li><li><span class="t">5</span>4. Google Fonts → tipografías lindas y gratis</li><li><span class="t">6</span>5. Remove.bg → sacar el fondo de tus fotos en un clic</li><li><span class="t">7</span>Bonus: Metricool → ver a qué hora está conectada tu audiencia</li><li><span class="t">8</span>Cierre: ¿Cuál no conocías? Guardalo para después 💛</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Guardalo</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>&#x27;Gratis&#x27; + lista de recursos = de los carruseles más guardados en cualquier nicho.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap11">5 apps gratis que uso (y que vos también podés usar) ✦ ¿Cuál no conocías?</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap11">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done11" data-n="11"> Publicado</label></div></div>
+</article><article class="card f-reel" id="d12" data-fmt="Reel" data-pilar="Transformar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 12 · Viernes 23 de octubre</span><span class="time">10:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Reel</span><span class="tag">Transformar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">POV: le mostrás el logo final a tu clienta ✨</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Animado: el logo se revela de a poco con un brillo, con el texto del POV arriba. Vos solo le sumás un audio en tendencia.</p></div>
+  <div class="block"><p class="eyebrow">Texto en pantalla, escena por escena</p><ol class="slides"><li><span class="t">1</span>Texto 1: POV: le mostrás el logo final a tu clienta</li><li><span class="t">2</span>Texto 2: …y se le llenan los ojos de lágrimas 🥹</li><li><span class="t">3</span>Texto 3: Por esto hago lo que hago ✦</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Etiquetá a alguien que necesita un logo así</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Formato POV + audio en tendencia: corto, emotivo y se mira varias veces (tiempo de visualización).</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap12">Mi parte favorita de cada proyecto ✦ El momento de la revelación 🥹</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap12">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done12" data-n="12"> Publicado</label></div></div>
+</article><article class="card f-carrusel" id="d13" data-fmt="Carrusel" data-pilar="Educar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 13 · Sábado 24 de octubre</span><span class="time">10:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Carrusel</span><span class="tag">Educar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Página web vs. Linktree: ¿cuál te conviene?</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Comparación en dos columnas: izquierda Linktree, derecha página web. Tildes y cruces.</p></div>
+  <div class="block"><p class="eyebrow">Láminas</p><ol class="slides"><li><span class="t">1</span>Portada: ¿Página web o Linktree? Te ayudo a elegir</li><li><span class="t">2</span>Linktree: gratis, rápido, ideal para arrancar</li><li><span class="t">3</span>Pero: todas se ven iguales, no aparece en Google, no es tuyo</li><li><span class="t">4</span>Página web: tu diseño, tu dominio, aparece en Google</li><li><span class="t">5</span>Pero: lleva más trabajo armarla (o contratar a alguien 😉)</li><li><span class="t">6</span>Mi consejo: arrancá con Linktree y pasate a página cuando quieras crecer</li><li><span class="t">7</span>Cierre: ¿Cuál usás vos? Contame 👇</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Comentá cuál usás</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Las comparaciones &#x27;X vs Y&#x27; ayudan a decidir: se guardan y generan debate en comentarios.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap13">Página web vs. Linktree ✦ Te cuento cuál conviene según tu etapa.</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap13">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done13" data-n="13"> Publicado</label></div></div>
+</article><article class="card f-reel" id="d14" data-fmt="Reel" data-pilar="Conectar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 14 · Domingo 25 de octubre</span><span class="time">18:30 h</span></div>
+    <div class="tags"><span class="tag fmt">Reel</span><span class="tag">Conectar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Un domingo trabajando en Gold Studio ☕</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Animado con tus colores: cada frase aparece en pantalla, una por escena, con efectos de sonido. Vos solo le sumás un audio en tendencia.</p></div>
+  <div class="block"><p class="eyebrow">Texto en pantalla, escena por escena</p><ol class="slides"><li><span class="t">1</span>Un domingo cualquiera en Gold Studio.</li><li><span class="t">2</span>Mate, playlist tranqui y un moodboard para una marca nueva.</li><li><span class="t">3</span>Elijo colores, pruebo tipografías, descarto un montón de ideas…</li><li><span class="t">4</span>Y cuando algo encaja, se siente ✨</li><li><span class="t">5</span>¿Vos también trabajás los domingos o sos de las que descansan? Jaja</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Comentá si trabajás los domingos</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Contenido &#x27;aesthetic&#x27; y relajado para el domingo. Humaniza la marca sin mostrar tu cara.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap14">Domingos de moodboards y mate ✦ ¿Y vos?</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap14">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done14" data-n="14"> Publicado</label></div></div>
+</article><article class="card f-reel" id="d15" data-fmt="Reel" data-pilar="Transformar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 15 · Lunes 26 de octubre</span><span class="time">10:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Reel</span><span class="tag">Transformar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Antes y después: rediseñé el feed de una marca en 15 segundos</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Animado con tus colores: cada frase aparece en pantalla, una por escena, con efectos de sonido. Vos solo le sumás un audio en tendencia.</p></div>
+  <div class="block"><p class="eyebrow">Texto en pantalla, escena por escena</p><ol class="slides"><li><span class="t">1</span>Así se veía el feed de esta marca… (es un ejemplo, eh)</li><li><span class="t">2</span>Colores por todos lados, fotos sin edición, sin portadas.</li><li><span class="t">3</span>Le definí 3 colores, 2 tipografías y un estilo de foto.</li><li><span class="t">4</span>Y mirá ahora 👇</li><li><span class="t">5</span>Misma marca, otra sensación ✨</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Guardalo como inspiración</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>El antes/después es el formato más fuerte del diseño: la gente necesita ver el final.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap15">Antes y después de un feed (concepto de ejemplo) ✦ Con 3 colores y 2 tipografías cambia todo.</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap15">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done15" data-n="15"> Publicado</label></div></div>
+</article><article class="card f-carrusel" id="d16" data-fmt="Carrusel" data-pilar="Conectar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 16 · Martes 27 de octubre</span><span class="time">18:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Carrusel</span><span class="tag">Conectar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Cambié el nombre de mi marca 3 veces. Esto aprendí</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Láminas con los nombres viejos tachados (AR Studio, Magma Creations) y el final con Gold Studio.</p></div>
+  <div class="block"><p class="eyebrow">Láminas</p><ol class="slides"><li><span class="t">1</span>Portada: Cambié el nombre de mi marca 3 veces. Te cuento qué aprendí (así no te pasa)</li><li><span class="t">2</span>AR Studio → muy genérico, no decía nada</li><li><span class="t">3</span>Magma Creations → me encantaba, pero no era yo</li><li><span class="t">4</span>Gold Studio → ✨ este sí</li><li><span class="t">5</span>Aprendizaje 1: que se entienda al decirlo en voz alta</li><li><span class="t">6</span>Aprendizaje 2: que esté disponible en Instagram (y no con 5 puntos y guiones)</li><li><span class="t">7</span>Aprendizaje 3: que te represente hoy y dentro de 5 años</li><li><span class="t">8</span>Cierre: ¿Cómo elegiste el nombre de tu marca? Te leo 👇</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Contame cómo elegiste tu nombre</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Mezcla tu historia real con consejos útiles: conecta y se guarda.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap16">La historia detrás del nombre Gold Studio ✦ Y 3 cosas que aprendí para elegir el tuyo.</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap16">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done16" data-n="16"> Publicado</label></div></div>
+</article><article class="card f-reel" id="d17" data-fmt="Reel" data-pilar="Opinar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 17 · Miércoles 28 de octubre</span><span class="time">10:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Reel</span><span class="tag">Opinar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Un logo lindo no alcanza (y nadie te lo dice)</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Animado con tus colores: cada frase aparece en pantalla, una por escena, con efectos de sonido. Vos solo le sumás un audio en tendencia.</p></div>
+  <div class="block"><p class="eyebrow">Texto en pantalla, escena por escena</p><ol class="slides"><li><span class="t">1</span>Un logo lindo no alcanza. Y nadie te lo dice.</li><li><span class="t">2</span>Podés tener el logo más hermoso, pero si cada posteo tiene otros colores, nadie te reconoce.</li><li><span class="t">3</span>Lo que hace que una marca se recuerde es el conjunto: colores, tipografías, estilo de fotos y cómo hablás.</li><li><span class="t">4</span>El logo es la firma. La marca es todo lo demás.</li><li><span class="t">5</span>Guardalo para cuando armes la tuya ✨</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Guardalo</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Opinión que contradice una creencia común → comentarios y debate.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap17">El logo es la firma, la marca es todo lo demás ✦ ¿Estás de acuerdo?</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap17">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done17" data-n="17"> Publicado</label></div></div>
+</article><article class="card f-carrusel" id="d18" data-fmt="Carrusel" data-pilar="Educar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 18 · Jueves 29 de octubre</span><span class="time">18:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Carrusel</span><span class="tag">Educar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Tipografías que hacen que tu marca se vea cara ✨ (y cuáles evitar)</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Muestras de tipografías reales de Google Fonts escritas con el nombre de una marca de ejemplo.</p></div>
+  <div class="block"><p class="eyebrow">Láminas</p><ol class="slides"><li><span class="t">1</span>Portada: Tipografías que hacen que tu marca se vea cara (y cuáles evitar)</li><li><span class="t">2</span>Elegantes: Bodoni Moda, Playfair Display, Cormorant</li><li><span class="t">3</span>Modernas y limpias: Jost, Montserrat, DM Sans</li><li><span class="t">4</span>Evitá: Comic Sans, Papyrus y las cursivas ilegibles</li><li><span class="t">5</span>Regla de oro: una para títulos y otra para textos. Nada más</li><li><span class="t">6</span>Ejemplo: en Gold Studio uso Bodoni Moda + Jost</li><li><span class="t">7</span>Cierre: ¿Cuál es la tipografía de tu marca? 👇</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Comentá tu tipografía</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Contenido concreto, útil y visual: muy guardable y fácil de compartir.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap18">Guardalo para la próxima vez que elijas una tipografía ✦ Todas gratis en Google Fonts.</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap18">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done18" data-n="18"> Publicado</label></div></div>
+</article><article class="card f-reel" id="d19" data-fmt="Reel" data-pilar="Educar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 19 · Viernes 30 de octubre</span><span class="time">10:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Reel</span><span class="tag">Educar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Pedile esto a tu diseñadora ANTES de pagar 🚨</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Animado con tus colores: cada frase aparece en pantalla, una por escena, con efectos de sonido. Vos solo le sumás un audio en tendencia.</p></div>
+  <div class="block"><p class="eyebrow">Texto en pantalla, escena por escena</p><ol class="slides"><li><span class="t">1</span>Antes de pagarle a una diseñadora, pedile estas 4 cosas.</li><li><span class="t">2</span>Uno: los archivos en varios formatos: PNG, SVG y con fondo transparente.</li><li><span class="t">3</span>Dos: versiones del logo para fondo claro y oscuro.</li><li><span class="t">4</span>Tres: tus colores con sus códigos, para usarlos en todos lados.</li><li><span class="t">5</span>Cuatro: cuántos cambios incluye el precio.</li><li><span class="t">6</span>Mandáselo a quien esté por contratar a alguien 💛</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Mandáselo a una amiga</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Protege a la audiencia → genera confianza. Y deja claro que vos sí lo hacés bien.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap19">4 cosas que tenés que pedir antes de pagarle a una diseñadora ✦ (Yo te las doy todas 😉)</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap19">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done19" data-n="19"> Publicado</label></div></div>
+</article><article class="card f-carrusel" id="d20" data-fmt="Carrusel" data-pilar="Conectar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 20 · Sábado 31 de octubre</span><span class="time">10:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Carrusel</span><span class="tag">Conectar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Cosas que dan más miedo que Halloween si tenés un emprendimiento 👻</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Estética oscura con detalles dorados. Humor.</p></div>
+  <div class="block"><p class="eyebrow">Láminas</p><ol class="slides"><li><span class="t">1</span>Portada: Cosas que dan más miedo que Halloween si tenés un emprendimiento 👻</li><li><span class="t">2</span>Un cliente que dice &#x27;después te transfiero&#x27;</li><li><span class="t">3</span>Que se te caiga Instagram el día del lanzamiento</li><li><span class="t">4</span>Ver tu logo de hace 3 años 😱</li><li><span class="t">5</span>El &#x27;visto&#x27; sin respuesta después de mandar un presupuesto</li><li><span class="t">6</span>Tener que hacer un reel hablando a cámara (por eso yo no muestro la cara jaja)</li><li><span class="t">7</span>Cierre: ¿Cuál te da más miedo a vos? 👇 Mandáselo a tu amiga emprendedora</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Comentá + compartí</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Humor de fecha especial: muy compartible (envíos por DM) y la gente se ve reflejada.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap20">Feliz Halloween emprendedor 👻 ✦ ¿Cuál te da más miedo?</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap20">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done20" data-n="20"> Publicado</label></div></div>
+</article><article class="card f-reel" id="d21" data-fmt="Reel" data-pilar="Educar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 21 · Domingo 1 de noviembre</span><span class="time">18:30 h</span></div>
+    <div class="tags"><span class="tag fmt">Reel</span><span class="tag">Educar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">¿Cuánto tardo en hacer una página web? Te cuento</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Animado con tus colores: cada frase aparece en pantalla, una por escena, con efectos de sonido. Vos solo le sumás un audio en tendencia.</p></div>
+  <div class="block"><p class="eyebrow">Texto en pantalla, escena por escena</p><ol class="slides"><li><span class="t">1</span>La pregunta que más me hacen: ¿cuánto tardás en hacer una página web?</li><li><span class="t">2</span>Una página simple, de una sección, puede estar en pocos días.</li><li><span class="t">3</span>Una más completa, con varias secciones y dominio propio, lleva un par de semanas.</li><li><span class="t">4</span>Y una app a medida, con usuarios y todo, lleva más. Depende de lo que necesites.</li><li><span class="t">5</span>Lo que más acelera todo: tener claro qué querés. ¿Tenés dudas? Preguntame 👇</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Dejá tu pregunta en comentarios</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Responder preguntas frecuentes = te encuentran en el buscador y ya estás resolviendo dudas antes de vender.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap21">¿Cuánto tarda una página web? ✦ Depende, pero te explico de qué.</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap21">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done21" data-n="21"> Publicado</label></div></div>
+</article><article class="card f-reel" id="d22" data-fmt="Reel" data-pilar="Educar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 22 · Lunes 2 de noviembre</span><span class="time">10:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Reel</span><span class="tag">Educar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">3 cosas que tu página web tiene que tener SÍ o SÍ</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Animado: capturas de tu página web en un celular mientras aparecen los 3 puntos. Vos solo le sumás un audio en tendencia.</p></div>
+  <div class="block"><p class="eyebrow">Texto en pantalla, escena por escena</p><ol class="slides"><li><span class="t">1</span>Si tu página web no tiene estas 3 cosas, estás perdiendo clientes.</li><li><span class="t">2</span>Uno: que en 3 segundos se entienda qué hacés.</li><li><span class="t">3</span>Dos: un botón para contactarte. WhatsApp, formulario, lo que sea, pero visible.</li><li><span class="t">4</span>Tres: que se vea perfecta en el celular. La mayoría te va a ver desde ahí.</li><li><span class="t">5</span>¿La tuya las tiene? Guardalo y revisala ✨</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Guardalo</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Hook de &#x27;estás perdiendo clientes&#x27; + lista corta: muy fácil de mirar entero.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap22">3 cosas que tu página web necesita sí o sí ✦ ¿La tuya las tiene?</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap22">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done22" data-n="22"> Publicado</label></div></div>
+</article><article class="card f-carrusel" id="d23" data-fmt="Carrusel" data-pilar="Educar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 23 · Martes 3 de noviembre</span><span class="time">18:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Carrusel</span><span class="tag">Educar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Cómo armar la paleta de colores de tu marca en 5 pasos 🎨</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Paso a paso con muestras de color. Usá tu paleta Gold como ejemplo final.</p></div>
+  <div class="block"><p class="eyebrow">Láminas</p><ol class="slides"><li><span class="t">1</span>Portada: Cómo armar la paleta de colores de tu marca en 5 pasos (guardalo)</li><li><span class="t">2</span>1. Elegí 3 palabras que describan tu marca (ej: elegante, cercana, cálida)</li><li><span class="t">3</span>2. Buscá un color principal que transmita eso</li><li><span class="t">4</span>3. Sumá un neutro de fondo (blanco roto, beige, gris cálido)</li><li><span class="t">5</span>4. Elegí un color de acento para detalles y botones</li><li><span class="t">6</span>5. Probalos juntos en un posteo antes de decidir</li><li><span class="t">7</span>Ejemplo: la paleta de Gold Studio → marfil, negro cálido y dorado</li><li><span class="t">8</span>Regla 60-30-10: 60% fondo, 30% secundario, 10% acento</li><li><span class="t">9</span>Cierre: ¿Querés que te ayude con la tuya? Escribime 💛</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Guardalo + DM</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Tutorial paso a paso = guardado seguro. Mostrar tu propia paleta suma credibilidad.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap23">Tu paleta de colores en 5 pasos ✦ Con la regla 60-30-10 no falla.</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap23">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done23" data-n="23"> Publicado</label></div></div>
+</article><article class="card f-reel" id="d24" data-fmt="Reel" data-pilar="Conectar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 24 · Miércoles 4 de noviembre</span><span class="time">10:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Reel</span><span class="tag">Conectar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Mandáselo a esa amiga que tiene un emprendimiento y todavía no tiene logo</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Animado con tus colores: cada frase aparece en pantalla, una por escena, con efectos de sonido. Vos solo le sumás un audio en tendencia.</p></div>
+  <div class="block"><p class="eyebrow">Texto en pantalla, escena por escena</p><ol class="slides"><li><span class="t">1</span>La que tiene el logo hecho en Word desde 2019</li><li><span class="t">2</span>La que cambia los colores de su marca cada semana</li><li><span class="t">3</span>La que dice &#x27;después lo arreglo&#x27; hace 2 años</li><li><span class="t">4</span>La que tiene todo divino pero nadie sabe cómo comprarle</li><li><span class="t">5</span>Cierre: ¿Cuál sos? Etiquetala 👇 (sin juzgar, yo fui todas jaja)</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Etiquetá a tu amiga</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Contenido &#x27;etiquetá a…&#x27; = envíos y etiquetas, la señal que más te muestra a gente nueva.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap24">¿Cuál sos? 😂 ✦ Yo fui todas, eh.</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap24">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done24" data-n="24"> Publicado</label></div></div>
+</article><article class="card f-carrusel" id="d25" data-fmt="Carrusel" data-pilar="Vender">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 25 · Jueves 5 de noviembre</span><span class="time">18:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Carrusel</span><span class="tag">Vender</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Caso real: cómo una nutricionista ordenó su consultorio con una app</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Usá las capturas de la demo (sin nombre). Estructura problema → solución → resultado.</p></div>
+  <div class="block"><p class="eyebrow">Láminas</p><ol class="slides"><li><span class="t">1</span>Portada: Caso real ✦ Cómo una nutricionista ordenó todo su consultorio</li><li><span class="t">2</span>El problema: planes por WhatsApp, turnos en un cuaderno, mensajes a toda hora</li><li><span class="t">3</span>La idea: una app propia, con su logo y sus colores</li><li><span class="t">4</span>Para los pacientes: cuenta propia, plan, recetarios, progreso y turnos</li><li><span class="t">5</span>Para ella: un panel para aprobar pacientes, subir archivos y responder</li><li><span class="t">6</span>El resultado: menos caos, más tiempo y una imagen mucho más profesional</li><li><span class="t">7</span>Cierre: ¿Tenés un negocio con clientes fijos? Esto también es para vos. Probá la demo en la bio 💛</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Probá la demo / DM</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>El caso real con estructura problema → resultado es lo que más convierte seguidores en clientes.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap25">Caso real de Gold Studio ✦ Una app a medida para un consultorio de nutrición.</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap25">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done25" data-n="25"> Publicado</label></div></div>
+</article><article class="card f-reel" id="d26" data-fmt="Reel" data-pilar="Transformar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 26 · Viernes 6 de noviembre</span><span class="time">10:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Reel</span><span class="tag">Transformar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Diseñé la marca de una cafetería imaginaria en 30 segundos ☕</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Animado con tus colores: cada frase aparece en pantalla, una por escena, con efectos de sonido. Vos solo le sumás un audio en tendencia.</p></div>
+  <div class="block"><p class="eyebrow">Texto en pantalla, escena por escena</p><ol class="slides"><li><span class="t">1</span>Le diseñé la marca a una cafetería que no existe. Mirá.</li><li><span class="t">2</span>Nombre: &#x27;Grano&#x27;. Palabras clave: cálida, artesanal, de barrio.</li><li><span class="t">3</span>Colores: marrón tostado, crema y un verde oliva para los detalles.</li><li><span class="t">4</span>Tipografía con onda artesanal y un logo con un granito de café.</li><li><span class="t">5</span>¿Le cambiarías algo? ¿Qué rubro hago la próxima? 👇</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Comentá el próximo rubro</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Proceso + pedir el próximo rubro = comentarios y una serie de reels que se arma sola.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap26">Branding de una cafetería imaginaria ✦ ¿Qué rubro hago la próxima? Lo más votado gana 👇</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap26">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done26" data-n="26"> Publicado</label></div></div>
+</article><article class="card f-carrusel" id="d27" data-fmt="Carrusel" data-pilar="Opinar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 27 · Sábado 7 de noviembre</span><span class="time">10:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Carrusel</span><span class="tag">Opinar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">4 mitos sobre tener una página web (que te están frenando)</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Cada lámina con &#x27;MITO&#x27; tachado y &#x27;REALIDAD&#x27; en dorado.</p></div>
+  <div class="block"><p class="eyebrow">Láminas</p><ol class="slides"><li><span class="t">1</span>Portada: 4 mitos sobre tener una página web que te están frenando</li><li><span class="t">2</span>Mito: &#x27;Es carísimo&#x27; → Realidad: hay opciones para cada etapa</li><li><span class="t">3</span>Mito: &#x27;No la voy a saber manejar&#x27; → Realidad: te enseño a usarla, o la manejo yo</li><li><span class="t">4</span>Mito: &#x27;Con Instagram alcanza&#x27; → Realidad: Instagram no es tuyo, tu página sí</li><li><span class="t">5</span>Mito: &#x27;Es solo para empresas grandes&#x27; → Realidad: es para cualquiera que quiera verse profesional</li><li><span class="t">6</span>Cierre: ¿Cuál creías vos? Contame 👇</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Comentá</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>&#x27;Mito vs realidad&#x27; rompe objeciones de venta sin parecer venta.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap27">4 mitos sobre las páginas web ✦ ¿Cuál creías?</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap27">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done27" data-n="27"> Publicado</label></div></div>
+</article><article class="card f-reel" id="d28" data-fmt="Reel" data-pilar="Conectar">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 28 · Domingo 8 de noviembre</span><span class="time">18:30 h</span></div>
+    <div class="tags"><span class="tag fmt">Reel</span><span class="tag">Conectar</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Lo que aprendí en mi primer mes con Gold Studio</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Animado con tus colores: cada frase aparece en pantalla, una por escena, con efectos de sonido. Vos solo le sumás un audio en tendencia.</p></div>
+  <div class="block"><p class="eyebrow">Texto en pantalla, escena por escena</p><ol class="slides"><li><span class="t">1</span>Un mes de Gold Studio. Esto aprendí.</li><li><span class="t">2</span>Uno: empezar es más importante que tenerlo todo perfecto.</li><li><span class="t">3</span>Dos: mostrar el proceso conecta más que mostrar solo el resultado.</li><li><span class="t">4</span>Tres: no hace falta mostrar la cara para que te conozcan.</li><li><span class="t">5</span>Gracias a cada persona que me escribió, compartió o guardó algo. Esto recién empieza ✨</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Seguime para el mes 2</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Cierre de ciclo + gratitud: genera comunidad y comentarios lindos.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap28">Primer mes de Gold Studio ✦ Gracias por acompañarme 💛</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap28">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done28" data-n="28"> Publicado</label></div></div>
+</article><article class="card f-reel" id="d29" data-fmt="Reel" data-pilar="Vender">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 29 · Lunes 9 de noviembre</span><span class="time">10:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Reel</span><span class="tag">Vender</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Si estabas esperando una señal para arrancar tu marca, es esta ✨</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Animado con tus colores: cada frase aparece en pantalla, una por escena, con efectos de sonido. Vos solo le sumás un audio en tendencia.</p></div>
+  <div class="block"><p class="eyebrow">Texto en pantalla, escena por escena</p><ol class="slides"><li><span class="t">1</span>Si estabas esperando una señal para arrancar tu marca, es esta.</li><li><span class="t">2</span>Este mes tomo pocos proyectos, para dedicarle a cada uno el tiempo que se merece.</li><li><span class="t">3</span>Páginas web, branding o redes. Y los primeros siguen con precio de lanzamiento.</li><li><span class="t">4</span>Escribime &#x27;ORO&#x27; por DM y te cuento cómo arrancamos 💛</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>Escribí &#x27;ORO&#x27; por DM</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Palabra clave por DM (&#x27;ORO&#x27;) = conversaciones directas. Escasez real (pocos proyectos), sin presionar.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap29">Tu señal para arrancar ✦ Escribime &#x27;ORO&#x27; por DM y te cuento todo 💛</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap29">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done29" data-n="29"> Publicado</label></div></div>
+</article><article class="card f-carrusel" id="d30" data-fmt="Carrusel" data-pilar="Vender">
+  <header class="card-h">
+    <div class="meta"><span class="day">Día 30 · Martes 10 de noviembre</span><span class="time">18:00 h</span></div>
+    <div class="tags"><span class="tag fmt">Carrusel</span><span class="tag">Vender</span></div>
+  </header>
+  <p class="eyebrow">Hook</p>
+  <h3 class="hook">Todo lo que me preguntan antes de contratar una página web</h3>
+  <div class="block"><p class="eyebrow">Cómo se ve</p><p>Formato preguntas y respuestas, como un chat o con burbujas.</p></div>
+  <div class="block"><p class="eyebrow">Láminas</p><ol class="slides"><li><span class="t">1</span>Portada: Todo lo que me preguntan antes de contratar una página web (respondido)</li><li><span class="t">2</span>¿Necesito tener logo? → No, lo podemos hacer juntas</li><li><span class="t">3</span>¿La puedo cambiar después? → Sí, y te enseño cómo</li><li><span class="t">4</span>¿Funciona en el celu? → Siempre, la diseño primero para el celular</li><li><span class="t">5</span>¿Puedo tener mi dominio (.com.ar)? → Sí, te ayudo a sacarlo</li><li><span class="t">6</span>¿Cómo se paga? → Lo hablamos según tu proyecto, sin sorpresas</li><li><span class="t">7</span>Cierre: ¿Te quedó alguna duda? Escribime por DM 💛</li></ol></div>
+  <div class="row2">
+    <div class="block"><p class="eyebrow">Llamada a la acción</p><p>DM</p></div>
+    <div class="block why"><p class="eyebrow">Por qué funciona</p><p>Responde objeciones de compra. Ideal para cerrar el mes con contenido que convierte.</p></div>
+  </div>
+  <div class="block caption"><p class="eyebrow">Texto para el posteo</p><p class="cap-text" id="cap30">Preguntas frecuentes ✦ Todo lo que necesitás saber antes de arrancar tu página.</p>
+    <div class="actions"><button type="button" class="btn" data-copy="cap30">Copiar texto</button>
+    <label class="done"><input type="checkbox" id="done30" data-n="30"> Publicado</label></div></div>
+</article></div>
+  </section>
+
+  <section aria-labelledby="t-t">
+    <h2 id="t-t">Para publicar</h2>
+    <div class="tips">
+      <div class="box"><b>Cómo subir un reel</b><ul>
+        <li>Guardá el video en tu celu y en Instagram tocá <em>+ → Reel</em>.</li>
+        <li>Tocá <em>Audio 🎵</em> y elegí una canción con flechita ↗ (en tendencia).</li>
+        <li>En <em>Volumen</em>: audio original alto (los efectos) y música entre 30 y 50.</li>
+        <li>Copiá el texto desde acá con el botón y activá <em>Compartir también en el feed</em>.</li></ul></div>
+      <div class="box"><b>Después de publicar</b><ul>
+        <li>Compartilo en tus historias apenas lo subas.</li>
+        <li>Respondé los comentarios en la primera hora.</li>
+        <li>A las 2 semanas mirá en Estadísticas → Seguidores → Momentos de más actividad, y ajustá los horarios.</li>
+        <li>Conectá @goldstudio.ba a Metricool para tener tus propios datos.</li></ul></div>
+    </div>
+  </section>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  var toast=document.getElementById('toast'),tt;
+  function say(t){toast.textContent=t;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('show')},1800)}
+  document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+    var el=document.getElementById(b.dataset.copy),txt=el.textContent;
+    function sel(){var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r);say('Texto seleccionado: copialo')}
+    try{navigator.clipboard.writeText(txt).then(function(){say('Copiado ✓')},sel)}catch(e){sel()}
+  })});
+  var KEY='gs-plan-hechos'; var done={};
+  try{done=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+  function paint(n){var c=document.querySelector('.cell[data-n="'+n+'"]');if(c)c.classList.toggle('is-done',!!done[n])}
+  document.querySelectorAll('.done input').forEach(function(i){var n=i.dataset.n;i.checked=!!done[n];paint(n);
+    i.addEventListener('change',function(){done[n]=i.checked;paint(n);try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}})});
+  var btns=document.querySelectorAll('.filters button');
+  btns.forEach(function(b){b.addEventListener('click',function(){btns.forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+    document.querySelectorAll('.card').forEach(function(c){c.hidden=!(b.dataset.f==='all'||c.dataset.fmt===b.dataset.f)})})});
+})();
+</script>
