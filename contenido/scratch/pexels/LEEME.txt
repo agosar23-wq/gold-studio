@@ -2,3 +2,4 @@ Fotos de Pexels (licencia libre, no hace falta dar crédito) que usa carrusel_fe
 Son todas de la misma sesión de cottonbro studio (mismo café, misma barista), para que el feed tenga continuidad.
 Cada una está en https://www.pexels.com/photo/<número>/ (el número es el nombre del archivo).
 Reducidas a 1000 px y con un retoque cálido parejo.
+La 11127537 (taza vista desde arriba) es de otra sesión: es la base del posteo con el personaje nadando.

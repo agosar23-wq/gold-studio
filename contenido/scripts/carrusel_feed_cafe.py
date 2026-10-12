@@ -10,6 +10,7 @@ PX = {k: _img(i) for k, i in {
     'maquina': 4792683, 'barista': 4792684, 'jarra': 4792685, 'barra_taza': 4792686, 'vapor': 4792687,
     'latte_arte': 4792689, 'latte_arriba': 4792692, 'tamper': 4792693, 'local': 4792694, 'portafiltro': 4792695,
     'entrega': 4792696, 'mano_taza': 4792699, 'vertido': 4792700,
+    'taza_arriba': 11127537,  # taza vista desde arriba con crema (otra sesión), para el posteo con personajes
 }.items()}
 ESP, BOR, CRE, CAR, MAD, MAN, GRI = '#2A1A14', '#8A3B2A', '#EFE7DA', '#B4743F', '#6B4A33', '#E6CFA8', '#9A9C98'
 import ilus_cafe as I
@@ -71,10 +72,43 @@ def p_marca():
     return (f'<div class="post ph" style="{ph("tamper")}"><div style="position:absolute;inset:0;background:rgba(42,26,20,.7)"></div>'
             f'<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">{tostado(CRE, 52)}'
             f'<span style="font-size:14px;letter-spacing:.3em;color:{MAN}">CAFÉ DE ESPECIALIDAD</span></div></div>')
+# El personaje de Tostado nadando en una foto real, en distintas poses (coordenadas de la foto 1200×1877)
+SK = '#F6D9C0'
+def _limb(d): return (f'<path d="{d}" fill="none" stroke="{ESP}" stroke-width="7" stroke-linecap="round"/>'
+                      f'<path d="{d}" fill="none" stroke="{SK}" stroke-width="4.2" stroke-linecap="round"/>')
+def _wave(x, y, w, o=.95): return f'<path d="M{x-w} {y} q{w/2} -5 {w} 0 t{w} 0" fill="none" stroke="{CRE}" stroke-width="1.8" stroke-linecap="round" opacity="{o}"/>'
+def _drops(pts): return ''.join(f'<circle cx="{x}" cy="{y}" r="{r}" fill="{CRE}"/>' for x, y, r in pts)
+# cada pose devuelve (agua, personaje): el agua va sin contorno, el personaje con borde crema tipo sticker
+def pose_salvavidas():
+    agua = _wave(0, 20, 26) + _wave(4, 27, 16, .7)
+    return agua, I.swimmer_ring(0, 0, BOR).replace(I.ripple(0, 14, 22), '') + _limb('M9 3 C17 -2 21 -10 20 -19') + f'<circle cx="20" cy="-21" r="3.4" fill="{SK}" stroke="{ESP}" stroke-width="1.4"/>'
+def pose_plancha():
+    agua = (f'<path d="M-16 -14 C10 -24 50 -22 74 -10 M-16 14 C10 24 50 22 74 10" fill="none" stroke="{CRE}" stroke-width="1.8" stroke-linecap="round"/>'
+            + _wave(30, 30, 18, .7))
+    cuerpo = (_limb('M14 -6 C6 -18 -10 -18 -13 -7') + _limb('M14 6 C6 18 -10 18 -13 7')
+              + _limb('M44 -3 L62 -7') + _limb('M44 3 L62 8')
+              + f'<path d="M10 -9 C22 -11 36 -9 44 -6 C48 -3 48 3 44 6 C36 9 22 11 10 9 C6 4 6 -4 10 -9Z" fill="{BOR}" stroke="{ESP}" stroke-width="1.6"/>'
+              + f'<path d="M26 -9.5 L26 9.5" stroke="#fff" stroke-width="2.4"/>' + I.face(0, 0, 10, glasses=True))
+    return agua, cuerpo
+def pose_crol():
+    agua = _wave(14, 12, 24) + _wave(40, 4, 12, .8) + _drops([(-24, -14, 1.8), (-28, -6, 1.4), (-20, -22, 1.3), (46, -4, 1.5), (50, 2, 1.2)])
+    cuerpo = (f'<ellipse cx="18" cy="1" rx="18" ry="8" fill="{BOR}" stroke="{ESP}" stroke-width="1.6"/>'
+              + _limb('M12 6 L24 12') + _limb('M9 -5 C4 -24 -14 -24 -20 -12')
+              + f'<circle cx="-21" cy="-10" r="3.4" fill="{SK}" stroke="{ESP}" stroke-width="1.4"/>' + I.face(0, 0, 10))
+    return agua, cuerpo
+def nada_svg(vb='0 230 1200 1500', texto=True):
+    flt = ('<filter id="stk" x="-20%" y="-20%" width="140%" height="140%"><feMorphology in="SourceAlpha" operator="dilate" radius="1.5" result="d"/>'
+           f'<feFlood flood-color="{CRE}"/><feComposite in2="d" operator="in" result="o"/><feMerge><feMergeNode in="o"/><feMergeNode in="SourceGraphic"/></feMerge></filter>')
+    def g(pose, x, y, sc, r=0):
+        agua, cuerpo = pose
+        return f'<g transform="translate({x} {y}) rotate({r}) scale({sc})">{agua}<g filter="url(#stk)">{cuerpo}</g></g>'
+    t = (f'<text x="80" y="1660" font-family="XPlayfair" font-size="82" fill="{BOR}">Nadá en <tspan font-style="italic">sabor.</tspan></text>'
+         f'<text x="80" y="330" font-family="XPlayfair" font-size="54" fill="{ESP}">Tostado.</text>') if texto else ''
+    return (f'<svg viewBox="{vb}" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%"><defs>{flt}</defs>'
+            f'<image href="{PX["taza_arriba"]}" x="0" y="0" width="1200" height="1877"/>'
+            + g(pose_salvavidas(), 380, 600, 6, -8) + g(pose_crol(), 820, 820, 5.6, 4) + g(pose_plancha(), 470, 1090, 5.6, -12) + t + '</svg>')
 def p_nada():
-    taza = I.cup(250, ()).replace('</svg>', '<g transform="translate(110 108) scale(1.75) translate(-110 -104)">' + I.swimmer_ring(110, 104, BOR) + '</g></svg>')
-    return (f'<div class="post" style="background:{MAN}"><div style="position:absolute;left:25px;top:28px">{taza}</div>'
-            f'<div class="t" style="position:absolute;left:0;right:0;bottom:20px;text-align:center;font-size:30px;color:{BOR}">Nadá en <i>sabor.</i></div></div>')
+    return f'<div class="post">{nada_svg()}</div>'
 def p_entrega():
     return (f'<div class="post ph" style="{ph("entrega", "center 40%")}"><div style="position:absolute;left:18px;top:18px;background:{CRE};padding:14px 18px">'
             f'<div class="t" style="font-size:24px;color:{ESP}">Para vos,<br><i style="color:{BOR}">recién hecho.</i></div></div></div>')
@@ -126,14 +160,12 @@ s_dis = (f'{step(4, "Diseñamos <em>los posteos</em>")}{feed6}<p class="cap" sty
 HEART = '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1C1A17" stroke-width="1.7"><path d="M12 20s-7-4.4-9-8.7C1.6 8.3 3.6 5 6.8 5c2 0 3.4 1.1 4.2 2.4h2C13.8 6.1 15.2 5 17.2 5c3.2 0 5.2 3.3 3.8 6.3-2 4.3-9 8.7-9 8.7z"/></svg>'
 BUB = '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1C1A17" stroke-width="1.7"><path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5z"/></svg>'
 SEND = '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1C1A17" stroke-width="1.7"><path d="M21 3 3 10.5l7 3 3 7.5z M10 13.5 21 3"/></svg>'
-big = (f'<div class="shadow" style="width:760px;align-self:center;background:#fff;border-radius:28px;overflow:hidden;color:#1C1A17">'
+big = (f'<div class="shadow" style="width:690px;align-self:center;background:#fff;border-radius:28px;overflow:hidden;color:#1C1A17">'
        f'<div style="display:flex;align-items:center;gap:14px;padding:16px 20px"><div style="width:48px;height:48px;border-radius:50%;background:{ESP};display:grid;place-items:center">{tostado(CRE, 11)}</div>'
        f'<b style="font-size:22px;font-weight:500">tostado.cafe</b><span style="margin-left:auto;font-size:28px;letter-spacing:2px">···</span></div>'
-       f'<div class="ph" style="height:820px;position:relative;{ph("mano_taza", "center 70%")}"><div style="position:absolute;inset:0;background:linear-gradient(rgba(30,18,12,.5),transparent 45%)"></div>'
-       f'<div style="position:absolute;left:44px;right:44px;top:44px;font-family:XPlayfair;font-size:64px;line-height:1.1;color:#fff">Tu primer café del día merece ser <i style="color:{MAN}">especial.</i></div>'
-       f'<div style="position:absolute;right:30px;bottom:26px">{tostado("#fff", 30)}</div></div>'
+       f'<div style="height:862px;position:relative;overflow:hidden">{nada_svg()}</div>'
        f'<div style="display:flex;gap:20px;padding:16px 20px">{HEART}{BUB}{SEND}</div></div>')
-s_big = f'<div class="eb" style="text-align:center">De cerca</div>{big}<p class="cap" style="margin:0;text-align:center">La foto cuenta, la frase <b>engancha.</b></p>'
+s_big = f'<div class="eb" style="text-align:center">De cerca</div>{big}<p class="cap" style="margin:0;text-align:center">Una foto real + una ilustración propia: <b>así se vuelve inconfundible.</b></p>'
 
 # 7. Perfil
 prof = ('<div class="shadow" style="width:560px;border-radius:56px;background:#111;padding:14px;align-self:center"><div style="border-radius:44px;overflow:hidden;background:#fff;color:#1C1A17">'
