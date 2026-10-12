@@ -17,6 +17,8 @@ Después se usa todo igual:
 - `scripts/mocks.py`, `pack.py`, `mascota.py`, `yogi.py`, `ilus_cafe.py`: dibujos y maquetas reutilizables.
 - `scripts/semana*.py`: lo que ya se publicó, como ejemplo.
 - `marca/`: logos, foto de perfil y paleta.
+- `scratch/pexels/`: fotos reales de Pexels (cafetería) que usa `carrusel_feed_cafe.py`.
+- `carruseles/`: láminas terminadas y su texto para el posteo.
 
 ## Marca
 
