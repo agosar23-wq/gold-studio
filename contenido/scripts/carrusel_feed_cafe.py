@@ -79,7 +79,7 @@ def nada_svg(vb='0 230 1200 1500', texto=True):
          f'<text x="80" y="330" font-family="XPlayfair" font-size="54" fill="{ESP}">Tostado.</text>') if texto else ''
     return (f'<svg viewBox="{vb}" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%"><defs>{PJ.sticker_filter()}</defs>'
             f'<image href="{PX["taza_arriba"]}" x="0" y="0" width="1200" height="1877"/>'
-            + PJ.place('salvavidas', 390, 590, 3.6, -6) + PJ.place('nado', 790, 830, 3.3, 8) + PJ.place('grano', 560, 1110, 3.3, -10) + t + '</svg>')
+            + PJ.place('brindis', 400, 620, 7.6, -6) + PJ.place('relax', 820, 840, 7.2, 8) + PJ.place('mano_agua', 520, 1120, 7.6, -4) + t + '</svg>')
 def p_nada():
     return f'<div class="post">{nada_svg()}</div>'
 def p_entrega():
