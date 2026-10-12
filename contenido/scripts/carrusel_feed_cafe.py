@@ -56,9 +56,9 @@ def p_frase():
             f'<div class="t" style="font-size:34px;color:{ESP}">Tu primer café del día merece ser <i style="color:{BOR}">especial.</i></div>'
             f'<div class="ph" style="height:120px;border-radius:999px 999px 0 0;{ph("latte_arriba", "center 45%")}"></div>{tostado(BOR, 22)}</div>')
 def p_guia():
-    cups = ''.join(f'<div style="display:flex;flex-direction:column;align-items:center;gap:8px;color:{CRE};font-size:17px"><div style="width:62px;height:62px;border-radius:50%;border:3px solid {CRE};background:linear-gradient({BOR} {100-p}%,{CAR} {100-p}%)"></div>{n}</div>' for n, p in [('Ristretto', 35), ('Espresso', 55), ('Lungo', 85)])
+    cups = ''.join(f'<div style="display:flex;flex-direction:column;align-items:center;gap:8px;color:{CRE};font-size:17px"><div style="width:62px;height:62px;border-radius:50%;border:3px solid {CRE};background:linear-gradient({MAN} {p}%,{ESP} {p}%)"></div>{n}</div>' for n, p in [('Espresso', 10), ('Cortado', 45), ('Flat white', 70)])
     return (f'<div class="post" style="background:{BOR};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">'
-            f'<div style="color:{MAN};font-size:16px;letter-spacing:.28em">GUÍA RÁPIDA</div><div class="t" style="color:{CRE};font-size:32px;text-align:center">¿Cuánta agua<br>lleva tu café?</div>'
+            f'<div style="color:{MAN};font-size:16px;letter-spacing:.28em">GUÍA RÁPIDA</div><div class="t" style="color:{CRE};font-size:32px;text-align:center">Encontrá<br><i style="color:{MAN}">tu café ideal.</i></div>'
             f'<div style="display:flex;gap:16px">{cups}</div></div>')
 def p_reco():
     return (f'<div class="post ph" style="{ph("latte_arte", "center 60%")}"><div class="shade"></div>'
@@ -66,7 +66,7 @@ def p_reco():
             f'<div class="t" style="position:absolute;left:20px;right:20px;bottom:22px;color:#fff;font-size:28px">Flat white<br><i style="color:{MAN}">con leche de almendras</i></div></div>')
 def p_lugar():
     return (f'<div class="post ph" style="{ph("local", "center 40%")}"><div style="position:absolute;left:0;right:0;bottom:0;height:110px;background:{CRE};display:flex;flex-direction:column;justify-content:center;padding:0 20px">'
-            f'<div class="t" style="font-size:26px;color:{ESP}">Tu lugar del barrio<br><i style="color:{BOR}">te está esperando.</i></div></div></div>')
+            f'<div class="t" style="font-size:26px;color:{ESP}">Tu pausa favorita<br><i style="color:{BOR}">te está esperando.</i></div></div></div>')
 def p_marca():
     return (f'<div class="post ph" style="{ph("tamper")}"><div style="position:absolute;inset:0;background:rgba(42,26,20,.7)"></div>'
             f'<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">{tostado(CRE, 52)}'
@@ -143,7 +143,7 @@ s_big = f'<div class="eb" style="text-align:center">De cerca</div>{big}<p class=
 prof = ('<div class="shadow" style="width:560px;border-radius:56px;background:#111;padding:14px;align-self:center"><div style="border-radius:44px;overflow:hidden;background:#fff;color:#1C1A17">'
         f'<div style="padding:26px 22px 10px;display:flex;gap:22px;align-items:center"><div style="width:96px;height:96px;border-radius:50%;background:{ESP};display:grid;place-items:center;flex:none">{tostado(CRE, 22)}</div>'
         '<div style="display:flex;gap:22px;font-size:16px;text-align:center">' + ''.join(f'<div><b style="display:block;font-size:26px;font-weight:500">{a}</b>{b}</div>' for a, b in [('48', 'posts'), ('2.380', 'seguidores'), ('210', 'seguidos')]) + '</div></div>'
-        '<div style="padding:0 22px 14px;font-size:17px;line-height:1.45"><b style="font-weight:500">Tostado · Café de especialidad</b><br>Tu lugar favorito del barrio<br>Lun a sáb · 8 a 20 h</div>'
+        '<div style="padding:0 22px 14px;font-size:17px;line-height:1.45"><b style="font-weight:500">Tostado · Café de especialidad</b><br>Tu pausa favorita del día ☕<br>Lun a sáb · 8 a 20 h</div>'
         '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px">' + ''.join(f'<div style="zoom:.5733">{p}</div>' for p in FEED9) + '</div></div></div>')
 s_prof = f'{step(5, "Así queda <em>el perfil</em>")}{prof}'
 
