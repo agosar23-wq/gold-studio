@@ -3,6 +3,7 @@ import sys, os, subprocess, shutil; sys.path.insert(0, '/home/user/gold-studio-c
 from carogen import CSS, SP, SCR, CHECK
 import catalogo_wa as C1
 import catalogo_wa2 as C2   # ejemplos (web_ex, brand_ex, cm_ex, app_ex, shop_ex)
+from mockups_marcas import OUT as MK
 from mockups_marcas import OUT as MK   # mockups de las marcas de ejemplo (carrusel_branding)
 BRAND_GRID = ('<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;width:900px;height:600px">' +
               ''.join(f'<div style="position:relative;overflow:hidden;border-radius:18px;box-shadow:0 24px 40px -26px rgba(0,0,0,.6)">'
@@ -12,7 +13,8 @@ BRAND_GRID = ('<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;w
 OUT = '/home/user/gold-studio-final/whatsapp-business/catalogo'
 FOTOS = SCR + '/fotos-pexels/'   # fotos de Pexels (licencia libre), nombre = id de la foto
 def foto(pid, pos='50% 50%', extra=''):
-    return f'<img class="ft" src="file://{FOTOS}{pid}.jpg" style="object-position:{pos};{extra}">'
+    src = f'{MK}{pid[3:]}.jpg' if pid.startswith('mk:') else f'{FOTOS}{pid}.jpg'   # 'mk:...' = mockup de las marcas
+    return f'<img class="ft" src="file://{src}" style="object-position:{pos};{extra}">'
 
 EXT = C1.EXT + C1.XF + C2.EXT + '''
 .q{padding:0;gap:0}
@@ -78,33 +80,33 @@ def como(pid, pos):
             f'<div class="pic">{foto(pid, pos)}<div class="frame" style="inset:24px"></div></div></div></div>')
 
 import ejemplos_fotos as E   # ejemplos con fotos reales (web Almendra, IG Nácar, tienda Ondina)
-# Personas: una sola sesión (la diseñadora con tableta, fotos 71476xx-71477xx). El resto, objetos sin gente.
+# Sin personas: solo fotos de objetos (escritorio 302343xx, moodboard 75980xx, ropa 57062xx).
 ITEMS = [  # carpeta, nombre, portada, incluye, ejemplo, como
  ('01-pagina-web', 'Página web',
   ('8472383', '50% 50%', 'Paquete', 'Página <em>web</em>', ['Diseño a medida', 'Botón a WhatsApp', 'Perfecta en el celular', 'La publico por vos']),
-  ('7147695', '30% 50%', C2.ITEMS[0][3]),
+  ('30234378', '50% 50%', C2.ITEMS[0][3]),
   ('4402584', '50% 50%', 'Así se ve <em>en compu y celu</em>', E.web_ex, 'Ejemplo de página web para una pastelería.', .9),
-  ('7147710', '78% 50%')),
+  ('30234383', '50% 50%')),
  ('02-branding', 'Branding y logo',
-  ('7598017', '50% 50%', 'Paquete', 'Branding <em>y logo</em>', ['Logo y variantes', 'Colores y tipografías', 'Foto de perfil', 'Portadas']),
-  ('7147719', '45% 50%', C2.ITEMS[1][3]),
-  ('7598019', '50% 50%', 'Una marca <em>completa</em>', BRAND_GRID, 'Logo, colores y packaging de 4 marcas distintas.', 1),
-  ('7147701', '50% 50%')),
+  ('mk:almendra-bolsa', '50% 78%', 'Paquete', 'Branding <em>y logo</em>', ['Logo y variantes', 'Colores y tipografías', 'Foto de perfil', 'Portadas']),
+  ('7598012', '50% 50%', C2.ITEMS[1][3]),
+  ('4466176', '50% 50%', 'Una marca <em>completa</em>', BRAND_GRID, 'Logo, colores y packaging de 4 marcas distintas.', 1),
+  ('mk:nacar-tarjetas', '50% 50%')),
  ('03-community-manager', 'Community manager',
   ('6177685', '50% 45%', 'Paquete', 'Community <em>manager</em>', ['Plan mensual', 'Posteos e historias', 'Textos', 'Resumen del mes']),
-  ('7147706', '50% 50%', C2.ITEMS[2][3]),
+  ('30234389', '50% 50%', C2.ITEMS[2][3]),
   ('30234381', '50% 50%', 'Tu perfil, <em>siempre lindo</em>', E.cm_ex, 'Ejemplo de perfil e historia para un spa.', .86),
-  ('7147705', '40% 50%')),
+  ('30234391', '50% 50%')),
  ('04-app-a-medida', 'App a medida',
   ('30234387', '50% 50%', 'A medida', 'Apps <em>a medida</em>', ['Turnos', 'Clientes con su cuenta', 'Panel para vos', 'Compu y celular']),
-  ('7147697', '55% 50%', C2.ITEMS[3][3]),
+  ('30234385', '50% 50%', C2.ITEMS[3][3]),
   ('30234382', '50% 50%', 'Una app <em>real</em>', C2.app_ex, 'App hecha para un consultorio de nutrición (datos de prueba).', .86),
-  ('7147708', '40% 50%')),
+  ('30234386', '50% 50%')),
  ('05-tienda-online', 'Tienda online',
   ('5706271', '50% 50%', 'A medida', 'Tienda <em>online</em>', ['Catálogo y carrito', 'Pagos online', 'Envíos', 'Fácil de actualizar']),
   ('5706270', '40% 50%', C2.ITEMS[4][3]),
   ('5706275', '50% 50%', 'Vendé <em>las 24 horas</em>', E.shop_ex, 'Ejemplo de tienda para una marca de ropa.', .86),
-  ('7147711', '58% 50%')),
+  ('5706272', '50% 50%')),
 ]
 CREDITOS = 'Fotos de Pexels (pexels.com/photo/<id>), licencia libre de Pexels.'
 

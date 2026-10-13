@@ -72,7 +72,7 @@ def tag_quad(A, B, C, D, u0, u1, v0, v1):
 
 CROP = {  # recorte sobre el producto (x0, y0, x1, y1)
  'almendra-bolsa': (200, 100, 1500, 1900), 'almendra-paquete': (300, 0, 1300, 1067), 'almendra-vaso': (300, 900, 1300, 2150),
- 'ondina-etiqueta': (100, 0, 1500, 1066), 'ondina-tote': (500, 50, 1400, 900), 'ondina-tote-negra': (150, 150, 1150, 1600),
+ 'ondina-etiqueta': (100, 0, 1500, 1066), 'ondina-tote': (690, 300, 1190, 840), 'ondina-tote-negra': (150, 150, 1150, 1600),
  'nacar-frascos': (400, 250, 1200, 950), 'nacar-bolsas': (250, 180, 1400, 1000), 'nacar-tarjetas': (200, 450, 1450, 2100),
  'nube-vasos': (280, 160, 980, 980), 'nube-caja': (200, 150, 1400, 950), 'nube-paquetes': (330, 30, 1270, 1063), 'nacar-bolsa': (760, 230, 1310, 900)}
 
