@@ -140,7 +140,7 @@ def build(name='reel-tostado-cafe'):
     os.makedirs(OUT, exist_ok=True); wav = f'{WORK}/a.wav'; audio(wav)
     out = f'{OUT}/{name}.mp4'; ff = imageio_ffmpeg.get_ffmpeg_exe()
     proc = subprocess.Popen([ff, '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
-                             '-i', wav, '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '19', '-preset', 'medium', '-c:a', 'aac', '-b:a', '160k',
+                             '-i', wav, '-c:v', 'libx264', '-profile:v', 'main', '-level', '4.1', '-pix_fmt', 'yuv420p', '-crf', '21', '-preset', 'medium', '-c:a', 'aac', '-b:a', '160k', '-ac', '2', '-ar', '48000',
                              '-shortest', '-movflags', '+faststart', out], stdin=subprocess.PIPE)
     for f in frames():
         proc.stdin.write(np.ascontiguousarray(f).tobytes())
