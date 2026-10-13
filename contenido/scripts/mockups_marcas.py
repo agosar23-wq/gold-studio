@@ -74,7 +74,7 @@ CROP = {  # recorte sobre el producto (x0, y0, x1, y1)
  'almendra-bolsa': (200, 100, 1500, 1900), 'almendra-paquete': (300, 0, 1300, 1067), 'almendra-vaso': (300, 900, 1300, 2150),
  'ondina-etiqueta': (100, 0, 1500, 1066), 'ondina-tote': (690, 300, 1190, 840), 'ondina-tote-negra': (150, 150, 1150, 1600),
  'nacar-frascos': (400, 250, 1200, 950), 'nacar-bolsas': (250, 180, 1400, 1000), 'nacar-tarjetas': (200, 450, 1450, 2100),
- 'nube-vasos': (280, 160, 980, 980), 'nube-caja': (200, 150, 1400, 950), 'nube-paquetes': (330, 30, 1270, 1063), 'nacar-bolsa': (760, 230, 1310, 900)}
+ 'nube-vasos': (280, 160, 980, 980), 'nube-caja': (200, 150, 1400, 950), 'nube-paquetes': (330, 30, 1270, 1063), 'nacar-bolsa': (760, 230, 1310, 900), 'nacar-tarjetas-alta': (0, 0, 1600, 2400)}
 
 def col(b, i): return BRANDS[b]['colores'][i][1]
 
@@ -108,7 +108,7 @@ def build():
     im = fill(im, [(392, 598), (1242, 592), (1252, 1162), (388, 1174)], col('nacar', 0), 1)
     im = put(im, 'nacar-full-light', [(560, 700), (1080, 698), (1084, 1070), (562, 1074)], mode='ink', pad=.1)
     im = put(im, 'nacar-iso-dark', [(700, 1500), (990, 1498), (992, 1800), (702, 1802)], pad=.1)
-    M['nacar-tarjetas'] = im
+    M['nacar-tarjetas'] = im; M['nacar-tarjetas-alta'] = im
     # ---------- Nube (heladería) ----------
     im = ph('8015718')
     for cx, cy in [(431, 553), (800, 550)]:
