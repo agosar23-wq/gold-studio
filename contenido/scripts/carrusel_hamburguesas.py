@@ -9,6 +9,8 @@ PX = {k: _img(i) for k, i in {
     'bandeja': 8477222, 'chispas': 8477224, 'parrilla': 8477292, 'chef': 8477293, 'parrilla2': 8477295, 'humo': 8477301,
     'brindis': 8477346, 'cocinera': 8477348, 'pinza': 8477355, 'cerveza': 8477359, 'sliders_birra': 8477413,
     'mordida': 8477415, 'sliders': 8477416, 'manos': 8477417, 'tabla': 8477420, 'armado': 8477421, 'chef2': 8477422,
+    # Fotos de producto que pasó Agos: la misma hamburguesa de bacon y cheddar en distintas escenas
+    'estudio': 'prod_estudio', 'flota': 'prod_flota', 'local': 'prod_local', 'manos2': 'prod_manos', 'bacon': 'prod_bacon',
 }.items()}
 # Mascota (ilustración de línea hecha con Canva): la señora de los ruleros sentada arriba de una hamburguesa doble
 PX['senora'] = 'data:image/jpeg;base64,' + base64.b64encode(open(f'{SCR}/ilus/senora-burger.jpg', 'rb').read()).decode()
@@ -56,7 +58,7 @@ def p_reel():
 def p_frase():
     return (f'<div class="post" style="background:{CRE};display:flex;flex-direction:column;justify-content:center;padding:0 26px;box-sizing:border-box;gap:16px">'
             f'<div class="t" style="font-size:44px;color:{BOR}">Una no<br>alcanza.</div>'
-            f'<div class="ph" style="height:120px;border-radius:999px 999px 0 0;{ph("tabla", "center 55%")}"></div>{logo(BOR, 18)}</div>')
+            f'<div class="ph" style="height:120px;border-radius:999px 999px 0 0;{ph("estudio", "center 62%")}"></div>{logo(BOR, 18)}</div>')
 def mascota_svg(texto=True):
     t = (f'<text x="60" y="110" font-family="XArchivo" font-size="54" fill="{BOR}">DOÑA RULOS</text>'
          f'<text x="568" y="1310" text-anchor="middle" font-family="XArchivo" font-size="112" fill="{BOR}">PEDÍ LA DOBLE.</text>') if texto else ''
@@ -65,17 +67,17 @@ def mascota_svg(texto=True):
 def p_mascota():
     return f'<div class="post">{mascota_svg()}</div>'
 def p_reco():
-    return (f'<div class="post ph" style="{ph("sliders_birra", "center 60%")}"><div class="shade"></div>'
+    return (f'<div class="post ph" style="{ph("bacon", "center 62%")}"><div class="shade"></div>'
             f'<div style="position:absolute;left:16px;top:16px;background:{MOS};color:{CAR};font-size:14px;letter-spacing:.2em;padding:8px 14px;border-radius:999px;font-weight:500">LA DE LA CASA</div>'
-            f'<div class="t" style="position:absolute;left:20px;right:20px;bottom:22px;color:{CRE};font-size:28px">Triple slider<br><span style="color:{MOS}">+ birra tirada</span></div></div>')
+            f'<div class="t" style="position:absolute;left:20px;right:20px;bottom:22px;color:{CRE};font-size:28px">Bacon<br><span style="color:{MOS}">&amp; cheddar</span></div></div>')
 def p_lugar():
-    return (f'<div class="post ph" style="{ph("brindis", "62% center")}"><div style="position:absolute;left:0;right:0;bottom:0;height:112px;background:{BOR};display:flex;flex-direction:column;justify-content:center;padding:0 20px">'
+    return (f'<div class="post ph" style="{ph("local", "center 62%")}"><div style="position:absolute;left:0;right:0;bottom:0;height:112px;background:{BOR};display:flex;flex-direction:column;justify-content:center;padding:0 20px">'
             f'<div class="t" style="font-size:20px;color:{CRE}">Vení con hambre.<br><span style="color:{MOS}">Volvé con amigos.</span></div></div></div>')
 def p_marca():
     return (f'<div class="post ph" style="{ph("humo", "40% center")}"><div style="position:absolute;inset:0;background:rgba(20,12,10,.66)"></div>'
             f'<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">{logo(CRE, 34, MOS)}</div></div>')
 def p_mordida():
-    return (f'<div class="post ph" style="{ph("mordida", "center 45%")}"><div style="position:absolute;left:18px;top:18px;background:{MOS};padding:12px 16px">'
+    return (f'<div class="post ph" style="{ph("manos2", "center 45%")}"><div style="position:absolute;left:18px;top:18px;background:{MOS};padding:12px 16px">'
             f'<div class="t" style="font-size:24px;color:{CAR}">Primer<br>mordisco.</div></div></div>')
 def p_guia():
     def medallon(n, rosa):
@@ -86,7 +88,7 @@ def p_guia():
             f'<div style="color:{MOS};font-size:16px;letter-spacing:.28em">GUÍA RÁPIDA</div><div class="t" style="color:{CRE};font-size:34px;text-align:center">Elegí<br><span style="color:{MOS}">tu punto.</span></div>'
             f'<div style="display:flex;gap:10px">{medallon("Jugoso", "#C4534F")}{medallon("A punto", "#B07A5E")}{medallon("Cocido", "#7A4A36")}</div></div>')
 def p_cerveza():
-    return f'<div class="post ph" style="{ph("cerveza", "center 40%")}"><div style="position:absolute;right:16px;top:16px">{PLAY}</div></div>'
+    return f'<div class="post ph" style="{ph("flota", "center 45%")}"><div style="position:absolute;right:16px;top:16px">{PLAY}</div></div>'
 
 FEED6 = [p_reel(), p_frase(), p_mascota(), p_reco(), p_lugar(), p_marca()]
 FEED9 = [p_mordida(), p_guia(), p_cerveza()] + FEED6   # lo más nuevo arriba
@@ -95,20 +97,20 @@ def step(n, t): return f'<div class="step"><div class="num">{n}</div><h2>{t}</h2
 
 # 1. Portada
 fan = ''.join(f'<div class="ph shadow" style="position:absolute;width:300px;height:375px;border:12px solid #FAF6EE;{ph(k, p)};left:{x}px;top:{y}px;transform:rotate({r}deg)"></div>'
-              for k, p, x, y, r in [('chispas', 'center 35%', 60, 40, -9), ('mordida', 'center 45%', 470, 50, 8), ('tabla', 'center 55%', 250, 0, -1)])
+              for k, p, x, y, r in [('chispas', 'center 35%', 60, 40, -9), ('manos2', 'center 40%', 470, 50, 8), ('flota', 'center 45%', 250, 0, -1)])
 cover = (f'<div class="eb">Proceso de branding</div>'
          f'<h1 style="font-size:104px">Así diseñaría <em>una marca de hamburguesas</em></h1>'
          f'<div style="position:relative;height:440px;width:888px">{fan}</div>')
 
 # 2. Moodboard
 mood = (f'<div class="mood"><div class="ph" style="grid-row:span 2;{ph("chispas", "center 40%")}"></div><div class="ph" style="{ph("parrilla", "40% center")}"></div>'
-        f'<div class="ph" style="{ph("armado", "center 60%")}"></div><div class="ph" style="{ph("cerveza", "center 30%")}"></div><div class="ph" style="{ph("mordida", "center 40%")}"></div></div>')
+        f'<div class="ph" style="{ph("armado", "center 60%")}"></div><div class="ph" style="{ph("cerveza", "center 30%")}"></div><div class="ph" style="{ph("bacon", "center 60%")}"></div></div>')
 s_mood = (f'{step(1, "Buscamos el <em>clima</em>")}{mood}<div class="kw"><span>Fuego</span><span>Callejera</span><span>Generosa</span></div>'
           f'<p class="cap" style="text-align:center;margin:0">Noche, humo y brasas: todo pasa en la misma parrilla.</p>')
 
 # 3. Paleta sacada de las fotos
 pal = '<div class="pal">' + ''.join(f'<div class="c"><div class="dot" style="background:{c}"><i style="{ph(k)}"></i></div>{c}</div>'
-                                    for c, k in [(CAR, 'humo'), (BOR, 'brindis'), (BRA, 'chispas'), (MOS, 'cerveza'), (CRE, 'tabla')]) + '</div>'
+                                    for c, k in [(CAR, 'humo'), (BOR, 'brindis'), (BRA, 'chispas'), (MOS, 'bacon'), (CRE, 'estudio')]) + '</div>'
 tipo = (f'<div style="display:flex;gap:40px;align-items:center;justify-content:center;background:{CRE};border-radius:28px;padding:40px;width:888px;box-sizing:border-box;align-self:center">'
         f'<div style="text-align:center">{logo(BOR, 64, CAR)}</div>'
         f'<div style="font-size:24px;line-height:1.7;color:{CAR};border-left:2px solid {BRA};padding-left:36px">Títulos · <b>Archivo Black</b><br>Textos · <b>Jost</b></div></div>')
@@ -116,8 +118,8 @@ s_pal = (f'{step(2, "Paleta y <em>tipografías</em>")}<p class="cap" style="marg
 
 # 4. Estrategia
 est = '<div class="est">' + ''.join(f'<div><div class="ph" style="{ph(k, pos)}"></div><b>{t}</b><span>{d}</span></div>' for k, pos, t, d in [
-    ('chispas', 'center 40%', 'Reels', 'Fuego, humo y armado'), ('manos', 'center', 'Producto', 'Bien de cerca, que dé hambre'),
-    ('parrilla2', 'center', 'Educativo', 'Puntos de cocción y combos'), ('tabla', 'center 55%', 'Recomendación', 'La de la casa'),
+    ('chispas', 'center 40%', 'Reels', 'Fuego, humo y armado'), ('estudio', 'center 62%', 'Producto', 'Bien de cerca, que dé hambre'),
+    ('parrilla2', 'center', 'Educativo', 'Puntos de cocción y combos'), ('bacon', 'center 62%', 'Recomendación', 'La de la casa'),
     ('brindis', '62% center', 'Experiencia', 'El local y su gente'), ('senora', 'center 40%', 'Marca', 'Mascota y frases propias')]) + '</div>'
 s_est = f'{step(3, "Estrategia y <em>contenidos</em>")}{est}'
 

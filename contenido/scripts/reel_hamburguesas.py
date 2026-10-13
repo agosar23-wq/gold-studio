@@ -24,8 +24,8 @@ BOR, MOS, CREB = '#7A1F1F', '#E0A526', '#F3ECE2'
 senora = 'data:image/jpeg;base64,' + base64.b64encode(open(f'{SCR}/ilus/senora-burger.jpg', 'rb').read()).decode()
 LAYERS = {
  'hook': '<div class="c"><div style="position:absolute;left:0;right:0;bottom:0;height:900px;background:linear-gradient(transparent,rgba(12,6,4,.66))"></div><div style="position:absolute;left:80px;right:80px;bottom:300px;text-align:center;color:#FFF8EE;font-family:B;font-size:96px;line-height:1.08;text-shadow:0 4px 30px rgba(0,0,0,.55)">Así se vería el reel de <i style="color:#E0A526">Doña Rulos.</i></div></div>',
- 'marca': f'<div class="c"><div style="position:absolute;left:0;right:0;bottom:250px;text-align:center;color:{CREB};text-shadow:0 4px 30px rgba(0,0,0,.6)"><div style="font-family:A;font-size:128px;line-height:1">DOÑA RULOS</div><div style="font-size:30px;letter-spacing:.4em;margin-top:18px;color:{MOS}">HAMBURGUESAS A LA PARRILLA</div></div></div>',
- 'logo': f'<div class="c" style="background:{BOR};display:flex;flex-direction:column;align-items:center;justify-content:center;color:{CREB}"><div style="font-family:A;font-size:150px;line-height:1">DOÑA RULOS</div><div style="font-size:32px;letter-spacing:.4em;color:{MOS};margin-top:20px">HAMBURGUESAS A LA PARRILLA</div></div>',
+ 'marca': f'<div class="c"><div style="position:absolute;left:0;right:0;bottom:250px;text-align:center;color:{CREB};text-shadow:0 4px 30px rgba(0,0,0,.6)"><div style="font-family:A;font-size:118px;line-height:1;white-space:nowrap">DOÑA RULOS</div><div style="font-size:30px;letter-spacing:.4em;margin-top:18px;color:{MOS}">HAMBURGUESAS A LA PARRILLA</div></div></div>',
+ 'logo': f'<div class="c" style="background:{BOR};display:flex;flex-direction:column;align-items:center;justify-content:center;color:{CREB}"><div style="font-family:A;font-size:118px;line-height:1;white-space:nowrap">DOÑA RULOS</div><div style="font-size:32px;letter-spacing:.4em;color:{MOS};margin-top:20px">HAMBURGUESAS A LA PARRILLA</div></div>',
  'mascota': f'<div class="c" style="background:{CREB};display:flex;align-items:center;justify-content:center"><img src="{senora}" style="width:1080px;height:1350px;object-fit:cover"></div>',
  'cierre': (f'<div class="c" style="background:#FAF6EE;color:#1C1A17;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:50px;padding:0 90px;box-sizing:border-box">'
             f'<div style="width:120px;height:120px;color:#C9A34E">{SP}</div>'
@@ -86,8 +86,12 @@ def frames():
         bg.paste(im, ((W - bw) // 2, int(H / 2 - bh / 2 + (1 - s) * 260)), Image.new('L', (bw, bh), int(255 * s)))
         out.append(np.asarray(bg))
     out += clip(8477267, 3.0, .4, fx=.55)                           # la bandeja de medallones
-    for item in [(8477262, 1.5, .5), (8477405, 3.0, .45), (8477403, 2.0, .5), 'logo', (8477333, 3.0, .5), (8477329, 2.0, .4), 'mascota', (8477408, 11.0, .5)]:
+    for item in [(8477262, 1.5, .5), (8477405, 3.0, .45), ('foto', 'prod_flota'), 'logo', ('foto', 'prod_manos'), (8477329, 2.0, .4), 'mascota', ('foto', 'prod_bacon')]:
         if isinstance(item, str): out += [np.asarray(L[item].convert('RGB'))] * 4      # ráfaga: 4 cuadros (1/8 s) cada una
+        elif item[0] == 'foto':   # fotos de producto que pasó Agos (la misma hamburguesa de bacon y cheddar)
+            im = Image.open(f'{SCR}/burger/{item[1]}.jpg').convert('RGB'); iw, ih = im.size; tw = ih * 9 / 16
+            im = im.crop((int((iw - tw) / 2), 0, int((iw + tw) / 2), ih)).resize((W, H), Image.LANCZOS)
+            out += [grade(np.asarray(im))] * 4
         else: out += clip(item[0], item[1], 4 / FPS, fx=item[2])
     fin = clip(8477410, 3.5, 1.4, fx=.5)                            # hamburguesitas y cerveza + la marca
     for i, f in enumerate(fin): out.append(over(f, L['marca'], ease(min(1, max(0, (i / 41 - .15) / .4)))))
