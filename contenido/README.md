@@ -16,6 +16,7 @@ Después se usa todo igual:
 - `scratch/stories.py` (y `stories2..5.py`): historias de 1080×1920 sin emojis, con espacios vacíos para stickers.
 - `scripts/catalogo_wa3.py`: catálogo de WhatsApp Business (5 servicios × 4 imágenes de 1080×1080) con fotos reales de Pexels.
   Las fotos están en `scratch/fotos-pexels/` (el nombre es el id: pexels.com/photo/<id>) y las imágenes listas en `salidas/whatsapp-business/catalogo/`.
+- `scripts/ejemplos_fotos.py`: ejemplos del catálogo con fotos (web de Almendra, Instagram de Nácar, tienda de Ondina).
 - `scripts/marcas_ejemplo.py`: 4 marcas inventadas (Almendra, Ondina, Nácar, Nube) con logos en PNG transparente.
 - `scripts/mockups_marcas.py`: pega esos logos sobre fotos de Pexels de productos en blanco (`scratch/mock/src/`), con perspectiva y textura.
 - `scripts/carrusel_branding.py`: carrusel "¿Logo o branding?" con las 4 marcas (salida en `salidas/carruseles/logo-o-branding/`, con el texto del posteo).
@@ -36,5 +37,7 @@ Después se usa todo igual:
 - Hasta 3 hashtags por posteo.
 - No mostrar el nombre de la tía ni de su consultorio, solo el logo.
 - No poner que las marcas de ejemplo son inventadas (ni en las imágenes ni en el texto).
+- Fotos con personas: siempre la misma chica (la diseñadora con tableta, fotos de Pexels 7147695 a 7147724). El resto, fotos de objetos sin gente. Nada de chicas distintas.
+- Los ejemplos de páginas, tiendas y perfiles van con fotos reales: tienen que vender (llamativos y prolijos).
 - Reels a la velocidad original (no más rápidos) y con sonidos que se escuchen.
 - Horarios: reels 10:00, carruseles 18:00, domingos 18:30.

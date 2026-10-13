@@ -77,32 +77,34 @@ def como(pid, pos):
             '<div class="pill" style="font-size:26px;padding:16px 30px">Escribime ✦</div></div></div>'
             f'<div class="pic">{foto(pid, pos)}<div class="frame" style="inset:24px"></div></div></div></div>')
 
+import ejemplos_fotos as E   # ejemplos con fotos reales (web Almendra, IG Nácar, tienda Ondina)
+# Personas: una sola sesión (la diseñadora con tableta, fotos 71476xx-71477xx). El resto, objetos sin gente.
 ITEMS = [  # carpeta, nombre, portada, incluye, ejemplo, como
  ('01-pagina-web', 'Página web',
   ('8472383', '50% 50%', 'Paquete', 'Página <em>web</em>', ['Diseño a medida', 'Botón a WhatsApp', 'Perfecta en el celular', 'La publico por vos']),
-  ('3756681', '68% 50%', C2.ITEMS[0][3]),
-  ('4402584', '50% 50%', 'Así se ve <em>en compu y celu</em>', C2.web_ex, 'Ejemplo de página web para una joyería.', .86),
-  ('5029146', '45% 40%')),
+  ('7147695', '30% 50%', C2.ITEMS[0][3]),
+  ('4402584', '50% 50%', 'Así se ve <em>en compu y celu</em>', E.web_ex, 'Ejemplo de página web para una pastelería.', .9),
+  ('7147710', '78% 50%')),
  ('02-branding', 'Branding y logo',
   ('7598017', '50% 50%', 'Paquete', 'Branding <em>y logo</em>', ['Logo y variantes', 'Colores y tipografías', 'Foto de perfil', 'Portadas']),
-  ('4466176', '50% 50%', C2.ITEMS[1][3]),
-  ('3831861', '50% 50%', 'Una marca <em>completa</em>', BRAND_GRID, 'Logo, colores y packaging de 4 marcas distintas.', 1),
-  ('7598023', '50% 50%')),
+  ('7147719', '45% 50%', C2.ITEMS[1][3]),
+  ('7598019', '50% 50%', 'Una marca <em>completa</em>', BRAND_GRID, 'Logo, colores y packaging de 4 marcas distintas.', 1),
+  ('7147701', '50% 50%')),
  ('03-community-manager', 'Community manager',
-  ('17557115', '45% 50%', 'Paquete', 'Community <em>manager</em>', ['Plan mensual', 'Posteos e historias', 'Textos', 'Resumen del mes']),
-  ('14920164', '50% 40%', C2.ITEMS[2][3]),
-  ('28976909', '50% 50%', 'Tu perfil, <em>siempre lindo</em>', C2.cm_ex, 'Ejemplo de perfil e historia para una joyería.', .86),
-  ('3874627', '50% 50%')),
+  ('6177685', '50% 45%', 'Paquete', 'Community <em>manager</em>', ['Plan mensual', 'Posteos e historias', 'Textos', 'Resumen del mes']),
+  ('7147706', '50% 50%', C2.ITEMS[2][3]),
+  ('30234381', '50% 50%', 'Tu perfil, <em>siempre lindo</em>', E.cm_ex, 'Ejemplo de perfil e historia para un spa.', .86),
+  ('7147705', '40% 50%')),
  ('04-app-a-medida', 'App a medida',
-  ('20044366', '50% 55%', 'A medida', 'Apps <em>a medida</em>', ['Turnos', 'Clientes con su cuenta', 'Panel para vos', 'Compu y celular']),
-  ('4549410', '50% 50%', C2.ITEMS[3][3]),
-  ('30234387', '50% 50%', 'Una app <em>real</em>', C2.app_ex, 'App hecha para un consultorio de nutrición (datos de prueba).', .86),
-  ('3756679', '62% 50%')),
+  ('30234387', '50% 50%', 'A medida', 'Apps <em>a medida</em>', ['Turnos', 'Clientes con su cuenta', 'Panel para vos', 'Compu y celular']),
+  ('7147697', '55% 50%', C2.ITEMS[3][3]),
+  ('30234382', '50% 50%', 'Una app <em>real</em>', C2.app_ex, 'App hecha para un consultorio de nutrición (datos de prueba).', .86),
+  ('7147708', '40% 50%')),
  ('05-tienda-online', 'Tienda online',
-  ('7289733', '50% 30%', 'A medida', 'Tienda <em>online</em>', ['Catálogo y carrito', 'Pagos online', 'Envíos', 'Fácil de actualizar']),
-  ('7857523', '72% 50%', C2.ITEMS[4][3]),
-  ('6237886', '50% 50%', 'Vendé <em>las 24 horas</em>', C2.shop_ex, 'Ejemplo de tienda para un pet shop.', .86),
-  ('7289740', '50% 50%')),
+  ('5706271', '50% 50%', 'A medida', 'Tienda <em>online</em>', ['Catálogo y carrito', 'Pagos online', 'Envíos', 'Fácil de actualizar']),
+  ('5706270', '40% 50%', C2.ITEMS[4][3]),
+  ('5706275', '50% 50%', 'Vendé <em>las 24 horas</em>', E.shop_ex, 'Ejemplo de tienda para una marca de ropa.', .86),
+  ('7147711', '58% 50%')),
 ]
 CREDITOS = 'Fotos de Pexels (pexels.com/photo/<id>), licencia libre de Pexels.'
 
