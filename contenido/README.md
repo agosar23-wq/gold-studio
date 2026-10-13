@@ -37,7 +37,7 @@ Después se usa todo igual:
 - Hasta 3 hashtags por posteo.
 - No mostrar el nombre de la tía ni de su consultorio, solo el logo.
 - No poner que las marcas de ejemplo son inventadas (ni en las imágenes ni en el texto).
-- Fotos sin personas (ni caras ni manos): solo objetos, escritorios, papelería, ropa y mockups, todo en la misma línea de colores.
+- Fotos sin personas (sin caras). Las manos sí se pueden. Objetos, escritorios, papelería, ropa y mockups, todo en la misma línea de colores.
 - Los ejemplos de páginas, tiendas y perfiles van con fotos reales: tienen que vender (llamativos y prolijos).
 - Reels a la velocidad original (no más rápidos) y con sonidos que se escuchen.
 - Horarios: reels 10:00, carruseles 18:00, domingos 18:30.
