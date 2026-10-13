@@ -1,5 +1,5 @@
-"""Reel estilo 'montaje aesthetic' de cafetería para Tostado (marca de ejemplo): tomas lentas, transición con recuadro,
-ráfaga de fotos al ritmo y cierre de Gold Studio. Fotos de la misma sesión de Pexels (scratch/hd), 1080×1920 a 30 fps."""
+"""Reel estilo 'montaje aesthetic' de cafetería para Tostado (marca de ejemplo): clips cortos de video, transición con recuadro,
+ráfaga al ritmo y cierre de Gold Studio. Clips de la misma sesión de Pexels (cottonbro, scratch/clips), 1080×1920 a 30 fps."""
 import os, sys, base64, subprocess, wave
 import numpy as np
 from PIL import Image, ImageFilter
@@ -41,79 +41,62 @@ def render_layers():
     subprocess.run(['node', f'{WORK}/l.js'], check=True, env=dict(os.environ, NODE_PATH='/opt/node22/lib/node_modules'))
     return {k: Image.open(f'{WORK}/{k}.png').convert('RGBA') for k in LAYERS}
 
-# ---------- fotos con el mismo color dorado ----------
-def grade(im):
-    a = np.asarray(im.convert('RGB')).astype(np.float32) / 255
-    a = a * np.array([1.07, 1.0, 0.84]) + np.array([.02, .01, -.01])          # cálido/dorado
-    a = np.clip((a - .5) * 1.08 + .5, 0, 1)                                       # un poco de contraste
-    yy, xx = np.mgrid[0:a.shape[0], 0:a.shape[1]]
-    v = 1 - .35 * (((xx / a.shape[1] - .5) ** 2 + (yy / a.shape[0] - .5) ** 2) / .5)  # viñeta suave
-    return Image.fromarray((np.clip(a * v[..., None], 0, 1) * 255).astype('uint8'))
-_cache = {}
-def photo(pid, fx=.5, fy=.5):
-    """Recorte 9:16 grande (para poder hacer zoom) con el color aplicado."""
-    key = (pid, fx, fy)
-    if key not in _cache:
-        im = Image.open(f'{HD}/{pid}.jpg')
-        iw, ih = im.size; tw = ih * 9 / 16
-        if tw <= iw: box = (int((iw - tw) * fx), 0, int((iw - tw) * fx + tw), ih)
-        else:
-            th = iw * 16 / 9; box = (0, int((ih - th) * fy), iw, int((ih - th) * fy + th))
-        _cache[key] = grade(im.crop(box).resize((int(W * 1.25), int(H * 1.25)), Image.LANCZOS))
-    return _cache[key]
-def kb(im, p, z0=1.0, z1=1.08, dx=0, dy=0):
-    """Ken Burns: zoom de z0 a z1 (p de 0 a 1) con un leve desplazamiento."""
-    z = z0 + (z1 - z0) * p
-    bw, bh = im.size; cw, ch = W * 1.25 / z / 1.25 * 1.0, H / z
-    cw = bw / 1.25 / z; ch = bh / 1.25 / z
-    cx = bw / 2 + dx * p * bw; cy = bh / 2 + dy * p * bh
-    return im.crop((int(cx - cw / 2), int(cy - ch / 2), int(cx + cw / 2), int(cy + ch / 2))).resize((W, H), Image.BILINEAR)
+# ---------- clips de video con el mismo color dorado ----------
+CL = f'{SCR}/clips'
+FFX = imageio_ffmpeg.get_ffmpeg_exe()
+_yy, _xx = np.mgrid[0:H, 0:W]
+VIG = (1 - .35 * (((_xx / W - .5) ** 2 + (_yy / H - .5) ** 2) / .5))[..., None].astype(np.float32)
+def grade(a):
+    a = a.astype(np.float32) / 255
+    a = a * np.array([1.07, 1.0, 0.84], np.float32) + np.array([.02, .01, -.01], np.float32)
+    a = np.clip((a - .5) * 1.08 + .5, 0, 1) * VIG
+    return (a * 255).astype(np.uint8)
+def clip(cid, start, dur, fx=.5, zoom=1.0):
+    """Lee un tramo del clip ya recortado a 9:16 (fx = dónde cortar en los horizontales) y con el color aplicado."""
+    n = int(round(dur * FPS))
+    sw, sh = int(W * zoom), int(H * zoom)
+    vf = (f"scale='if(gt(a,{W}/{H}),-2,{sw})':'if(gt(a,{W}/{H}),{sh},-2)',"
+          f"crop={sw}:{sh}:'(in_w-{sw})*{fx}':'(in_h-{sh})/2',scale={W}:{H},fps={FPS}")
+    raw = subprocess.run([FFX, '-loglevel', 'error', '-ss', str(start), '-i', f'{CL}/{cid}.mp4', '-t', str(dur + .2), '-vf', vf,
+                          '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], capture_output=True, check=True).stdout
+    fr = np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)[:n]
+    if len(fr) < n: fr = np.concatenate([fr, np.repeat(fr[-1:], n - len(fr), 0)])
+    return [grade(f) for f in fr]
 ease = lambda p: p * p * (3 - 2 * p)
+def over(base, layer, alpha=1.0, dy=0):
+    im = Image.fromarray(base).convert('RGBA'); l = layer
+    if alpha < 1: l = layer.copy(); l.putalpha(l.getchannel('A').point(lambda v: int(v * alpha)))
+    im.alpha_composite(l, (0, dy)) if dy >= 0 else im.alpha_composite(l.crop((0, -dy, W, H)), (0, 0))
+    return np.asarray(im.convert('RGB'))
 
-# ---------- línea de tiempo ----------
+# ---------- línea de tiempo (como el video de referencia) ----------
 L = render_layers()
-SHOTS = [  # (inicio, fin, tipo, datos)
-    (0.00, 1.00, 'kb', dict(pid=4792683, z0=1.0, z1=1.09, dy=-.02)),
-    (1.00, 2.00, 'kb', dict(pid=4792700, z0=1.04, z1=1.12, fy=.4)),
-    (2.00, 2.62, 'inset', dict(bg=4792700, pid=4792692)),
-    (2.62, 3.00, 'kb', dict(pid=4792693, z0=1.0, z1=1.05)),
-]
-FLASH = [('p', 4792689, .45), ('p', 4792694, .5), ('p', 4792695, .6), ('logo',), ('p', 4792685, .5), ('p', 4792696, .45), ('nutria',), ('p', 4792684, .4)]
-for i, f in enumerate(FLASH):
-    SHOTS.append((3.0 + i * .125, 3.125 + i * .125, 'flash', f))
-SHOTS += [(4.00, 5.40, 'final', dict(pid=4792699)), (5.40, 7.40, 'cierre', {})]
-TOTAL = 7.4
-
-def frame(t):
-    for (a, b, k, d) in SHOTS:
-        if a <= t < b: break
-    p = (t - a) / (b - a)
-    if k == 'kb':
-        img = kb(photo(d['pid'], fy=d.get('fy', .5)), ease(p), d.get('z0', 1), d.get('z1', 1.08), dy=d.get('dy', 0)).convert('RGBA')
-    elif k == 'inset':      # la toma siguiente aparece en un recuadro sobre la anterior
-        img = kb(photo(d['bg'], fy=.4), 1, 1.12, 1.16).convert('RGBA')
-        img = Image.blend(img, Image.new('RGBA', img.size, (20, 12, 8, 255)), .25)
-        s = ease(min(1, p * 2.2)); bw, bh = int(560 + 60 * p), int(840 + 90 * p)
-        ins = kb(photo(d['pid']), p, 1.05, 1.0).resize((bw, bh))
-        y = int(H / 2 - bh / 2 + (1 - s) * 260)
-        mask = Image.new('L', (bw, bh), int(255 * s))
-        img.paste(ins, ((W - bw) // 2, y), mask)
-    elif k == 'flash':
-        img = L[d[0]].copy() if d[0] in ('logo', 'nutria') else kb(photo(d[1], fx=d[2]), p, 1.03, 1.06).convert('RGBA')
-    elif k == 'final':
-        img = kb(photo(d['pid'], fy=.55), ease(p), 1.0, 1.07).convert('RGBA')
-        m = L['marca'].copy(); m.putalpha(m.getchannel('A').point(lambda v: int(v * ease(min(1, max(0, (p - .15) / .4))))))
-        img.alpha_composite(m)
-    else:                   # cierre de Gold Studio: entra desde abajo
-        img = Image.new('RGBA', (W, H), (250, 246, 238, 255))
-        s = ease(min(1, p / .18)); off = int((1 - s) * 140)
-        c = L['cierre'].copy(); c.putalpha(c.getchannel('A').point(lambda v: int(v * s)))
-        img.alpha_composite(c, (0, off)) if off else img.alpha_composite(c)
-    if t < 1.9:             # hook en pantalla desde el segundo 0
-        al = min(1, t / .25) * (1 if t < 1.6 else max(0, (1.9 - t) / .3))
-        h = L['hook'].copy(); h.putalpha(h.getchannel('A').point(lambda v: int(v * al)))
-        img.alpha_composite(h)
-    return img.convert('RGB')
+TOTAL = 7.6
+def frames():
+    out = []
+    out += clip(4796951, .3, 1.2)                                   # espresso cayendo
+    b = clip(4795024, 11.4, 1.6, fx=.62)                           # pava sirviendo el filtro (sigue de fondo en el recuadro)
+    out += b[:30]
+    ins = clip(4796954, 24.0, .6, zoom=1.0)                         # latte art que aparece en un recuadro
+    for i in range(18):
+        p = i / 17; s = ease(min(1, p * 2.2)); bw, bh = int(560 + 60 * p), int(840 + 90 * p)
+        bg = Image.fromarray((b[30 + i].astype(np.float32) * .75).astype(np.uint8))
+        im = Image.fromarray(ins[i]).resize((bw, bh))
+        bg.paste(im, ((W - bw) // 2, int(H / 2 - bh / 2 + (1 - s) * 260)), Image.new('L', (bw, bh), int(255 * s)))
+        out.append(np.asarray(bg))
+    out += clip(4796959, 13.0, .4, fx=.5)                           # latte art desde arriba
+    for item in [(4795018, 17.0, .3), (4796951, 2.0, .5), (4795015, 4.0, .5), 'logo', (4796949, 4.0, .5), (4796962, 8.0, .5), 'nutria', (4795016, 15.0, .72)]:
+        if isinstance(item, str): out += [np.asarray(L[item].convert('RGB'))] * 4      # ráfaga: 4 cuadros (1/8 s) cada una
+        else: out += clip(item[0], item[1], 4 / FPS, fx=item[2])
+    fin = clip(4796959, 23.0, 1.4, fx=.5)                           # latte art terminado (desde arriba) + la marca
+    for i, f in enumerate(fin): out.append(over(f, L['marca'], ease(min(1, max(0, (i / 41 - .15) / .4)))))
+    blank = np.full((H, W, 3), (250, 246, 238), np.uint8)           # cierre de Gold Studio
+    for i in range(int(2.0 * FPS)):
+        p = i / (2.0 * FPS); s = ease(min(1, p / .18)); out.append(over(blank, L['cierre'], s, int((1 - s) * 140)))
+    for i in range(int(1.9 * FPS)):                                 # hook en pantalla desde el segundo 0
+        t = i / FPS; al = min(1, t / .25) * (1 if t < 1.6 else max(0, (1.9 - t) / .3))
+        out[i] = over(out[i], L['hook'], al)
+    return out
 
 # ---------- sonido: base suave al ritmo + efectos en cada corte ----------
 def audio(path):
@@ -123,11 +106,11 @@ def audio(path):
     tt = np.arange(int(sr * .35)) / sr
     kick = np.sin(2 * np.pi * (55 + 90 * np.exp(-tt * 30)) * tt) * np.exp(-tt * 9) * .8
     hat = np.random.default_rng(3).standard_normal(int(sr * .05)) * np.exp(-np.arange(int(sr * .05)) / sr * 90) * .12
-    for k in range(int(5.4 / .5)): put(kick, k * .5)
-    for k in range(int(5.4 / .25)): put(hat, k * .25 + .125)
-    put(RG.whoosh(.35), .9); put(RG.whoosh(.4, 300, 2400, .35), 1.9); put(RG.tap(.3), 2.62)
-    for i in range(8): put(RG.tick(.09), 3.0 + i * .125)
-    put(RG.boom(.6), 4.0); put(RG.whoosh(.45), 5.25); put(RG.chime(.25), 5.5)
+    for k in range(int(5.6 / .5)): put(kick, k * .5 + .2)
+    for k in range(int(5.6 / .25)): put(hat, k * .25 + .325)
+    put(RG.whoosh(.35), 1.05); put(RG.whoosh(.4, 300, 2400, .35), 2.1); put(RG.tap(.3), 2.8)
+    for i in range(8): put(RG.tick(.09), 3.2 + i * .125)
+    put(RG.boom(.6), 4.2); put(RG.whoosh(.45), 5.45); put(RG.chime(.25), 5.7)
     pad_t = np.arange(n) / sr   # colchón cálido de fondo
     pad = sum(np.sin(2 * np.pi * f * pad_t) for f in (130.8, 164.8, 196.0)) * .035 * np.clip(pad_t / .4, 0, 1) * np.clip((TOTAL - pad_t) / .6, 0, 1)
     mix = mix + pad
@@ -141,8 +124,8 @@ def build(name='reel-tostado-cafe'):
     proc = subprocess.Popen([ff, '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                              '-i', wav, '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '19', '-preset', 'medium', '-c:a', 'aac', '-b:a', '160k',
                              '-shortest', '-movflags', '+faststart', out], stdin=subprocess.PIPE)
-    for i in range(int(TOTAL * FPS)):
-        proc.stdin.write(frame(i / FPS).tobytes())
+    for f in frames():
+        proc.stdin.write(np.ascontiguousarray(f).tobytes())
     proc.stdin.close(); proc.wait()
     return out
 
