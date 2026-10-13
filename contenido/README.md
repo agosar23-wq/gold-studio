@@ -22,6 +22,8 @@ Después se usa todo igual:
 - `scripts/carrusel_branding.py`: carrusel "¿Logo o branding?" con las 4 marcas (salida en `salidas/carruseles/logo-o-branding/`, con el texto del posteo).
 - `scripts/reel_marca_completa.py`: reel "Así se ve una marca completa" con Almendra y las otras marcas (salida en `salidas/reels/`).
 - `scripts/reel_fotos.py`: reel con fotos a pantalla completa "Todo lo que tu marca necesita" (fotos en `scratch/reelfotos/`).
+- `scripts/reel_fotos_edit.py`: versión editada del reel con fotos (transiciones, pulso al ritmo, destellos y grano).
+- `scripts/musica.py`: música original sintetizada (house suave 120 BPM, sin derechos) para usar en reels.
 - `scripts/mocks.py`, `pack.py`, `mascota.py`, `yogi.py`, `ilus_cafe.py`: dibujos y maquetas reutilizables.
 - `scripts/semana*.py`: lo que ya se publicó, como ejemplo.
 - `marca/`: logos, foto de perfil y paleta.
