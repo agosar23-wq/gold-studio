@@ -16,6 +16,9 @@ Después se usa todo igual:
 - `scratch/stories.py` (y `stories2..5.py`): historias de 1080×1920 sin emojis, con espacios vacíos para stickers.
 - `scripts/catalogo_wa3.py`: catálogo de WhatsApp Business (5 servicios × 4 imágenes de 1080×1080) con fotos reales de Pexels.
   Las fotos están en `scratch/fotos-pexels/` (el nombre es el id: pexels.com/photo/<id>) y las imágenes listas en `salidas/whatsapp-business/catalogo/`.
+- `scripts/marcas_ejemplo.py`: 4 marcas inventadas (Almendra, Ondina, Nácar, Nube) con logos en PNG transparente.
+- `scripts/mockups_marcas.py`: pega esos logos sobre fotos de Pexels de productos en blanco (`scratch/mock/src/`), con perspectiva y textura.
+- `scripts/carrusel_branding.py`: carrusel "¿Logo o branding?" con las 4 marcas (salida en `salidas/carruseles/logo-o-branding/`, con el texto del posteo).
 - `scripts/mocks.py`, `pack.py`, `mascota.py`, `yogi.py`, `ilus_cafe.py`: dibujos y maquetas reutilizables.
 - `scripts/semana*.py`: lo que ya se publicó, como ejemplo.
 - `marca/`: logos, foto de perfil y paleta.

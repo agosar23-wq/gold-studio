@@ -3,6 +3,11 @@ import sys, os, subprocess, shutil; sys.path.insert(0, '/home/user/gold-studio-c
 from carogen import CSS, SP, SCR, CHECK
 import catalogo_wa as C1
 import catalogo_wa2 as C2   # ejemplos (web_ex, brand_ex, cm_ex, app_ex, shop_ex)
+from mockups_marcas import OUT as MK   # mockups de las marcas de ejemplo (carrusel_branding)
+BRAND_GRID = ('<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;width:900px;height:600px">' +
+              ''.join(f'<div style="position:relative;overflow:hidden;border-radius:18px;box-shadow:0 24px 40px -26px rgba(0,0,0,.6)">'
+                      f'<img src="file://{MK}{n}.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{p}"></div>'
+                      for n, p in [('almendra-bolsa', '50% 55%'), ('ondina-etiqueta', '50% 50%'), ('nacar-bolsas', '55% 50%'), ('nube-caja', '50% 50%')]) + '</div>')
 
 OUT = '/home/user/gold-studio-final/whatsapp-business/catalogo'
 FOTOS = SCR + '/fotos-pexels/'   # fotos de Pexels (licencia libre), nombre = id de la foto
@@ -81,7 +86,7 @@ ITEMS = [  # carpeta, nombre, portada, incluye, ejemplo, como
  ('02-branding', 'Branding y logo',
   ('7598017', '50% 50%', 'Paquete', 'Branding <em>y logo</em>', ['Logo y variantes', 'Colores y tipografías', 'Foto de perfil', 'Portadas']),
   ('4466176', '50% 50%', C2.ITEMS[1][3]),
-  ('3831861', '50% 50%', 'Una marca <em>completa</em>', C2.brand_ex, 'Ejemplo de identidad para un estudio de yoga (marca inventada).', .9),
+  ('3831861', '50% 50%', 'Una marca <em>completa</em>', BRAND_GRID, 'Logo, colores y packaging de 4 marcas inventadas.', 1),
   ('7598023', '50% 50%')),
  ('03-community-manager', 'Community manager',
   ('17557115', '45% 50%', 'Paquete', 'Community <em>manager</em>', ['Plan mensual', 'Posteos e historias', 'Textos', 'Resumen del mes']),
