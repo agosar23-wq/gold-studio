@@ -12,8 +12,8 @@ PX = {k: _img(i) for k, i in {
     # Fotos de producto que pasó Agos: la misma hamburguesa de bacon y cheddar en distintas escenas
     'estudio': 'prod_estudio', 'flota': 'prod_flota', 'local': 'prod_local', 'manos2': 'prod_manos', 'bacon': 'prod_bacon',
 }.items()}
-# Mascota (ilustración de línea hecha con Canva): la señora de los ruleros sentada arriba de una hamburguesa doble
-PX['senora'] = 'data:image/jpeg;base64,' + base64.b64encode(open(f'{SCR}/ilus/senora-burger.jpg', 'rb').read()).decode()
+# Mascota (ilustración de línea hecha con Canva y limpiada): la señora de los ruleros levantando una hamburguesa como trofeo
+PX['senora'] = 'data:image/png;base64,' + base64.b64encode(open(f'{SCR}/ilus/senora-trofeo.png', 'rb').read()).decode()
 CAR, BOR, MOS, CRE, BRA = '#1C1714', '#7A1F1F', '#E0A526', '#F3ECE2', '#C2502A'
 
 EXT = f'''
@@ -63,7 +63,7 @@ def mascota_svg(texto=True):
     t = (f'<text x="60" y="110" font-family="XArchivo" font-size="54" fill="{BOR}">DOÑA RULOS</text>'
          f'<text x="568" y="1310" text-anchor="middle" font-family="XArchivo" font-size="112" fill="{BOR}">PEDÍ LA DOBLE.</text>') if texto else ''
     return (f'<svg viewBox="0 0 1136 1400" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%">'
-            f'<rect width="1136" height="1400" fill="#F3ECE2"/><image href="{PX["senora"]}" x="0" y="0" width="1136" height="1400" preserveAspectRatio="xMidYMid slice"/>{t}</svg>')
+            f'<rect width="1136" height="1400" fill="#F3ECE2"/><image href="{PX["senora"]}" x="96" y="60" width="944" height="1179"/>{t}</svg>')
 def p_mascota():
     return f'<div class="post">{mascota_svg()}</div>'
 def p_reco():

@@ -21,7 +21,7 @@ CSS = f'''@font-face{{font-family:B;src:url({F}bodoni-moda/files/bodoni-moda-lat
 @font-face{{font-family:A;src:url({F}archivo-black/files/archivo-black-latin-400-normal.woff2)}}
 body{{margin:0;background:transparent}} .c{{width:{W}px;height:{H}px;position:relative;overflow:hidden;font-family:J}}'''
 BOR, MOS, CREB = '#7A1F1F', '#E0A526', '#F3ECE2'
-senora = 'data:image/jpeg;base64,' + base64.b64encode(open(f'{SCR}/ilus/senora-burger.jpg', 'rb').read()).decode()
+senora = 'data:image/png;base64,' + base64.b64encode(open(f'{SCR}/ilus/senora-trofeo.png', 'rb').read()).decode()
 LAYERS = {
  'hook': '<div class="c"><div style="position:absolute;left:0;right:0;bottom:0;height:900px;background:linear-gradient(transparent,rgba(12,6,4,.66))"></div><div style="position:absolute;left:80px;right:80px;bottom:300px;text-align:center;color:#FFF8EE;font-family:B;font-size:96px;line-height:1.08;text-shadow:0 4px 30px rgba(0,0,0,.55)">Así se vería el reel de <i style="color:#E0A526">Doña Rulos.</i></div></div>',
  'marca': f'<div class="c"><div style="position:absolute;left:0;right:0;bottom:250px;text-align:center;color:{CREB};text-shadow:0 4px 30px rgba(0,0,0,.6)"><div style="font-family:A;font-size:118px;line-height:1;white-space:nowrap">DOÑA RULOS</div><div style="font-size:30px;letter-spacing:.4em;margin-top:18px;color:{MOS}">HAMBURGUESAS A LA PARRILLA</div></div></div>',

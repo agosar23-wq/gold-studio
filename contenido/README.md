@@ -17,7 +17,7 @@ Después se usa todo igual:
 - `scripts/caro_ejemplos.py`: carruseles de 1080×1350 (`render(nombre, láminas, css_extra)`).
 - `scratch/stories.py` (y `stories2..5.py`): historias de 1080×1920 sin emojis, con espacios vacíos para stickers.
 - `scripts/mocks.py`, `pack.py`, `mascota.py`, `yogi.py`, `ilus_cafe.py`: dibujos y maquetas reutilizables.
-- `scratch/ilus/`: ilustraciones de línea hechas con Canva: la nutria en la taza (mascota de Tostado), la señora con ruleros en la taza (reservada para la hamburguesería) y la mujer de rulos en salvavidas recortada (`mujer1..3.png`).
+- `scratch/ilus/`: ilustraciones de línea hechas con Canva: la nutria en la taza (mascota de Tostado), la señora con ruleros en la taza y Doña Rulos con la hamburguesa como trofeo (`senora-trofeo.png`, limpiada con `scripts/limpiar_ilustracion.py`) y la mujer de rulos en salvavidas recortada (`mujer1..3.png`).
 - `scripts/semana*.py`: lo que ya se publicó, como ejemplo.
 - `marca/`: logos, foto de perfil y paleta.
 - `scratch/pexels/`: fotos reales de Pexels (cafetería) que usa `carrusel_feed_cafe.py`.
