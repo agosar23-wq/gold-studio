@@ -27,6 +27,8 @@ LAYERS = {
  'marca': f'<div class="c"><div style="position:absolute;left:0;right:0;bottom:250px;text-align:center;color:{CREB};text-shadow:0 4px 30px rgba(0,0,0,.6)"><div style="font-family:A;font-size:118px;line-height:1;white-space:nowrap">DOÑA RULOS</div><div style="font-size:30px;letter-spacing:.4em;margin-top:18px;color:{MOS}">HAMBURGUESAS A LA PARRILLA</div></div></div>',
  'logo': f'<div class="c" style="background:{BOR};display:flex;flex-direction:column;align-items:center;justify-content:center;color:{CREB}"><div style="font-family:A;font-size:118px;line-height:1;white-space:nowrap">DOÑA RULOS</div><div style="font-size:32px;letter-spacing:.4em;color:{MOS};margin-top:20px">HAMBURGUESAS A LA PARRILLA</div></div>',
  'mascota': f'<div class="c" style="background:{CREB};display:flex;align-items:center;justify-content:center"><img src="{senora}" style="width:1080px;height:1350px;object-fit:cover"></div>',
+ **{f'w_{w.lower()}': f'<div class="c"><div style="position:absolute;left:0;right:0;top:{y}px;text-align:center;font-family:A;font-size:150px;line-height:1;color:{CREB};text-shadow:0 7px 0 {BOR},0 10px 40px rgba(0,0,0,.6)">{w}.</div></div>'
+    for w, y in [('BACON', 1250), ('CHEDDAR', 1420), ('FUEGO', 1590)]},
  'cierre': (f'<div class="c" style="background:#FAF6EE;color:#1C1A17;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:50px;padding:0 90px;box-sizing:border-box">'
             f'<div style="width:120px;height:120px;color:#C9A34E">{SP}</div>'
             f'<div style="font-family:B;font-size:112px;line-height:1.06">¿Querés un reel así para <i style="color:#8A6A22">tu marca?</i></div>'
@@ -72,74 +74,105 @@ def over(base, layer, alpha=1.0, dy=0):
 
 # ---------- línea de tiempo (como el video de referencia) ----------
 L = render_layers()
-TOTAL = 7.6
-def frames():
+BEAT = 60 / 100                                                    # 100 bpm: un corte por golpe
+TOTAL = 8.6
+def punch(fr, k=.07):
+    """Golpe de zoom al entrar cada toma (arranca un poco más cerca y se acomoda)."""
     out = []
-    out += clip(8477334, 3.5, 1.2, fx=.45)                          # llamas con la pinza
-    b = clip(8477263, 2.0, 1.6, fx=.5)                             # la parrilla prendida (sigue de fondo en el recuadro)
-    out += b[:30]
-    ins = clip(8477404, 5.0, .6, fx=.6)                             # armado de las hamburguesas, en un recuadro
-    for i in range(18):
-        p = i / 17; s = ease(min(1, p * 2.2)); bw, bh = int(560 + 60 * p), int(840 + 90 * p)
-        bg = Image.fromarray((b[30 + i].astype(np.float32) * .75).astype(np.uint8))
-        im = Image.fromarray(ins[i]).resize((bw, bh))
-        bg.paste(im, ((W - bw) // 2, int(H / 2 - bh / 2 + (1 - s) * 260)), Image.new('L', (bw, bh), int(255 * s)))
-        out.append(np.asarray(bg))
-    out += clip(8477267, 3.0, .4, fx=.55)                           # la bandeja de medallones
-    for item in [(8477262, 1.5, .5), (8477405, 3.0, .45), ('foto', 'prod_flota'), 'logo', ('foto', 'prod_manos'), (8477329, 2.0, .4), 'mascota', ('foto', 'prod_bacon')]:
-        if isinstance(item, str): out += [np.asarray(L[item].convert('RGB'))] * 4      # ráfaga: 4 cuadros (1/8 s) cada una
-        elif item[0] == 'foto':   # fotos de producto que pasó Agos (la misma hamburguesa de bacon y cheddar)
-            im = Image.open(f'{SCR}/burger/{item[1]}.jpg').convert('RGB'); iw, ih = im.size; tw = ih * 9 / 16
-            im = im.crop((int((iw - tw) / 2), 0, int((iw + tw) / 2), ih)).resize((W, H), Image.LANCZOS)
-            out += [grade(np.asarray(im))] * 4
-        else: out += clip(item[0], item[1], 4 / FPS, fx=item[2])
-    fin = clip(8477410, 3.5, 1.4, fx=.5)                            # hamburguesitas y cerveza + la marca
-    for i, f in enumerate(fin): out.append(over(f, L['marca'], ease(min(1, max(0, (i / 41 - .15) / .4)))))
-    blank = np.full((H, W, 3), (250, 246, 238), np.uint8)           # cierre de Gold Studio
-    for i in range(int(2.0 * FPS)):
-        p = i / (2.0 * FPS); s = ease(min(1, p / .18)); out.append(over(blank, L['cierre'], s, int((1 - s) * 140)))
-    for i in range(int(1.9 * FPS)):                                 # hook en pantalla desde el segundo 0
-        t = i / FPS; al = min(1, t / .25) * (1 if t < 1.6 else max(0, (1.9 - t) / .3))
+    for i, f in enumerate(fr):
+        z = 1 + k * max(0, 1 - i / 6) ** 2
+        if z > 1.001:
+            im = Image.fromarray(f); cw, ch = int(W / z), int(H / z)
+            f = np.asarray(im.crop(((W - cw) // 2, (H - ch) // 2, (W - cw) // 2 + cw, (H - ch) // 2 + ch)).resize((W, H)))
+        out.append(f)
+    return out
+def foto(name, n, z0=1.0, z1=1.0):
+    im = Image.open(f'{SCR}/burger/{name}.jpg').convert('RGB'); iw, ih = im.size; tw = ih * 9 / 16
+    im = grade(np.asarray(im.crop((int((iw - tw) / 2), 0, int((iw + tw) / 2), ih)).resize((W, H), Image.LANCZOS)))
+    if z0 == z1: return [im] * n
+    out = []
+    for i in range(n):
+        z = z0 + (z1 - z0) * i / max(1, n - 1); cw, ch = int(W / z), int(H / z)
+        out.append(np.asarray(Image.fromarray(im).crop(((W - cw) // 2, (H - ch) // 2, (W - cw) // 2 + cw, (H - ch) // 2 + ch)).resize((W, H))))
+    return out
+def frames():
+    nb = lambda b: int(round(b * BEAT * FPS))                          # cuadros de b golpes
+    out = []
+    out += punch(clip(8477334, 3.5, 2 * BEAT, fx=.45))                # llamas con la pinza (2 golpes)
+    out += punch(clip(8477329, 2.0, BEAT, fx=.4))                     # la parrilla con la carne
+    out += punch(clip(8477267, 3.0, BEAT, fx=.55))                    # la bandeja de medallones
+    out += punch(clip(8477404, 5.0, BEAT, fx=.6))                     # el armado
+    out += punch(clip(8477405, 3.0, BEAT, fx=.45))                    # la rúcula arriba
+    r = []                                                             # ráfaga: 8 tomas en 2 golpes
+    for item in [('foto', 'prod_flota'), (8477262, 1.5, .5), ('foto', 'prod_manos'), 'logo', (8477403, 2.0, .5), 'mascota', ('foto', 'prod_bacon'), (8477408, 11.0, .5)]:
+        n = nb(.25)
+        if isinstance(item, str): r += [np.asarray(L[item].convert('RGB'))] * n
+        elif item[0] == 'foto': r += foto(item[1], n)
+        else: r += clip(item[0], item[1], n / FPS, fx=item[2])
+    out += r
+    hero = foto('prod_flota', nb(3), 1.0, 1.1)                         # la hamburguesa flotando + palabras al golpe
+    words = ['w_bacon', 'w_cheddar', 'w_fuego']
+    for i, f in enumerate(hero):
+        for k, w in enumerate(words):
+            t0 = nb(k)
+            if i >= t0:
+                p = min(1, (i - t0) / 3); dy = int((1 - ease(p)) * -60)
+                f = over(f, L[w], ease(p), dy)
+        out.append(f)
+    fin = punch(clip(8477410, 3.5, 2 * BEAT, fx=.5))                  # hamburguesitas y cerveza + la marca
+    for i, f in enumerate(fin): out.append(over(f, L['marca'], ease(min(1, i / 8))))
+    blank = np.full((H, W, 3), (250, 246, 238), np.uint8)              # cierre de Gold Studio
+    n_end = int(TOTAL * FPS) - len(out)
+    for i in range(n_end):
+        p = i / n_end; s = ease(min(1, p / .15)); out.append(over(blank, L['cierre'], s, int((1 - s) * 140)))
+    for i in range(int(1.8 * FPS)):                                    # hook en pantalla desde el segundo 0
+        t = i / FPS; al = min(1, t / .2) * (1 if t < 1.5 else max(0, (1.8 - t) / .3))
         out[i] = over(out[i], L['hook'], al)
     return out
 
-# ---------- música: base lo-fi suave (piano eléctrico, bajo y ritmo), sin efectos en los cortes ----------
-def audio(path, bpm=120):
-    sr = RG.SR; n = int(sr * TOTAL); mix = np.zeros(n); beat = 60 / bpm
-    def put(x, t, g=1.0):
+# ---------- música: beat de hip hop con onda (bombo, aplauso, hi-hats, bajo y un riff), sube en la ráfaga y explota en el final ----------
+def audio(path, bpm=100):
+    sr = RG.SR; n = int(sr * TOTAL); mix = np.zeros((n, 2)); b = 60 / bpm
+    rng = np.random.default_rng(11)
+    def put(x, t, g=1.0, pan=0.0):
         i = int(t * sr)
-        if i >= n: return
-        x = x[:n - i]; mix[i:i + len(x)] += x * g
+        if i >= n or t < 0: return
+        x = x[:n - i] * g; mix[i:i + len(x), 0] += x * (1 - pan) ; mix[i:i + len(x), 1] += x * (1 + pan)
+    T = lambda d: np.arange(int(sr * d)) / sr
+    t = T(.45); kick = np.tanh(2.2 * np.sin(2 * np.pi * (48 + 110 * np.exp(-t * 28)) * t) * np.exp(-t * 7)) * .9
+    t = T(.25); clap = sum(rng.standard_normal(len(t)) * np.exp(-(t - d).clip(0) * 38) * (t >= d) for d in (0, .008, .017)) * .16
+    t = T(.06); hat = rng.standard_normal(len(t)) * np.exp(-t * 90) * .07
+    t = T(.35); ohat = rng.standard_normal(len(t)) * np.exp(-t * 14) * .045
     hz = lambda m: 440 * 2 ** ((m - 69) / 12)
-    def keys(notes, d, g=.12):              # piano eléctrico: armónicos con caída suave y un poco de trémolo
-        t = np.arange(int(sr * d)) / sr
-        env = (1 - np.exp(-t * 60)) * np.exp(-t * 1.4)
-        trem = 1 + .08 * np.sin(2 * np.pi * 4.5 * t)
-        return sum((np.sin(2 * np.pi * hz(m) * t) + .35 * np.sin(4 * np.pi * hz(m) * t) + .1 * np.sin(6 * np.pi * hz(m) * t)) for m in notes) * env * trem * g
-    def bass(m, d, g=.3):
-        t = np.arange(int(sr * d)) / sr
-        return np.sin(2 * np.pi * hz(m) * t) * (1 - np.exp(-t * 80)) * np.exp(-t * 2.2) * g
-    tk = np.arange(int(sr * .3)) / sr
-    kick = np.sin(2 * np.pi * (50 + 70 * np.exp(-tk * 35)) * tk) * np.exp(-tk * 12) * .55
-    rng = np.random.default_rng(7)
-    rim = rng.standard_normal(int(sr * .08)) * np.exp(-np.arange(int(sr * .08)) / sr * 60) * .07
-    shk = rng.standard_normal(int(sr * .04)) * np.exp(-np.arange(int(sr * .04)) / sr * 120) * .035
-    prog = [([65, 69, 72, 76], 41), ([64, 67, 71, 74], 40), ([62, 65, 69, 72], 38), ([60, 64, 67, 71], 36)]   # Fmaj7 Em7 Dm7 Cmaj7
-    bar = 4 * beat; t0 = 0.0; k = 0
-    while t0 < TOTAL:
-        ch, root = prog[k % 4]
-        put(keys(ch, bar + .6), t0); put(keys([ch[-1] + 12], beat * 1.5, .05), t0 + beat * 2.5)
-        put(bass(root, beat * 1.8), t0); put(bass(root + 7, beat * 1.2), t0 + beat * 2)
+    def bass(m, d):
+        t = T(d); f = hz(m)
+        return np.tanh(1.8 * (np.sin(2 * np.pi * f * t) + .3 * np.sin(4 * np.pi * f * t))) * (1 - np.exp(-t * 90)) * np.exp(-t * 2.4) * .42
+    def stab(ms, d=.22):                                                 # acorde tipo bronces/órgano, cortito
+        t = T(d); env = (1 - np.exp(-t * 200)) * np.exp(-t * 9)
+        return sum(np.sign(np.sin(2 * np.pi * hz(m) * t)) * .25 + np.sin(2 * np.pi * hz(m) * t) for m in ms) * env * .045
+    riff = [(0, 40), (.75, 40), (1.5, 43), (2.5, 45), (3, 43), (3.5, 38)]   # en golpes: un bajo con swing (Mi menor)
+    bar = 4 * b; t0 = 0.0; k = 0
+    while t0 < TOTAL - 2.0:
         for q in range(4):
-            if q in (0, 2): put(kick, t0 + q * beat)
-            else: put(rim, t0 + q * beat)
-        for e in range(8): put(shk, t0 + e * beat / 2 + beat / 4, .8 if e % 2 else .5)
+            if q in (0, 2): put(kick, t0 + q * b)
+            if q in (1, 3): put(clap, t0 + q * b, 1.0, .1)
+        put(kick, t0 + 2.5 * b, .7)
+        for e in range(8): put(hat, t0 + e * b / 2 + (.06 if e % 2 else 0), .9 if e % 2 else 1.2, -.25)
+        put(ohat, t0 + 3.5 * b, 1, .25)
+        for bt, m in riff: put(bass(m, b * .7), t0 + bt * b)
+        for bt in (.5, 2.0, 3.0): put(stab([64, 67, 71] if k % 2 == 0 else [62, 66, 69]), t0 + bt * b, 1, .3)
         t0 += bar; k += 1
-    tt = np.arange(n) / sr
-    mix *= np.clip(tt / .3, 0, 1) * np.clip((TOTAL - tt) / .8, 0, 1)
-    mix = mix / max(1e-6, np.abs(mix).max()) * .85
+    r0 = 3.6 - 2 * b; t = T(2 * b)                                       # subida antes de la ráfaga
+    put(rng.standard_normal(len(t)) * (t / t[-1]) ** 2 * .1, r0, 1, 0)
+    for i in range(8): put(hat, 3.6 + i * b / 4, 1.4)                     # hi-hats rápidos en la ráfaga
+    for i in range(3): put(kick, 4.8 + i * b, 1.2); put(bass(28, b * .9), 4.8 + i * b, 1.1)   # golpes de las palabras
+    t = T(1.8); put(np.sin(2 * np.pi * hz(52) * t) * np.exp(-t * 2) * .2 + stab([64, 67, 71, 76], 1.8) * 2, 6.6)   # final
+    crackle = (rng.random(n) > .9993) * rng.standard_normal(n) * .08     # un poco de vinilo
+    mix[:, 0] += crackle; mix[:, 1] += crackle
+    tt = np.arange(n) / sr; env = np.clip(tt / .05, 0, 1) * np.clip((TOTAL - tt) / .7, 0, 1)
+    mix *= env[:, None]; mix = mix / max(1e-6, np.abs(mix).max()) * .89
     with wave.open(path, 'wb') as w:
-        w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr); w.writeframes((mix * 32767).astype('<i2').tobytes())
+        w.setnchannels(2); w.setsampwidth(2); w.setframerate(sr); w.writeframes((mix * 32767).astype('<i2').tobytes())
 
 def build(name='reel-dona-rulos-hamburguesas'):
     os.makedirs(OUT, exist_ok=True); wav = f'{WORK}/a.wav'; audio(wav)
