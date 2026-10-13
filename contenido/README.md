@@ -14,6 +14,8 @@ Después se usa todo igual:
 - `scripts/reelgen.py`: reels animados con sonidos (`build(nombre, escenas)`), a 30 fps, en mp4.
 - `scripts/caro_ejemplos.py`: carruseles de 1080×1350 (`render(nombre, láminas, css_extra)`).
 - `scratch/stories.py` (y `stories2..5.py`): historias de 1080×1920 sin emojis, con espacios vacíos para stickers.
+- `scripts/catalogo_wa3.py`: catálogo de WhatsApp Business (5 servicios × 4 imágenes de 1080×1080) con fotos reales de Pexels.
+  Las fotos están en `scratch/fotos-pexels/` (el nombre es el id: pexels.com/photo/<id>) y las imágenes listas en `salidas/whatsapp-business/catalogo/`.
 - `scripts/mocks.py`, `pack.py`, `mascota.py`, `yogi.py`, `ilus_cafe.py`: dibujos y maquetas reutilizables.
 - `scripts/semana*.py`: lo que ya se publicó, como ejemplo.
 - `marca/`: logos, foto de perfil y paleta.
