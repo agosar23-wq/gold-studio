@@ -20,6 +20,7 @@ Después se usa todo igual:
 - `scripts/marcas_ejemplo.py`: 4 marcas inventadas (Almendra, Ondina, Nácar, Nube) con logos en PNG transparente.
 - `scripts/mockups_marcas.py`: pega esos logos sobre fotos de Pexels de productos en blanco (`scratch/mock/src/`), con perspectiva y textura.
 - `scripts/carrusel_branding.py`: carrusel "¿Logo o branding?" con las 4 marcas (salida en `salidas/carruseles/logo-o-branding/`, con el texto del posteo).
+- `scripts/reel_marca_completa.py`: reel "Así se ve una marca completa" con Almendra y las otras marcas (salida en `salidas/reels/`).
 - `scripts/mocks.py`, `pack.py`, `mascota.py`, `yogi.py`, `ilus_cafe.py`: dibujos y maquetas reutilizables.
 - `scripts/semana*.py`: lo que ya se publicó, como ejemplo.
 - `marca/`: logos, foto de perfil y paleta.
