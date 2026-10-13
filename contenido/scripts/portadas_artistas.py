@@ -1,4 +1,4 @@
-"""Portadas concepto (no oficiales) para un single nuevo de Mora ('Lejos') y de Omar Courtz ('Mañana sí'):
+"""Portadas concepto (no oficiales) para un single nuevo de Mora ('Lavandería') y de Omar Courtz ('Peluche'):
 foto de Pexels + tratamiento en el estilo de cada artista. Genera boceto (lápiz) y final, 1500×1500."""
 import os, sys, base64, subprocess
 import numpy as np
@@ -31,17 +31,18 @@ def square_pad(path, y0, y1):
     for i in range(edge): m.paste(int(255 * i / edge), (i, 0, i + 1, side)); m.paste(int(255 * i / edge), (w - 1 - i, 0, w - i, side))
     out = bg.copy(); out.paste(crop, ((side - w) // 2, 0), m)
     return out.resize((N, N), Image.LANCZOS)
-# ---------- MORA · LEJOS: auto viejo bajo un farol, frío con ámbar, flash crudo y grano ----------
+# ---------- MORA · LAVANDERÍA: foto real de una lavandería de barrio de noche, película y grano ----------
+A3 = f'{SCR}/artistas3'
 def mora_base():
-    im = square_pad(f'{A2}/18492400.jpg', 230, 2430)
+    im = Image.open(f'{A3}/14556070.jpg').convert('RGB'); w, h = im.size
+    im = im.crop((300, 0, 300 + h, h)).resize((N, N), Image.LANCZOS)
     a = np.asarray(im).astype(np.float32) / 255
-    lum = a.mean(2, keepdims=True)
-    cool = np.array([.80, .98, 1.02]); warm = np.array([1.12, .98, .78])
-    a = a * (cool * (1 - lum) + warm * lum)                                 # sombras verde azuladas, luces ámbar
-    a = np.clip(a, 0, 1) * .9 + .06
-    yy, xx = np.mgrid[0:N, 0:N]; v = 1 - .5 * (((xx / N - .5) ** 2 + (yy / N - .5) ** 2) / .5)
+    a = a ** np.array([.92, .9, 1.0]) * np.array([1.02, 1.04, .9])          # verde/amarillo de película, como sus fotos
+    a = np.clip(a, 0, 1) * .9 + .06                                           # negros lavados
+    yy, xx = np.mgrid[0:N, 0:N]; v = 1 - .35 * (((xx / N - .5) ** 2 + (yy / N - .5) ** 2) / .5)
     im = Image.fromarray((np.clip(a * v[..., None], 0, 1) * 255).astype(np.uint8))
-    return grain(im, 20)
+    halo = im.filter(ImageFilter.GaussianBlur(14)); im = ImageChops.screen(im, ImageEnhance.Brightness(halo).enhance(.3))
+    return grain(im, 22)
 # ---------- OMAR · MAÑANA SÍ: cielo de día, sol detrás de la nube ----------
 def omar_base():
     im = square(f'{A2}/5718410.jpg', .45, .5, 1.0)
@@ -65,10 +66,9 @@ CSSF = f'''@font-face{{font-family:Hand;src:{font("caveat")}}}@font-face{{font-f
 body{{margin:0;background:transparent}} .c{{width:{N}px;height:{N}px;position:relative;overflow:hidden}}'''
 
 MORA_TXT = f'''<!doctype html><meta charset="utf-8"><style>{CSSF}
-.lab{{position:absolute;left:90px;right:90px;bottom:80px;display:flex;justify-content:space-between;align-items:flex-end;font-family:'Courier New',monospace;font-weight:bold;color:#F3EBDD;letter-spacing:4px}}
-.lab b{{font-size:130px;letter-spacing:14px;line-height:.9}} .lab span{{font-size:34px;text-align:right;line-height:1.5;opacity:.9}}
-.km{{position:absolute;right:96px;top:96px;font-family:Hand;font-size:70px;color:#F2B45A;transform:rotate(-6deg)}}
-</style><div class="c"><div class="km">km 0</div><div class="lab"><b>LEJOS</b><span>MORA<br>SINGLE · 2026</span></div></div>'''
+.t{{position:absolute;left:560px;top:250px;font-family:Mark;font-size:92px;color:#FFFFFF;transform:rotate(-5deg);opacity:.92;text-shadow:0 0 18px rgba(255,255,255,.35)}}
+.m{{position:absolute;left:580px;top:360px;font-family:Hand;font-size:70px;color:#FFFFFF;transform:rotate(-5deg);opacity:.85}}
+</style><div class="c"><div class="t">lavandería</div><div class="m">by Mora</div></div>'''
 
 OMAR_TXT = f'''<!doctype html><meta charset="utf-8"><style>{CSSF}
 .t{{position:absolute;left:0;right:0;top:210px;text-align:center;font-family:Bub;font-size:250px;line-height:.9;letter-spacing:4px;
@@ -96,17 +96,17 @@ def notes_html(title_html, items):
     arrows = ''.join(f'<path d="M{x+20} {y+40} Q{(x+ax)/2+60} {(y+ay)/2-40} {ax} {ay}" /><path d="M{ax} {ay} l-26 -6 M{ax} {ay} l-8 -26"/>' for t, x, y, ax, ay in items)
     labels = ''.join(f'<div class="nt" style="left:{x}px;top:{y}px">{t}</div>' for t, x, y, ax, ay in items)
     return (f'''<!doctype html><meta charset="utf-8"><style>{CSSF}
-.nt{{position:absolute;font-family:Hand;font-size:62px;color:#B8923A;transform:rotate(-3deg);white-space:nowrap}}
+.nt{{position:absolute;font-family:Hand;font-size:62px;line-height:1;color:#B8923A;transform:rotate(-3deg);white-space:pre-line}}
 .pen{{position:absolute;inset:0;color:#555;opacity:.75}}</style><div class="c"><div class="pen">{title_html}</div>
 <svg style="position:absolute;inset:0" width="{N}" height="{N}" fill="none" stroke="#B8923A" stroke-width="5" stroke-linecap="round">{arrows}</svg>{labels}</div>''')
 
 NOTES = {
- 'mora': [('una sola luz', 90, 380, 560, 210), ('de casa a la ruta', 860, 520, 880, 900), ('letra de máquina,\ncomo un pasaje', 80, 1000, 200, 1240), ('frío + ámbar', 960, 1060, 1100, 1180)],
+ 'mora': [('título a mano,\nescrito en el vidrio', 80, 120, 540, 300), ('lavandería de barrio\nde noche', 960, 640, 1000, 560), ('motos = barrio real', 80, 1150, 300, 1250), ('grano de película', 940, 1200, 1100, 1100)],
  'omar': [('letras cromadas', 900, 760, 1000, 560), ('de noche a de día', 80, 820, 300, 1000), ('brillitos Y2K', 980, 1180, 1250, 600), ('el sol que asoma', 420, 1080, 700, 980)],
 }
 def build():
     res = {}
-    for name, base_fn, txt in [('mora', mora_base, MORA_TXT), ('omar', omar_base, OMAR_TXT)]:
+    for name, base_fn, txt in [('mora', mora_base, MORA_TXT)]:
         base = base_fn(); base.save(f'{OUT}/{name}-foto.png')
         ov = Image.open(render_overlay(f'{name}-texto', txt)).convert('RGBA')
         final = base.convert('RGBA'); final.alpha_composite(ov); final = final.convert('RGB'); final.save(f'{OUT}/{name}-final.png')
