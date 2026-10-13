@@ -12,7 +12,8 @@ bash contenido/setup.sh <scratchpad de la sesión>
 Después se usa todo igual:
 
 - `scripts/reelgen.py`: reels animados con sonidos (`build(nombre, escenas)`), a 30 fps, en mp4.
-- `scripts/reel_cafe.py`: reel estilo montaje de cafetería con clips de video de Pexels (antes correr `bash contenido/scripts/bajar_clips.sh <scratchpad>`); terminado en `reels/`.
+- `scripts/reel_cafe.py` y `scripts/reel_hamburguesas.py`: reels estilo montaje con clips de video de Pexels (antes correr `bash contenido/scripts/bajar_clips.sh <scratchpad>`); terminados en `reels/`.
+- `scripts/carrusel_hamburguesas.py`: carrusel de la hamburguesería Doña Rulos (fotos en `scratch/burger/`, mascota en `scratch/ilus/senora-burger.jpg`).
 - `scripts/caro_ejemplos.py`: carruseles de 1080×1350 (`render(nombre, láminas, css_extra)`).
 - `scratch/stories.py` (y `stories2..5.py`): historias de 1080×1920 sin emojis, con espacios vacíos para stickers.
 - `scripts/mocks.py`, `pack.py`, `mascota.py`, `yogi.py`, `ilus_cafe.py`: dibujos y maquetas reutilizables.
