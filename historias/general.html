@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Historias generales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Historias generales del consultorio (no hablan de la app). Mismo sistema que index.html:
+   cada .story mide 1080×1920 y el texto queda fuera de los ~240px de arriba y de abajo. */
+:root{
+  --bg:#F7F3EF; --bg-2:#EFE8E1; --surface:#FFFDFB; --ink:#2B2420; --muted:#7B7068; --line:#E6DDD4;
+  --accent:#7A6A5D; --accent-2:#B3A497; --accent-soft:#EEE5DC; --good:#56704F; --good-soft:#E5ECE1;
+  --warn:#946524; --warn-soft:#F5EBDA; --danger:#A3473A;
+  --display:"Jost",sans-serif; --body:"Figtree",sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#d9d2cb;font-family:var(--body);color:var(--ink);display:flex;flex-wrap:wrap;gap:40px;padding:40px;justify-content:center}
+.story{width:1080px;height:1920px;position:relative;overflow:hidden;background:var(--bg);flex:none}
+.photo{position:absolute;inset:0;background-size:cover;background-position:center}
+.logo{width:64px;height:98px;color:currentColor}
+.logo svg{width:100%;height:100%;display:block}
+.eyebrow{font-family:var(--display);font-weight:500;font-size:30px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+h1,h2{font-family:var(--display);font-weight:300;margin:0;line-height:1.04;letter-spacing:-.015em;text-wrap:balance}
+h1{font-size:150px}
+h2{font-size:104px}
+h1 em,h2 em{font-style:normal;font-weight:400;color:var(--accent)}
+p.lead{font-size:44px;line-height:1.35;color:var(--muted);margin:0;text-wrap:pretty}
+.top{position:absolute;left:96px;right:96px;top:250px}
+.bottom{position:absolute;left:96px;right:96px;bottom:250px}
+.mark{position:absolute;top:250px;right:96px;color:var(--accent)}
+
+/* 1 · Turnos */
+.g1 .photo{background-image:url(fotos/plato.jpg);background-position:center 30%}
+.g1 .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(247,243,239,0) 25%,rgba(247,243,239,.9) 52%,var(--bg) 64%)}
+.g1 .mark{color:#fff}
+.g1 h1{font-size:140px;margin:28px 0 40px}
+.modes{display:flex;gap:18px;margin-top:48px}
+.chip{display:inline-flex;align-items:center;gap:14px;font-family:var(--display);font-weight:500;font-size:32px;letter-spacing:.06em;padding:18px 32px;border-radius:99px;background:var(--surface);border:2px solid var(--line)}
+.chip svg{width:34px;height:34px;stroke:var(--accent);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+/* 2 · El plato */
+.g2{background:var(--bg-2)}
+.g2 .plate{position:absolute;left:50%;top:660px;transform:translateX(-50%);width:760px;height:760px}
+.g2 .plate svg{width:100%;height:100%;display:block;overflow:visible}
+.g2 .plate text{font-family:var(--display);fill:#fff}
+.g2 .legend{position:absolute;left:96px;right:96px;bottom:250px;font-size:36px;color:var(--muted);line-height:1.4;text-align:center}
+
+/* 3 · Agua */
+.g3{background:#1d2328;color:#fff}
+.g3 .photo{background-image:url(fotos/agua.jpg);background-position:center 70%}
+.g3 .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,24,28,.85) 0%,rgba(20,24,28,.2) 42%,rgba(20,24,28,.15) 62%,rgba(20,24,28,.9) 86%)}
+.g3 .eyebrow{color:rgba(255,255,255,.7)}
+.g3 h2 em{color:#CFE0EA}
+.g3 .tips{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:16px;font-size:38px;line-height:1.3}
+.g3 .tips li{display:flex;gap:20px;align-items:baseline}
+.g3 .tips li::before{content:"";flex:none;width:14px;height:14px;border-radius:50%;background:#CFE0EA;transform:translateY(-6px)}
+
+/* 4 · Mito o realidad */
+.g4 .photo{background-image:url(fotos/verde.jpg);bottom:auto;height:760px;background-position:center 40%}
+.g4 .cards{position:absolute;left:70px;right:70px;top:600px;display:flex;flex-direction:column;gap:28px}
+.g4 .card{background:var(--surface);border-radius:44px;padding:48px 52px;box-shadow:0 26px 70px rgba(43,36,32,.14)}
+.g4 .tag{display:inline-block;font-family:var(--display);font-weight:500;font-size:28px;letter-spacing:.2em;text-transform:uppercase;padding:10px 24px;border-radius:99px;margin-bottom:22px}
+.g4 .myth .tag{background:#F3E1DC;color:var(--danger)}
+.g4 .real .tag{background:var(--good-soft);color:var(--good)}
+.g4 .card p{margin:0;font-family:var(--display);font-weight:300;font-size:58px;line-height:1.15}
+.g4 .myth p{text-decoration:line-through;text-decoration-thickness:3px;text-decoration-color:rgba(163,71,58,.55);color:var(--muted)}
+.g4 .real small{display:block;margin-top:20px;font-family:var(--body);font-size:36px;line-height:1.35;color:var(--muted)}
+
+/* 5 · Colaciones */
+.g5 .grid{position:absolute;left:0;right:0;bottom:0;height:640px;background:url(fotos/frutas.jpg) center/cover}
+.g5 .grid::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--bg) 0%,rgba(247,243,239,0) 35%)}
+.g5 ul{list-style:none;padding:0;margin:56px 0 0;display:flex;flex-direction:column;gap:22px}
+.g5 li{display:flex;align-items:center;gap:30px;background:var(--surface);border:2px solid var(--line);border-radius:36px;padding:28px 36px;font-size:40px;line-height:1.2}
+.g5 li span{flex:none;width:88px;height:88px;border-radius:50%;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:46px}
+
+/* 6 · Contame */
+.g6 .photo{background-image:url(fotos/frutas-bowl.jpg)}
+.g6 .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(43,36,32,.5) 0%,rgba(43,36,32,.25) 30%,rgba(43,36,32,.9) 62%)}
+.g6{color:#fff}
+.g6 .mark{color:#fff;right:auto;left:50%;transform:translateX(-50%)}
+.g6 .mark .logo{width:92px;height:141px}
+.g6 .bottom{text-align:center}
+.g6 h2 em{color:#E9DCCD}
+.g6 p.lead{color:rgba(255,255,255,.85);margin-top:32px}
+.g6 .opts{display:flex;flex-direction:column;gap:20px;margin-top:56px;align-items:center}
+.g6 .opt{display:flex;align-items:center;gap:22px;width:700px;background:rgba(255,253,251,.95);color:var(--ink);border-radius:99px;padding:22px 40px;font-family:var(--display);font-size:42px;text-align:left}
+.g6 .opt b{font-size:52px;font-weight:400}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo" viewBox="0 0 120 184"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 84V60a56 56 0 0 1 112 0v24M4 100v24a56 56 0 0 0 112 0v-24"/><path d="M81.3 56.4A28.6 28.6 0 0 0 25.3 63.3v56.5a28.6 28.6 0 0 0 52.3 14.2"/><path d="M56.4 49v87.9M77.6 34.7a19 19 0 0 1 19 19V70a19 19 0 0 1-19 19H58.8M58.8 93.2l40.9 48.2"/></g></symbol>
+</svg>
+
+<section class="story g1" id="g1">
+  <div class="photo"></div><div class="shade"></div>
+  <div class="mark"><div class="logo"><svg><use href="#logo"/></svg></div></div>
+  <div class="bottom">
+    <div class="eyebrow">Consultorio de nutrición</div>
+    <h1>Turnos <em>disponibles</em>.</h1>
+    <p class="lead">Un plan pensado para vos, tus gustos y tu rutina. Sin dietas imposibles.</p>
+    <div class="modes">
+      <span class="chip"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Presencial</span>
+      <span class="chip"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></svg>Online</span>
+    </div>
+    <p class="lead" style="margin-top:44px;color:var(--ink)">Escribime por acá para reservar 💬</p>
+  </div>
+</section>
+
+<section class="story g2" id="g2">
+  <div class="mark"><div class="logo"><svg><use href="#logo"/></svg></div></div>
+  <div class="top">
+    <div class="eyebrow">Tip de la semana</div>
+    <h2 style="margin-top:24px">Cómo armar <em>tu plato</em>.</h2>
+  </div>
+  <div class="plate">
+    <svg viewBox="0 0 760 760" aria-hidden="true">
+      <circle cx="380" cy="380" r="378" fill="#FFFDFB"/>
+      <circle cx="380" cy="380" r="378" fill="none" stroke="#E6DDD4" stroke-width="4"/>
+      <!-- ½ verduras (izquierda), ¼ proteínas (arriba der.), ¼ cereales (abajo der.) -->
+      <path d="M380 380 L380 60 A320 320 0 0 0 380 700 Z" fill="#6E8A63"/>
+      <path d="M380 380 L380 60 A320 320 0 0 1 700 380 Z" fill="#A0705A"/>
+      <path d="M380 380 L700 380 A320 320 0 0 1 380 700 Z" fill="#C2A06A"/>
+      <g stroke="#FFFDFB" stroke-width="10"><path d="M380 56V704M380 380H704"/></g>
+      <text x="215" y="370" text-anchor="middle" font-size="96" font-weight="400">½</text>
+      <text x="215" y="440" text-anchor="middle" font-size="40" font-weight="500" letter-spacing="2">VERDURAS</text>
+      <text x="530" y="255" text-anchor="middle" font-size="80" font-weight="400">¼</text>
+      <text x="530" y="310" text-anchor="middle" font-size="34" font-weight="500" letter-spacing="2">PROTEÍNAS</text>
+      <text x="530" y="505" text-anchor="middle" font-size="80" font-weight="400">¼</text>
+      <text x="530" y="560" text-anchor="middle" font-size="34" font-weight="500" letter-spacing="2">CEREALES</text>
+    </svg>
+  </div>
+  <p class="legend"><b style="color:var(--ink);font-weight:600">Proteínas:</b> carne, pollo, pescado, huevo o legumbres.<br><b style="color:var(--ink);font-weight:600">Cereales:</b> arroz, papa, fideos o pan integral.<br>Y un chorrito de aceite de oliva 🫒</p>
+</section>
+
+<section class="story g3" id="g3">
+  <div class="photo"></div><div class="shade"></div>
+  <div class="top">
+    <div class="eyebrow">Recordatorio</div>
+    <h2 style="margin-top:24px">¿Ya tomaste <em>agua</em> hoy? 💧</h2>
+  </div>
+  <div class="bottom">
+    <ul class="tips">
+      <li>Tené una botella siempre a mano.</li>
+      <li>Saborizala con limón, menta o pepino.</li>
+      <li>Un vaso con cada comida suma un montón.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="story g4" id="g4">
+  <div class="photo"></div>
+  <div class="top" style="top:250px"><div class="eyebrow" style="background:rgba(255,253,251,.9);display:inline-block;padding:14px 26px;border-radius:99px;color:var(--ink)">Mito o realidad</div></div>
+  <div class="cards">
+    <div class="card myth"><span class="tag">Mito</span><p>Para bajar de peso hay que dejar las harinas.</p></div>
+    <div class="card real"><span class="tag">Realidad</span><p>No hace falta prohibir alimentos.</p><small>Lo que importa es la cantidad, la frecuencia y cómo se combinan. Un buen plan se adapta a lo que te gusta.</small></div>
+  </div>
+  <div class="bottom"><p class="lead" style="color:var(--ink)">¿Escuchaste otro mito? <span style="color:var(--accent)">Mandámelo y lo respondo</span> 👇</p></div>
+</section>
+
+<section class="story g5" id="g5">
+  <div class="mark"><div class="logo"><svg><use href="#logo"/></svg></div></div>
+  <div class="top">
+    <div class="eyebrow">Ideas</div>
+    <h2 style="margin-top:24px">Colaciones <em>fáciles</em>.</h2>
+    <ul>
+      <li><span>🍎</span>Fruta + un puñado de frutos secos</li>
+      <li><span>🥣</span>Yogur natural con avena</li>
+      <li><span>🥕</span>Bastones de zanahoria con hummus</li>
+      <li><span>🧀</span>Tostada integral con queso</li>
+    </ul>
+  </div>
+  <div class="grid"></div>
+</section>
+
+<section class="story g6" id="g6">
+  <div class="photo"></div><div class="shade"></div>
+  <div class="mark"><div class="logo"><svg><use href="#logo"/></svg></div></div>
+  <div class="bottom">
+    <h2>¿De qué querés que <em>hablemos</em>?</h2>
+    <p class="lead">Respondé esta historia con un emoji 👇</p>
+    <div class="opts">
+      <div class="opt"><b>🥗</b>Recetas rápidas</div>
+      <div class="opt"><b>💪</b>Comer y entrenar</div>
+      <div class="opt"><b>🍫</b>Cómo manejar los antojos</div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
