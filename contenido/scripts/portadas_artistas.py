@@ -1,4 +1,4 @@
-"""Portadas concepto (no oficiales) para un single nuevo de Mora ('La luz prendida') y de Omar Courtz ('Hadas'):
+"""Portadas concepto (no oficiales) para un single nuevo de Mora ('Lejos') y de Omar Courtz ('Mañana sí'):
 foto de Pexels + tratamiento en el estilo de cada artista. Genera boceto (lápiz) y final, 1500×1500."""
 import os, sys, base64, subprocess
 import numpy as np
@@ -21,30 +21,35 @@ def grain(im, amt=18):
 def b64(p): return 'data:image/png;base64,' + base64.b64encode(open(p, 'rb').read()).decode()
 def font(n): return f"url(file://{XF}/{n}.woff2)"
 
-# ---------- MORA: foto cálida, grano de película, tinta a mano ----------
+A2 = f'{SCR}/artistas2'
+def square_pad(path, y0, y1):
+    """Recorte vertical [y0, y1] y lo hace cuadrado estirando los costados con la misma foto desenfocada."""
+    im = Image.open(path).convert('RGB'); w, h = im.size; side = y1 - y0
+    crop = im.crop((0, y0, w, y1)); bg = crop.resize((side, side)).filter(ImageFilter.GaussianBlur(40))
+    bg.paste(crop, ((side - w) // 2, 0)) if side >= w else None
+    m = Image.new('L', (w, side), 255); edge = 60
+    for i in range(edge): m.paste(int(255 * i / edge), (i, 0, i + 1, side)); m.paste(int(255 * i / edge), (w - 1 - i, 0, w - i, side))
+    out = bg.copy(); out.paste(crop, ((side - w) // 2, 0), m)
+    return out.resize((N, N), Image.LANCZOS)
+# ---------- MORA · LEJOS: auto viejo bajo un farol, frío con ámbar, flash crudo y grano ----------
 def mora_base():
-    im = square(f'{A}/30233120.jpg', .5, .62, 1.0)
+    im = square_pad(f'{A2}/18492400.jpg', 230, 2430)
     a = np.asarray(im).astype(np.float32) / 255
-    a = a * np.array([1.06, .98, .86]) + np.array([.03, .015, 0])          # cálido
-    a = np.clip(a, 0, 1) ** np.array([.95, 1.0, 1.08])
-    a = a * .92 + .05                                                      # negros lavados (film)
-    yy, xx = np.mgrid[0:N, 0:N]; v = 1 - .45 * (((xx / N - .5) ** 2 + (yy / N - .5) ** 2) / .5)
+    lum = a.mean(2, keepdims=True)
+    cool = np.array([.80, .98, 1.02]); warm = np.array([1.12, .98, .78])
+    a = a * (cool * (1 - lum) + warm * lum)                                 # sombras verde azuladas, luces ámbar
+    a = np.clip(a, 0, 1) * .9 + .06
+    yy, xx = np.mgrid[0:N, 0:N]; v = 1 - .5 * (((xx / N - .5) ** 2 + (yy / N - .5) ** 2) / .5)
     im = Image.fromarray((np.clip(a * v[..., None], 0, 1) * 255).astype(np.uint8))
-    halo = im.filter(ImageFilter.GaussianBlur(18)); im = ImageChops.screen(im, ImageEnhance.Brightness(halo).enhance(.35))
-    return grain(im, 16)
-# ---------- OMAR: duotono azul eléctrico + neón ----------
+    return grain(im, 20)
+# ---------- OMAR · MAÑANA SÍ: cielo de día, sol detrás de la nube ----------
 def omar_base():
-    im = square(f'{A}/29501856.jpg', .42, .55, 1.25)
-    g = np.asarray(ImageOps.grayscale(im)).astype(np.float32) / 255
-    g = np.clip((g - .05) / .9, 0, 1) ** .9
-    dark, mid, light = np.array([4, 8, 60.]), np.array([20, 50, 255.]), np.array([190, 230, 255.])
-    t = g[..., None]
-    a = np.where(t < .5, dark + (mid - dark) * (t / .5), mid + (light - mid) * ((t - .5) / .5))
-    im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
-    top = im.crop((0, 0, N, 520)).filter(ImageFilter.GaussianBlur(14)); m = Image.linear_gradient('L').resize((N, 520)).point(lambda v: 255 - v)
-    im.paste(top, (0, 0), m)
-    bloom = im.filter(ImageFilter.GaussianBlur(25)); im = ImageChops.screen(im, ImageEnhance.Brightness(bloom).enhance(.5))
-    return grain(im, 10)
+    im = square(f'{A2}/5718410.jpg', .45, .5, 1.0)
+    a = np.asarray(im).astype(np.float32) / 255
+    a = np.clip((a - .5) * 1.1 + .5, 0, 1) * np.array([.96, 1.0, 1.06])
+    im = Image.fromarray((np.clip(a, 0, 1) * 255).astype(np.uint8))
+    bloom = im.filter(ImageFilter.GaussianBlur(30)); im = ImageChops.screen(im, ImageEnhance.Brightness(bloom).enhance(.25))
+    return grain(im, 6)
 
 def render_overlay(name, html):
     p = f'{OUT}/{name}.html'; open(p, 'w').write(html)
@@ -60,43 +65,24 @@ CSSF = f'''@font-face{{font-family:Hand;src:{font("caveat")}}}@font-face{{font-f
 body{{margin:0;background:transparent}} .c{{width:{N}px;height:{N}px;position:relative;overflow:hidden}}'''
 
 MORA_TXT = f'''<!doctype html><meta charset="utf-8"><style>{CSSF}
-.t{{position:absolute;left:110px;top:120px;font-family:Mark;font-size:150px;line-height:.95;color:#FFF3DC;transform:rotate(-4deg);text-shadow:0 0 30px rgba(255,190,90,.35)}}
-.s{{position:absolute;left:120px;top:440px;font-family:Hand;font-size:84px;color:#FFE2B0;transform:rotate(-3deg)}}
-.d{{position:absolute;right:90px;bottom:80px;font-family:'Courier New',monospace;font-weight:bold;font-size:58px;color:#FF8A1E;letter-spacing:6px;text-shadow:0 0 12px rgba(255,120,0,.8)}}
-.m{{position:absolute;left:110px;bottom:90px;font-family:Mark;font-size:96px;color:#FFF3DC;transform:rotate(3deg)}}
-</style><div class="c"><div class="t">la luz<br>prendida</div>
-<svg style="position:absolute;inset:0" width="{N}" height="{N}" fill="none" stroke="#FFE2B0" stroke-width="7" stroke-linecap="round">
-
-<path d="M118 610 C300 590 470 600 640 588" opacity=".75"/><path d="M955 1080 l25 -60 l25 60 l-65 -38 h80 z" opacity=".8"/>
-</svg>
-<div class="m">MORA</div><div class="d">'26 10 12</div></div>'''
+.lab{{position:absolute;left:90px;right:90px;bottom:80px;display:flex;justify-content:space-between;align-items:flex-end;font-family:'Courier New',monospace;font-weight:bold;color:#F3EBDD;letter-spacing:4px}}
+.lab b{{font-size:130px;letter-spacing:14px;line-height:.9}} .lab span{{font-size:34px;text-align:right;line-height:1.5;opacity:.9}}
+.km{{position:absolute;right:96px;top:96px;font-family:Hand;font-size:70px;color:#F2B45A;transform:rotate(-6deg)}}
+</style><div class="c"><div class="km">km 0</div><div class="lab"><b>LEJOS</b><span>MORA<br>SINGLE · 2026</span></div></div>'''
 
 OMAR_TXT = f'''<!doctype html><meta charset="utf-8"><style>{CSSF}
-.t{{position:absolute;left:0;right:0;top:90px;text-align:center;font-family:Bub;font-size:270px;color:#FF5CD2;letter-spacing:6px;
-  text-shadow:0 0 10px #FF8BE0,0 0 40px #FF2FC0,0 0 90px #FF2FC0}}
-.n{{position:absolute;left:0;right:0;bottom:90px;text-align:center;font-family:Nun;font-weight:900;font-size:64px;letter-spacing:22px;color:#E6FFF0;
-  text-shadow:0 0 12px #5CFFB0,0 0 36px #22FF90}}
-</style><div class="c"><div class="t">hadas</div>
-<svg style="position:absolute;inset:0" width="{N}" height="{N}">
-<defs><filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-<g filter="url(#glow)" fill="none" stroke-linecap="round" stroke-linejoin="round">
- <g transform="translate(1110 560) rotate(-12)" stroke="#7CFFC0" stroke-width="5">
-  <ellipse cx="0" cy="0" rx="9" ry="26" fill="#C8FFE4"/><circle cx="0" cy="-38" r="11" fill="#C8FFE4"/>
-  <path d="M-6 -12 C-70 -90 -110 -40 -60 -6 C-90 10 -70 50 -8 8"/><path d="M6 -12 C70 -90 110 -40 60 -6 C90 10 70 50 8 8"/>
-  <path d="M0 26 C-10 60 10 80 -6 120" stroke-dasharray="2 14" stroke-width="6"/></g>
- <g transform="translate(400 760) rotate(14) scale(.8)" stroke="#FF6FD8" stroke-width="5">
-  <ellipse cx="0" cy="0" rx="9" ry="26" fill="#FFD0F3"/><circle cx="0" cy="-38" r="11" fill="#FFD0F3"/>
-  <path d="M-6 -12 C-70 -90 -110 -40 -60 -6 C-90 10 -70 50 -8 8"/><path d="M6 -12 C70 -90 110 -40 60 -6 C90 10 70 50 8 8"/>
-  <path d="M0 26 C10 60 -10 80 6 120" stroke-dasharray="2 14" stroke-width="6"/></g>
- <path d="M720 980 C700 940 650 950 650 990 C650 1030 720 1060 720 1080 C720 1060 790 1030 790 990 C790 950 740 940 720 980Z" stroke="#FF6FD8" stroke-width="7" opacity=".9"/>
- <g fill="#FFFFFF" stroke="none">{''.join(f'<circle cx="{x}" cy="{y}" r="{r}"/>' for x, y, r in [(260,520,4),(1250,420,5),(1180,820,3),(330,1060,4),(980,330,3),(560,640,3),(1300,980,4)])}</g>
-</g></svg><div class="n">OMAR COURTZ</div></div>'''
+.t{{position:absolute;left:0;right:0;top:210px;text-align:center;font-family:Bub;font-size:250px;line-height:.9;letter-spacing:4px;
+  background:linear-gradient(180deg,#ffffff 0%,#e8f0f8 22%,#8aa2bd 44%,#2d4466 50%,#c8d6e6 62%,#ffffff 80%,#9fb3c9 100%);-webkit-background-clip:text;color:transparent;
+  filter:drop-shadow(0 5px 0 #1d3150) drop-shadow(0 0 2px #fff) drop-shadow(0 20px 30px rgba(10,30,70,.5))}}
+.n{{position:absolute;left:0;right:0;top:1340px;text-align:center;font-family:Nun;font-weight:900;font-size:56px;letter-spacing:26px;color:#fff;text-shadow:0 2px 20px rgba(20,60,120,.5)}}
+</style><div class="c"><div class="n">OMAR COURTZ</div><div class="t">mañana<br>sí</div>
+<svg style="position:absolute;inset:0" width="{N}" height="{N}"><g fill="#fff">{''.join(f'<path transform="translate({x} {y}) scale({k})" d="M0 -30 C3 -6 6 -3 30 0 C6 3 3 6 0 30 C-3 6 -6 3 -30 0 C-6 -3 -3 -6 0 -30Z"/>' for x, y, k in [(240,230,1.3),(1260,560,1.6),(1180,180,.8),(330,640,.9)])}</g></svg></div>'''
 
 def sketch(base, notes):
     """Boceto: líneas de lápiz limpias sacadas de la foto + anotaciones a mano."""
     g = ImageOps.autocontrast(ImageOps.grayscale(base), cutoff=2).filter(ImageFilter.GaussianBlur(2.2))
     e = np.asarray(g.filter(ImageFilter.FIND_EDGES)).astype(np.float32)
-    e = np.clip((e - 2.5) * 16, 0, 255)                                         # solo bordes marcados
+    e = np.clip((e - 4) * 13, 0, 255)                                         # solo bordes marcados
     e = np.asarray(Image.fromarray(e.astype(np.uint8)).filter(ImageFilter.GaussianBlur(.8))).astype(np.float32)
     paper = np.full((N, N), 246.) + rng.normal(0, 2.2, (N, N))
     shade = np.asarray(g).astype(np.float32); shade = np.clip((110 - shade) * .3, 0, 28)   # sombreado suave
@@ -115,8 +101,8 @@ def notes_html(title_html, items):
 <svg style="position:absolute;inset:0" width="{N}" height="{N}" fill="none" stroke="#B8923A" stroke-width="5" stroke-linecap="round">{arrows}</svg>{labels}</div>''')
 
 NOTES = {
- 'mora': [('título a mano', 760, 150, 640, 230), ('grano de película', 900, 760, 820, 640), ('fecha de cámara vieja', 820, 1180, 1180, 1370), ('luz cálida', 120, 760, 520, 600)],
- 'omar': [('neón rosa', 1020, 470, 900, 300), ('hadas que brillan', 80, 560, 330, 720), ('todo en azul eléctrico', 760, 1180, 900, 1050), ('humo = misterio', 90, 1180, 520, 1000)],
+ 'mora': [('una sola luz', 90, 380, 560, 210), ('de casa a la ruta', 860, 520, 880, 900), ('letra de máquina,\ncomo un pasaje', 80, 1000, 200, 1240), ('frío + ámbar', 960, 1060, 1100, 1180)],
+ 'omar': [('letras cromadas', 900, 760, 1000, 560), ('de noche a de día', 80, 820, 300, 1000), ('brillitos Y2K', 980, 1180, 1250, 600), ('el sol que asoma', 420, 1080, 700, 980)],
 }
 def build():
     res = {}

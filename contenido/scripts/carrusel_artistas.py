@@ -2,7 +2,7 @@
 import sys, base64; sys.path.insert(0, '/home/user/gold-studio-contenido')
 from caro_ejemplos import render
 from carogen import SP, SCR, F
-P = f'{SCR}/portadas'; A = f'{SCR}/artistas'
+P = f'{SCR}/portadas'; A = f'{SCR}/artistas2'
 def b(p, m='image/png'): return f'data:{m};base64,' + base64.b64encode(open(p, 'rb').read()).decode()
 XF = f'file://{SCR}/xfonts'
 EXT = f'''
@@ -12,7 +12,7 @@ EXT = f'''
 .kw{{display:flex;flex-wrap:wrap;gap:14px}} .kw span{{border:2px solid var(--g);color:var(--em);border-radius:999px;padding:12px 26px;font-size:28px}}
 .sw{{display:flex;gap:14px}} .sw i{{flex:1;height:120px;border-radius:18px}}
 .an{{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}} .an div{{background:var(--box);border-radius:24px;padding:26px 28px}}
-.an b{{display:block;font-family:B;font-weight:500;font-size:38px;margin-bottom:6px}} .an span{{font-size:26px;color:var(--sub);line-height:1.35}}
+.an b{{display:block;font-family:B;font-weight:500;font-size:36px;margin-bottom:6px}} .an small{{display:block;font-size:20px;letter-spacing:.24em;text-transform:uppercase;color:var(--em);margin-bottom:8px}} .an span{{font-size:26px;color:var(--sub);line-height:1.35}}
 .mood{{display:grid;grid-template-columns:1.3fr 1fr;grid-template-rows:330px 330px;gap:14px}} .mood div{{border-radius:20px}}
 .hand{{font-family:Hand;font-size:44px;color:var(--em)}}
 .player{{width:520px;background:linear-gradient(#2a2a2a,#121212);border-radius:36px;padding:34px;color:#fff;font-family:J;box-shadow:0 50px 90px -40px rgba(0,0,0,.7)}}
@@ -30,8 +30,8 @@ def slides(name, artista, cancion, eb_estilo, estilo_items, colores, kws, idea, 
       <div style="position:relative;height:470px;margin-top:10px"><div class="ph cover" style="position:absolute;left:40px;top:30px;width:400px;height:400px;background-image:url({bos});transform:rotate(-6deg)"></div>
       <div class="ph cover" style="position:absolute;left:400px;top:0;width:420px;height:420px;background-image:url({fin});transform:rotate(4deg);filter:blur(14px)"></div>
       <div class="hand" style="position:absolute;left:520px;top:200px;color:#FAF6EE;font-size:60px;transform:rotate(-6deg)">el final al final ;)</div></div>''', 'justify-content:center'))
-    S.append(('m', f'''<div class="eb">Paso 1 · Analizo su estilo</div><h2 style="font-size:70px">{eb_estilo}</h2>
-      <div class="an">{''.join(f'<div><b>{t}</b><span>{d}</span></div>' for t, d in estilo_items)}</div>
+    S.append(('m', f'''<div class="eb">Paso 1 · Qué mantengo y qué cambio</div><h2 style="font-size:66px">{eb_estilo}</h2>
+      <div class="an">{''.join(f'<div><small>{"Mantengo" if i < 2 else "Cambio"}</small><b>{t}</b><span>{d}</span></div>' for i, (t, d) in enumerate(estilo_items))}</div>
       <div class="sw">{''.join(f'<i style="background:{c}"></i>' for c in colores)}</div><div class="kw">{''.join(f'<span>{k}</span>' for k in kws)}</div>''', 'gap:30px'))
     S.append(('m', f'''<div class="eb">Paso 2 · La idea</div><h2 style="font-size:72px">Un single que se llame <em>“{cancion}”</em></h2>
       <p class="body" style="font-size:34px;margin:0">{idea}</p>
@@ -48,19 +48,19 @@ def slides(name, artista, cancion, eb_estilo, estilo_items, colores, kws, idea, 
       <div class="pill">Contame en comentarios</div><p class="body" style="font-size:28px;margin:0">{notas_cierre}</p>''', ''))
     return S
 
-MORA = slides('mora', 'Mora', 'La luz prendida', 'Nostálgico, de casa y de recuerdos',
-    [('Fotos reales', 'Lugares de la casa y de la infancia, nada de estudio.'), ('Letra a mano', 'Títulos escritos o garabateados, como en un cuaderno.'),
-     ('Grano de película', 'Colores cálidos y lavados, como foto vieja.'), ('Detalles chiquitos', 'El nombre pequeño, sin gritar.')],
-    ['#2A1A12', '#7A3B1E', '#D98A3D', '#F2C27A', '#FFF1D6'], ['Nostalgia', 'Casa', 'Noche', 'Recuerdos'],
-    'Una lámpara que queda prendida en un cuarto vacío, como esperando a alguien. Cálida, íntima y con el grano de las fotos de antes.',
-    [b(f'{A}/30233121.jpg', 'image/jpeg'), b(f'{A}/30233118.jpg', 'image/jpeg'), b(f'{A}/30233117.jpg', 'image/jpeg')],
+MORA = slides('mora', 'Mora', 'Lejos', 'Que se reconozca, pero que sea una etapa nueva',
+    [('Foto real', 'Nada de estudio: lugares de verdad, como siempre.'), ('Grano de película', 'Ese aire de foto vieja que es tan suyo.'),
+     ('De casa a la ruta', 'Su último disco pasa adentro. Este sale afuera: irse lejos.'), ('Frío en vez de cálido', 'Verde azulado con el ámbar de un solo farol.')],
+    ['#0E1A1C', '#23403F', '#6E2A22', '#D9A15A', '#F3EBDD'], ['Ruta', 'Noche', 'Irse', 'Película'],
+    'Un auto viejo estacionado bajo el único farol de una calle vacía. Después de “lo mismo de siempre”, lo que sigue es irse. El título va en letra de máquina, como un pasaje.',
+    [b(f'{A}/16007818.jpg', 'image/jpeg'), b(f'{A}/10063762.jpg', 'image/jpeg'), b(f'{A}/10754839.jpg', 'image/jpeg')],
     'Concepto hecho por mí para practicar, no es una portada oficial. Fotos de Pexels.')
-OMAR = slides('omar', 'Omar Courtz', 'Hadas', 'Neón, noche y mucho brillo',
-    [('Azul eléctrico', 'Fondos saturados que se ven de lejos.'), ('Neón rosa y verde', 'Brillos que parecen luz real.'),
-     ('Hadas', 'Un símbolo que repite: magia, musas, algo que vuela.'), ('Onda Y2K', 'Letras redondas, brillos y estrellitas.')],
-    ['#04083C', '#1432FF', '#FF2FC0', '#22FF90', '#E6F4FF'], ['Neón', 'Noche', 'Magia', 'Y2K'],
-    'Una noche de lluvia en la ciudad: una silueta con paraguas, todo azul, y dos hadas de neón que la siguen. Como si la magia apareciera cuando nadie mira.',
-    [b(f'{A}/14458037.jpg', 'image/jpeg'), b(f'{A}/14458035.jpg', 'image/jpeg'), b(f'{A}/29501856.jpg', 'image/jpeg')],
+OMAR = slides('omar', 'Omar Courtz', 'Mañana sí', 'Que se reconozca, pero que sea una etapa nueva',
+    [('Onda Y2K', 'Letras redondas, brillitos y algo de juego.'), ('Color fuerte', 'Un azul que se ve de lejos.'),
+     ('De la noche al día', 'Su último disco es neón y oscuridad. Este es sol y cielo.'), ('Cromo en vez de neón', 'Letras plateadas que reflejan la luz del día.')],
+    ['#1B4C8C', '#4F86C6', '#BFD7EE', '#FFFFFF', '#2D4466'], ['Día', 'Cielo', 'Esperanza', 'Cromo'],
+    'Una respuesta a “Por si mañana no estoy”: mañana sí. El sol que asoma detrás de las nubes y el título en letras cromadas, como algo nuevo que empieza.',
+    [b(f'{A}/34838311.jpg', 'image/jpeg'), b(f'{A}/912110.jpg', 'image/jpeg'), b(f'{A}/5745761.jpg', 'image/jpeg')],
     'Concepto hecho por mí para practicar, no es una portada oficial. Fotos de Pexels.')
 
 if __name__ == '__main__':
