@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Historias del consultorio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Cada .story mide 1080×1920 (formato de estado de WhatsApp).
+   El texto queda fuera de los ~240px de arriba y de abajo, donde WhatsApp pone su interfaz. */
+:root{
+  --bg:#F7F3EF; --bg-2:#EFE8E1; --surface:#FFFDFB; --ink:#2B2420; --muted:#7B7068; --line:#E6DDD4;
+  --accent:#7A6A5D; --accent-2:#B3A497; --accent-soft:#EEE5DC; --good:#56704F; --good-soft:#E5ECE1;
+  --display:"Jost",sans-serif; --body:"Figtree",sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#d9d2cb;font-family:var(--body);color:var(--ink);display:flex;flex-wrap:wrap;gap:40px;padding:40px;justify-content:center}
+.story{width:1080px;height:1920px;position:relative;overflow:hidden;background:var(--bg);flex:none}
+.photo{position:absolute;inset:0;background-size:cover;background-position:center}
+.logo{width:64px;height:98px;color:currentColor}
+.logo svg{width:100%;height:100%;display:block}
+.eyebrow{font-family:var(--display);font-weight:500;font-size:30px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+h1,h2{font-family:var(--display);font-weight:300;margin:0;line-height:1.04;letter-spacing:-.015em;text-wrap:balance}
+h1{font-size:150px}
+h2{font-size:104px}
+h1 em,h2 em{font-style:normal;font-weight:400;color:var(--accent)}
+p.lead{font-size:44px;line-height:1.35;color:var(--muted);margin:0;text-wrap:pretty}
+.chip{display:inline-flex;align-items:center;gap:14px;font-family:var(--display);font-weight:500;font-size:32px;letter-spacing:.06em;padding:18px 32px;border-radius:99px;background:var(--surface);border:2px solid var(--line);color:var(--ink)}
+.chip svg{width:34px;height:34px;stroke:var(--accent);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.top{position:absolute;left:96px;right:96px;top:250px}
+.bottom{position:absolute;left:96px;right:96px;bottom:250px}
+
+/* 1 · Portada */
+.s1 .photo{background-image:url(fotos/mesa.jpg)}
+.s1 .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(247,243,239,0) 30%,rgba(247,243,239,.92) 58%,var(--bg) 72%)}
+.s1 .badge{position:absolute;top:250px;left:96px;display:flex;align-items:center;gap:22px;background:rgba(255,253,251,.92);padding:22px 36px 22px 26px;border-radius:99px;color:var(--accent)}
+.s1 .badge .logo{width:40px;height:62px}
+.s1 .badge span{font-family:var(--display);font-weight:500;font-size:30px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink)}
+.s1 h1{margin:28px 0 40px}
+
+/* 2 · Plan */
+.s2{background:var(--bg-2)}
+.s2 .arch{position:absolute;left:150px;right:150px;top:680px;bottom:0;background:var(--accent);border-radius:400px 400px 0 0}
+.s2 .phone{position:absolute;left:50%;top:740px;transform:translateX(-50%) rotate(-3deg);width:560px;border-radius:64px;padding:16px;background:#1f1a17;box-shadow:0 40px 90px rgba(43,36,32,.35)}
+.s2 .phone img{display:block;width:100%;border-radius:50px}
+.s2 .round{position:absolute;width:330px;height:330px;border-radius:50%;background:url(fotos/frasco.jpg) center 60%/cover;border:14px solid var(--bg-2);right:70px;top:1150px;box-shadow:0 24px 60px rgba(43,36,32,.25)}
+.s2 .chips{position:absolute;left:96px;top:560px;display:flex;gap:18px}
+
+/* 3 · Turnos y progreso */
+.s3 .photo{background-image:url(fotos/bowl.jpg);filter:saturate(.9)}
+.s3 .shade{position:absolute;inset:0;background:linear-gradient(180deg,var(--bg) 0%,rgba(247,243,239,.94) 26%,rgba(247,243,239,.25) 52%,rgba(43,36,32,.1) 100%)}
+.s3 .crop{position:absolute;overflow:hidden;background:url(../img/paciente.jpg) no-repeat;box-shadow:0 30px 80px rgba(43,36,32,.35)}
+/* paciente.jpg es 780×1688; se escala ×1.15 */
+.s3 .turno{left:96px;top:760px;width:785px;height:719px;border-radius:40px;background-size:897px auto;background-position:-55px -370px}
+.s3 .peso{right:60px;top:1330px;width:800px;height:452px;border-radius:40px;background-size:897px auto;background-position:-49px -1124px;transform:rotate(2deg)}
+
+/* 4 · Mensajes */
+.s4 .photo{background-image:url(fotos/ensalada.jpg);bottom:auto;height:880px;background-position:center 45%}
+.s4 .card{position:absolute;left:70px;right:70px;top:640px;background:var(--surface);border-radius:48px;padding:48px 48px 56px;box-shadow:0 30px 80px rgba(43,36,32,.18)}
+.s4 .head{display:flex;align-items:center;gap:24px;padding-bottom:34px;border-bottom:2px solid var(--line);margin-bottom:40px;color:var(--accent)}
+.s4 .head .logo{width:52px;height:80px}
+.s4 .head b{display:block;font-size:38px;color:var(--ink);font-weight:600}
+.s4 .head small{font-size:30px;color:var(--muted)}
+.bubble{max-width:78%;font-size:38px;line-height:1.35;padding:26px 34px;border-radius:36px;background:var(--bg-2);margin-bottom:22px}
+.bubble.me{margin-left:auto;background:var(--accent);color:#fff;border-bottom-right-radius:10px}
+.bubble.them{border-bottom-left-radius:10px}
+.s4 .bottom{bottom:230px}
+
+/* 5 · Cómo empezar */
+.s5 .strip{position:absolute;left:0;right:0;bottom:0;height:560px;background:url(fotos/desayuno.jpg) center 40%/cover}
+.s5 .strip::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--bg) 0%,rgba(247,243,239,0) 40%)}
+.steps{list-style:none;margin:70px 0 0;padding:0;display:flex;flex-direction:column;gap:30px}
+.steps li{display:flex;gap:36px;align-items:center;background:var(--surface);border:2px solid var(--line);border-radius:40px;padding:38px 44px}
+.steps .n{flex:none;width:104px;height:104px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--display);font-size:52px;display:flex;align-items:center;justify-content:center}
+.steps b{display:block;font-family:var(--display);font-weight:400;font-size:52px;line-height:1.1}
+.steps span{font-size:34px;color:var(--muted)}
+
+/* 6 · Cierre */
+.s6 .photo{background-image:url(fotos/verduras.jpg)}
+.s6 .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(43,36,32,.55) 0%,rgba(43,36,32,.35) 35%,rgba(43,36,32,.88) 70%)}
+.s6{color:#fff}
+.s6 .logo{position:absolute;top:250px;left:50%;transform:translateX(-50%);width:92px;height:141px;color:#fff}
+.s6 .bottom{text-align:center}
+.s6 h2 em{color:#E9DCCD}
+.s6 p.lead{color:rgba(255,255,255,.85);margin-top:36px}
+.s6 .reply{margin:64px auto 0;display:inline-flex;align-items:center;gap:20px;background:#fff;color:var(--ink);font-family:var(--display);font-weight:500;font-size:38px;letter-spacing:.04em;padding:30px 52px;border-radius:99px}
+.s6 .reply svg{width:44px;height:44px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.s6 .lock{margin-top:44px;font-size:30px;color:rgba(255,255,255,.75);display:flex;gap:14px;align-items:center;justify-content:center}
+.s6 .lock svg{width:32px;height:32px;stroke:currentColor;fill:none;stroke-width:1.6}
+</style>
+</head>
+<body>
+<!-- Logo del consultorio (el mismo de la app) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo" viewBox="0 0 120 184"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 84V60a56 56 0 0 1 112 0v24M4 100v24a56 56 0 0 0 112 0v-24"/><path d="M81.3 56.4A28.6 28.6 0 0 0 25.3 63.3v56.5a28.6 28.6 0 0 0 52.3 14.2"/><path d="M56.4 49v87.9M77.6 34.7a19 19 0 0 1 19 19V70a19 19 0 0 1-19 19H58.8M58.8 93.2l40.9 48.2"/></g></symbol>
+</svg>
+
+<section class="story s1" id="h1">
+  <div class="photo"></div><div class="shade"></div>
+  <div class="badge"><div class="logo"><svg><use href="#logo"/></svg></div><span>Novedad</span></div>
+  <div class="bottom">
+    <div class="eyebrow">Consultorio de nutrición</div>
+    <h1>Ahora tenemos <em>app</em>.</h1>
+    <p class="lead">Tu plan, tus turnos y tu progreso, todo en un mismo lugar. Te cuento cómo funciona 👉</p>
+  </div>
+</section>
+
+<section class="story s2" id="h2">
+  <div class="top">
+    <div class="eyebrow">Desde tu celu</div>
+    <h2 style="margin-top:24px">Tu plan, <em>siempre a mano</em>.</h2>
+  </div>
+  <div class="arch"></div>
+  <div class="phone"><img src="../img/paciente.jpg" alt=""></div>
+  <div class="round"></div>
+  <div class="chips">
+    <span class="chip"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>Plan en PDF</span>
+    <span class="chip"><svg viewBox="0 0 24 24"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2"/></svg>Recetarios</span>
+  </div>
+</section>
+
+<section class="story s3" id="h3">
+  <div class="photo"></div><div class="shade"></div>
+  <div class="top">
+    <div class="eyebrow">Turnos y progreso</div>
+    <h2 style="margin-top:24px">Tu próximo turno y <em>tu evolución</em>, de un vistazo.</h2>
+  </div>
+  <div class="crop turno"></div>
+  <div class="crop peso"></div>
+</section>
+
+<section class="story s4" id="h4">
+  <div class="photo"></div>
+  <div class="card">
+    <div class="head"><div class="logo"><svg><use href="#logo"/></svg></div><div><b>Tu nutricionista</b><small>Tus consultas sobre el plan</small></div></div>
+    <div class="bubble them">¿El yogur de la colación puede ser descremado saborizado?</div>
+    <div class="bubble me">¡Sí! Elegí uno sin azúcar agregada y listo 😉</div>
+    <div class="bubble them">¡Genial, gracias! 🙌</div>
+  </div>
+  <div class="bottom">
+    <div class="eyebrow">Mensajes</div>
+    <h2 style="margin-top:24px;font-size:96px">¿Dudas con el plan? <em>Escribime directo.</em></h2>
+  </div>
+</section>
+
+<section class="story s5" id="h5">
+  <div class="top">
+    <div class="eyebrow">Cómo empezar</div>
+    <h2 style="margin-top:24px">Es muy <em>fácil</em>.</h2>
+    <ol class="steps">
+      <li><div class="n">1</div><div><b>Creá tu cuenta</b><span>Con tu mail, en un minuto.</span></div></li>
+      <li><div class="n">2</div><div><b>Yo la apruebo</b><span>Así solo entran mis pacientes.</span></div></li>
+      <li><div class="n">3</div><div><b>¡Listo!</b><span>Entrás cuando quieras, desde el celu o la compu.</span></div></li>
+    </ol>
+  </div>
+  <div class="strip"></div>
+</section>
+
+<section class="story s6" id="h6">
+  <div class="photo"></div><div class="shade"></div>
+  <div class="logo"><svg><use href="#logo"/></svg></div>
+  <div class="bottom">
+    <h2>¿Querés <em>sumarte</em>?</h2>
+    <p class="lead">Respondé esta historia y te paso el link para crear tu cuenta.</p>
+    <div class="reply"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>Respondé acá</div>
+    <div class="lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Tus datos son privados: solo vos y yo los vemos.</div>
+  </div>
+</section>
+</body>
+</html>
