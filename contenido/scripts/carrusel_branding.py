@@ -45,7 +45,7 @@ def foot(i, n, dark=False):
 
 def strip(b, i, n):
     d = BRANDS[b]
-    return f'<div class="strip"><span><b>{d["nombre"]}</b> &nbsp;·&nbsp; {d["rubro"]}</span><span class="r">Marca de ejemplo &nbsp; {i}/{n}</span></div>'
+    return f'<div class="strip"><span><b>{d["nombre"]}</b> &nbsp;·&nbsp; {d["rubro"]}</span><span class="r">{i}/{n}</span></div>'
 
 def img(u, pos='50% 50%', extra=''):
     return f'<img src="{u}" style="object-position:{pos};{extra}">'
@@ -55,7 +55,7 @@ def portada():
     tiles = ''.join(f'<div class="ph">{img(mk(n), p)}</div>' for n, p in
                     [('almendra-bolsa', '50% 55%'), ('ondina-etiqueta', '50% 50%'), ('nube-caja', '50% 50%'), ('nacar-bolsas', '60% 50%')])
     return ('n', f'<div class="pad"><div class="eb">Guardalo</div><h1 style="font-size:112px">¿Logo o <em>branding</em>?</h1>'
-                 '<p class="body" style="margin:0;font-size:38px">Parecen lo mismo, pero no. Te lo muestro con 4 marcas de ejemplo.</p>'
+                 '<p class="body" style="margin:0;font-size:38px">Parecen lo mismo, pero no. Te lo muestro con 4 marcas.</p>'
                  f'<div class="mos">{tiles}</div></div>')
 
 def diferencia():
@@ -109,8 +109,7 @@ def manual():
 def final():
     return ('n', f'<div class="pad" style="justify-content:center"><div class="spk">{SP}</div><h1 style="font-size:100px">¿Querés una marca <em>así de completa</em>?</h1>'
                  '<p class="body" style="margin:0">Logo, colores, tipografías, packaging y todo lo que necesites para tus redes.</p>'
-                 '<div class="pill">Escribime y lo charlamos</div>'
-                 '<p style="margin:0;font-size:24px;color:var(--sub)">Almendra, Ondina, Nácar y Nube son marcas inventadas para este ejemplo.</p></div>')
+                 '<div class="pill">Escribime y lo charlamos</div></div>')
 
 def slides():
     return [portada(), diferencia(),
@@ -125,7 +124,7 @@ CAPTION = '''¿Logo o branding? Parecen lo mismo, pero no.
 El logo es tu firma: lo que te identifica de un vistazo.
 El branding es todo lo que hay alrededor: colores, tipografías, packaging, papelería y redes. Es lo que hace que te reconozcan aunque no veas el nombre.
 
-Te lo muestro con 4 marcas de ejemplo (Almendra, Ondina, Nácar y Nube son inventadas, las hice para este posteo).
+Te lo muestro con 4 marcas: Almendra, Ondina, Nácar y Nube.
 
 ¿Cuál te gustó más? Contame en los comentarios.
 Y si querés una marca así para tu emprendimiento, escribime.
