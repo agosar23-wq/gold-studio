@@ -98,23 +98,41 @@ def frames():
         out[i] = over(out[i], L['hook'], al)
     return out
 
-# ---------- sonido: base suave al ritmo + efectos en cada corte ----------
-def audio(path):
-    sr = RG.SR; n = int(sr * TOTAL); mix = np.zeros(n)
+# ---------- música: base lo-fi suave (piano eléctrico, bajo y ritmo), sin efectos en los cortes ----------
+def audio(path, bpm=120):
+    sr = RG.SR; n = int(sr * TOTAL); mix = np.zeros(n); beat = 60 / bpm
     def put(x, t, g=1.0):
-        i = int(t * sr); x = x[:max(0, n - i)]; mix[i:i + len(x)] += x * g
-    tt = np.arange(int(sr * .35)) / sr
-    kick = np.sin(2 * np.pi * (55 + 90 * np.exp(-tt * 30)) * tt) * np.exp(-tt * 9) * .8
-    hat = np.random.default_rng(3).standard_normal(int(sr * .05)) * np.exp(-np.arange(int(sr * .05)) / sr * 90) * .12
-    for k in range(int(5.6 / .5)): put(kick, k * .5 + .2)
-    for k in range(int(5.6 / .25)): put(hat, k * .25 + .325)
-    put(RG.whoosh(.35), 1.05); put(RG.whoosh(.4, 300, 2400, .35), 2.1); put(RG.tap(.3), 2.8)
-    for i in range(8): put(RG.tick(.09), 3.2 + i * .125)
-    put(RG.boom(.6), 4.2); put(RG.whoosh(.45), 5.45); put(RG.chime(.25), 5.7)
-    pad_t = np.arange(n) / sr   # colchón cálido de fondo
-    pad = sum(np.sin(2 * np.pi * f * pad_t) for f in (130.8, 164.8, 196.0)) * .035 * np.clip(pad_t / .4, 0, 1) * np.clip((TOTAL - pad_t) / .6, 0, 1)
-    mix = mix + pad
-    mix = mix / max(1e-6, np.abs(mix).max()) * .89
+        i = int(t * sr)
+        if i >= n: return
+        x = x[:n - i]; mix[i:i + len(x)] += x * g
+    hz = lambda m: 440 * 2 ** ((m - 69) / 12)
+    def keys(notes, d, g=.12):              # piano eléctrico: armónicos con caída suave y un poco de trémolo
+        t = np.arange(int(sr * d)) / sr
+        env = (1 - np.exp(-t * 60)) * np.exp(-t * 1.4)
+        trem = 1 + .08 * np.sin(2 * np.pi * 4.5 * t)
+        return sum((np.sin(2 * np.pi * hz(m) * t) + .35 * np.sin(4 * np.pi * hz(m) * t) + .1 * np.sin(6 * np.pi * hz(m) * t)) for m in notes) * env * trem * g
+    def bass(m, d, g=.3):
+        t = np.arange(int(sr * d)) / sr
+        return np.sin(2 * np.pi * hz(m) * t) * (1 - np.exp(-t * 80)) * np.exp(-t * 2.2) * g
+    tk = np.arange(int(sr * .3)) / sr
+    kick = np.sin(2 * np.pi * (50 + 70 * np.exp(-tk * 35)) * tk) * np.exp(-tk * 12) * .55
+    rng = np.random.default_rng(7)
+    rim = rng.standard_normal(int(sr * .08)) * np.exp(-np.arange(int(sr * .08)) / sr * 60) * .07
+    shk = rng.standard_normal(int(sr * .04)) * np.exp(-np.arange(int(sr * .04)) / sr * 120) * .035
+    prog = [([65, 69, 72, 76], 41), ([64, 67, 71, 74], 40), ([62, 65, 69, 72], 38), ([60, 64, 67, 71], 36)]   # Fmaj7 Em7 Dm7 Cmaj7
+    bar = 4 * beat; t0 = 0.0; k = 0
+    while t0 < TOTAL:
+        ch, root = prog[k % 4]
+        put(keys(ch, bar + .6), t0); put(keys([ch[-1] + 12], beat * 1.5, .05), t0 + beat * 2.5)
+        put(bass(root, beat * 1.8), t0); put(bass(root + 7, beat * 1.2), t0 + beat * 2)
+        for q in range(4):
+            if q in (0, 2): put(kick, t0 + q * beat)
+            else: put(rim, t0 + q * beat)
+        for e in range(8): put(shk, t0 + e * beat / 2 + beat / 4, .8 if e % 2 else .5)
+        t0 += bar; k += 1
+    tt = np.arange(n) / sr
+    mix *= np.clip(tt / .3, 0, 1) * np.clip((TOTAL - tt) / .8, 0, 1)
+    mix = mix / max(1e-6, np.abs(mix).max()) * .85
     with wave.open(path, 'wb') as w:
         w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr); w.writeframes((mix * 32767).astype('<i2').tobytes())
 
