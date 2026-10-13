@@ -24,3 +24,5 @@ Orden sugerido: Servicios · Trabajos · Proceso · Paquetes · Ejemplos · Sobr
 - `cuenta-regresiva`: sticker de cuenta regresiva para tu próximo lanzamiento.
 
 Los espacios vacíos son para los stickers. Los emojis los ponés vos.
+
+Fotos de escritorio: Pexels (sesión 7015xxx, sin caras), en `scratch/estudio/`. Capturas de la web en `scratch/web/`.
