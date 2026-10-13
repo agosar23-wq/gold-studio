@@ -140,7 +140,7 @@ s_est = f'{step(3, "Estrategia y <em>contenidos</em>")}{est}'
 
 # 5. Diseños
 feed6 = '<div class="feed6">' + ''.join(FEED6) + '</div>'
-s_dis = (f'{step(4, "Diseñamos <em>los posteos</em>")}{feed6}<p class="cap" style="margin:0;text-align:center">Fotos del mismo lugar + una mascota propia que le da personalidad.</p>')
+s_dis = (f'{step(4, "Diseñamos <em>los posteos</em>")}{feed6}<p class="cap" style="margin:0;text-align:center">Fotos del mismo lugar + un personaje propio que le da personalidad.</p>')
 
 # 6. Un posteo de cerca, como se ve en Instagram
 HEART = '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1C1A17" stroke-width="1.7"><path d="M12 20s-7-4.4-9-8.7C1.6 8.3 3.6 5 6.8 5c2 0 3.4 1.1 4.2 2.4h2C13.8 6.1 15.2 5 17.2 5c3.2 0 5.2 3.3 3.8 6.3-2 4.3-9 8.7-9 8.7z"/></svg>'
@@ -151,7 +151,7 @@ big = (f'<div class="shadow" style="width:690px;align-self:center;background:#ff
        f'<b style="font-size:22px;font-weight:500">tostado.cafe</b><span style="margin-left:auto;font-size:28px;letter-spacing:2px">···</span></div>'
        f'<div style="height:862px;position:relative;overflow:hidden">{nada_svg()}</div>'
        f'<div style="display:flex;gap:20px;padding:16px 20px">{HEART}{BUB}{SEND}</div></div>')
-s_big = f'<div class="eb" style="text-align:center">De cerca</div>{big}<p class="cap" style="margin:0;text-align:center">Fotos reales + una mascota propia: <b>así se vuelve inconfundible.</b></p>'
+s_big = f'<div class="eb" style="text-align:center">De cerca</div>{big}<p class="cap" style="margin:0;text-align:center">Fotos reales + un personaje propio: <b>así se vuelve inconfundible.</b></p>'
 
 # 7. Perfil
 prof = ('<div class="shadow" style="width:560px;border-radius:56px;background:#111;padding:14px;align-self:center"><div style="border-radius:44px;overflow:hidden;background:#fff;color:#1C1A17">'
