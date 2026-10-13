@@ -24,6 +24,7 @@ Después se usa todo igual:
 - `scripts/reel_fotos.py`: reel con fotos a pantalla completa "Todo lo que tu marca necesita" (fotos en `scratch/reelfotos/`).
 - `scripts/reel_fotos_edit.py`: versión editada del reel con fotos (transiciones, pulso al ritmo, destellos y grano).
 - `scripts/musica.py`: música original sintetizada (house suave 120 BPM, sin derechos) para usar en reels.
+- `scripts/reel_editor.py`: reel "¿Necesitás un editor?" con videos de Pexels (antes crudo / después editado con subtítulos, zooms y transiciones). Baja los videos solo; usa `scratch/reel2.js`.
 - `scripts/mocks.py`, `pack.py`, `mascota.py`, `yogi.py`, `ilus_cafe.py`: dibujos y maquetas reutilizables.
 - `scripts/semana*.py`: lo que ya se publicó, como ejemplo.
 - `marca/`: logos, foto de perfil y paleta.
