@@ -86,5 +86,4 @@ def build(name, artista, cancion, music):
     p.stdin.close(); p.wait(); return out
 
 if __name__ == '__main__':
-    print(build('mora', 'Mora', 'Lejos', 'reel_cafe'))
-    print(build('omar', 'Omar Courtz', 'Mañana sí', 'reel_hamburguesas'))
+    print(build('omar', 'Omar Courtz', 'Otra vuelta', 'reel_hamburguesas'))

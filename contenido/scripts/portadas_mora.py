@@ -30,7 +30,17 @@ NOTES = {'tiempo': [('foto real, color\nnatural, sin filtro', 80, 90, 380, 300),
                     ('logo tipo sticker,\ncomo Microdosis', 80, 1080, 480, 880), ('nombre chiquito\na mano', 900, 1180, 1120, 1320)],
          'boleto': [('el título es\nun boleto', 520, 140, 860, 300), ('gente esperando =\nla vida de todos los días', 60, 980, 420, 820),
                     ('color natural', 940, 1220, 1050, 1100), ('foto de la calle', 80, 160, 380, 420)]}
+B = f'{SCR}/bol'
+# opciones de foto para 'Boleto' (posición del boleto-sticker según la foto)
+BOLETO_OPC = {'boleto-a': (f'{B}/4485230.jpg', .5, .5, 'left:880px;top:150px'),      # tres chicos sentados en la parada, de frente
+              'boleto-b': (f'{B}/18262969.jpg', .5, .62, 'left:90px;top:180px'),      # pareja esperando, llega el colectivo
+              'boleto-c': (f'{B}/18262971.jpg', .62, .5, 'left:880px;top:900px')}     # comprando el boleto en la máquina
 def build():
+    for name, (path, cx, cy, pos) in BOLETO_OPC.items():
+        img = crop_sq(path, cx, cy); img.save(f'{OUT}/mora-{name}-foto.png')
+        ov = Image.open(PA.render_overlay(f'mora-{name}-texto', BOLETO.replace('left:880px;top:180px', pos))).convert('RGBA')
+        fin = img.convert('RGBA'); fin.alpha_composite(ov); fin.convert('RGB').save(f'{OUT}/mora-{name}-final.png')
+    return
     for name, img, txt in [('tiempo', crop_sq(f'{M}/8695273.jpg', .5, .55), TIEMPO), ('boleto', crop_sq(f'{M}/19515119.jpg', .5, .7), BOLETO)]:
         img.save(f'{OUT}/mora-{name}-foto.png')
         ov = Image.open(PA.render_overlay(f'mora-{name}-texto', txt)).convert('RGBA')

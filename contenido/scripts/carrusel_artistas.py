@@ -55,14 +55,13 @@ MORA = slides('mora', 'Mora', 'Lejos', 'Que se reconozca, pero que sea una etapa
     'Un auto viejo estacionado bajo el único farol de una calle vacía. Después de “lo mismo de siempre”, lo que sigue es irse. El título va en letra de máquina, como un pasaje.',
     [b(f'{A}/16007818.jpg', 'image/jpeg'), b(f'{A}/10063762.jpg', 'image/jpeg'), b(f'{A}/10754839.jpg', 'image/jpeg')],
     'Concepto hecho por mí para practicar, no es una portada oficial. Fotos de Pexels.')
-OMAR = slides('omar', 'Omar Courtz', 'Mañana sí', 'Que se reconozca, pero que sea una etapa nueva',
-    [('Onda Y2K', 'Letras redondas, brillitos y algo de juego.'), ('Color fuerte', 'Un azul que se ve de lejos.'),
-     ('De la noche al día', 'Su último disco es neón y oscuridad. Este es sol y cielo.'), ('Cromo en vez de neón', 'Letras plateadas que reflejan la luz del día.')],
-    ['#1B4C8C', '#4F86C6', '#BFD7EE', '#FFFFFF', '#2D4466'], ['Día', 'Cielo', 'Esperanza', 'Cromo'],
-    'Una respuesta a “Por si mañana no estoy”: mañana sí. El sol que asoma detrás de las nubes y el título en letras cromadas, como algo nuevo que empieza.',
-    [b(f'{A}/34838311.jpg', 'image/jpeg'), b(f'{A}/912110.jpg', 'image/jpeg'), b(f'{A}/5745761.jpg', 'image/jpeg')],
-    'Concepto hecho por mí para practicar, no es una portada oficial. Fotos de Pexels.')
+OMAR = slides('omar', 'Omar Courtz', 'Otra vuelta', 'Su esencia, con un concepto nuevo',
+    [('Ilustración y personajes', 'Sus portadas no son fotos: son dibujos con personajes.'), ('Letra a mano que brilla', 'Como un neón dibujado a mano.'),
+     ('Concepto nuevo', 'Nada de hadas: una máquina de peluches y un corazón que se escapa.'), ('Otro color', 'Verde lima y negro, que nunca usó.')],
+    ['#0B0B06', '#3A3F0E', '#9CB82A', '#D8FF2E', '#FFFDE8'], ['Ilustración', 'Noche', 'Suerte', 'Corazón'],
+    'Una máquina de peluches llena de corazones iguales, y uno solo que brilla y tiene cara: el que la garra por fin agarra. Por eso “otra vuelta”: seguir intentando hasta que sale.',
+    [b(f'{P}/omar-det-corazon.png'), b(f'{P}/omar-det-pibe.png'), b(f'{P}/omar-det-titulo.png')],
+    'Concepto hecho por mí para practicar, no es una portada oficial.')
 
 if __name__ == '__main__':
-    print(render('portada-concepto-mora', MORA, EXT))
     print(render('portada-concepto-omar-courtz', OMAR, EXT))
