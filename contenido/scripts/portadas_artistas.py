@@ -96,7 +96,7 @@ def notes_html(title_html, items):
     arrows = ''.join(f'<path d="M{x+20} {y+40} Q{(x+ax)/2+60} {(y+ay)/2-40} {ax} {ay}" /><path d="M{ax} {ay} l-26 -6 M{ax} {ay} l-8 -26"/>' for t, x, y, ax, ay in items)
     labels = ''.join(f'<div class="nt" style="left:{x}px;top:{y}px">{t}</div>' for t, x, y, ax, ay in items)
     return (f'''<!doctype html><meta charset="utf-8"><style>{CSSF}
-.nt{{position:absolute;font-family:Hand;font-size:62px;line-height:1;color:#B8923A;transform:rotate(-3deg);white-space:pre-line}}
+.nt{{position:absolute;font-family:Hand;font-size:62px;line-height:1;color:#B8923A;transform:rotate(-3deg);white-space:pre-line;background:rgba(244,242,236,.93);padding:4px 14px 8px;border-radius:10px}}
 .pen{{position:absolute;inset:0;color:#555;opacity:.75}}</style><div class="c"><div class="pen">{title_html}</div>
 <svg style="position:absolute;inset:0" width="{N}" height="{N}" fill="none" stroke="#B8923A" stroke-width="5" stroke-linecap="round">{arrows}</svg>{labels}</div>''')
 
