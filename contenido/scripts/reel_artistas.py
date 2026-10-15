@@ -26,7 +26,7 @@ def layers(artista, cancion):
      'cierre': (f'<div class="c" style="background:#FAF6EE;color:#1C1A17;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:50px;padding:0 90px;box-sizing:border-box">'
                 f'<div style="width:120px;height:120px;color:#C9A34E">{SP}</div><div style="font-family:B;font-size:104px;line-height:1.06">¿Qué artista hago <i style="color:#8A6A22">la próxima?</i></div>'
                 f'<div style="background:#1C1A17;color:#FAF6EE;border-radius:999px;padding:26px 50px;font-size:40px">@goldstudio.ba</div>'
-                f'<div style="font-size:30px;color:#5E5649">Concepto no oficial, hecho para practicar.</div></div>'),
+                f'</div>'),
     }
     html = f'<!doctype html><meta charset="utf-8"><style>{CSS}</style>' + ''.join(f'<div id="{k}" style="width:{W}px;height:{H}px">{v}</div>' for k, v in L.items())
     open(f'{WORK}/l.html', 'w').write(html)

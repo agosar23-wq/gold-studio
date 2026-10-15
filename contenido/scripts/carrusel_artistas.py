@@ -26,7 +26,7 @@ PLAY = '<svg width="80" height="80" viewBox="0 0 24 24"><circle cx="12" cy="12" 
 def slides(name, artista, cancion, eb_estilo, estilo_items, colores, kws, idea, mood, notas_cierre):
     fin, bos = b(f'{P}/{name}-final.png'), b(f'{P}/{name}-boceto.png')
     S = []
-    S.append(('n', f'''<div class="eb">Portada concepto</div><h1 style="font-size:96px">Así diseñaría la portada del próximo single de <em>{artista}</em></h1>
+    S.append(('n', f'''<div class="eb">Portada</div><h1 style="font-size:96px">Así diseñaría la portada del próximo single de <em>{artista}</em></h1>
       <div style="position:relative;height:470px;margin-top:10px"><div class="ph cover" style="position:absolute;left:40px;top:30px;width:400px;height:400px;background-image:url({bos});transform:rotate(-6deg)"></div>
       <div class="ph cover" style="position:absolute;left:400px;top:0;width:420px;height:420px;background-image:url({fin});transform:rotate(4deg);filter:blur(14px)"></div>
       <div class="hand" style="position:absolute;left:520px;top:200px;color:#FAF6EE;font-size:60px;transform:rotate(-6deg)">el final al final ;)</div></div>''', 'justify-content:center'))
@@ -54,14 +54,14 @@ MORA = slides('mora', 'Mora', 'Boleto', 'Su esencia, con un concepto nuevo',
     ['#2B2A33', '#4A3C3A', '#E8A37A', '#F6C9B3', '#F3E9E4'], ['Esperar', 'Atardecer', 'Barrio', 'Silencio'],
     'Alguien solo en una parada de colectivo al atardecer, con la cabeza baja. No se sabe si espera a alguien o si se está yendo: eso es “Boleto”.',
     [b(f'{P}/mora-det-persona.png'), b(f'{P}/mora-det-titulo.png'), b(f'{P}/mora-det-barrio.png')],
-    'Concepto hecho por mí para practicar, no es una portada oficial.')
+    '')
 OMAR = slides('omar', 'Omar Courtz', 'Otra vuelta', 'Su esencia, con un concepto nuevo',
     [('Ilustración y personajes', 'Sus portadas no son fotos: son dibujos con personajes.'), ('Letra a mano que brilla', 'Como un neón dibujado a mano.'),
      ('Concepto nuevo', 'Nada de hadas: una máquina de peluches y un corazón que se escapa.'), ('Otro color', 'Verde lima y negro, que nunca usó.')],
     ['#0B0B06', '#3A3F0E', '#9CB82A', '#D8FF2E', '#FFFDE8'], ['Ilustración', 'Noche', 'Suerte', 'Corazón'],
     'Una máquina de peluches llena de corazones iguales, y uno solo que brilla y tiene cara: el que la garra por fin agarra. Por eso “otra vuelta”: seguir intentando hasta que sale.',
     [b(f'{P}/omar-det-corazon.png'), b(f'{P}/omar-det-pibe.png'), b(f'{P}/omar-det-titulo.png')],
-    'Concepto hecho por mí para practicar, no es una portada oficial.')
+    '')
 
 if __name__ == '__main__':
     print(render('portada-concepto-mora', MORA, EXT))
