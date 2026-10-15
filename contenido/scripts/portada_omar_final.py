@@ -15,3 +15,6 @@ al = tit.getchannel('A').point(lambda v: 255 if v > 150 else 0)
 edge = np.asarray(al.filter(ImageFilter.FIND_EDGES)); gray = Image.new('RGBA', (N, N), (60, 60, 60, 0))
 gray.putalpha(Image.fromarray(np.clip(edge * 3, 0, 230).astype(np.uint8)).filter(ImageFilter.MaxFilter(3)))
 sk.alpha_composite(gray); sk.convert('RGB').save(f'{OUT}/omar-boceto.png')
+fin = Image.open(f'{OUT}/omar-final.png')
+for n, (x, y, w, h) in {'corazon': (560, 500, 440, 440), 'pibe': (150, 820, 750, 680), 'titulo': (80, 40, 1360, 380)}.items():
+    fin.crop((x, y, x + w, y + h)).save(f'{OUT}/omar-det-{n}.png')
