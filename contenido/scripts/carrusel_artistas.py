@@ -48,13 +48,13 @@ def slides(name, artista, cancion, eb_estilo, estilo_items, colores, kws, idea, 
       <div class="pill">Contame en comentarios</div><p class="body" style="font-size:28px;margin:0">{notas_cierre}</p>''', ''))
     return S
 
-MORA = slides('mora', 'Mora', 'Lejos', 'Que se reconozca, pero que sea una etapa nueva',
-    [('Foto real', 'Nada de estudio: lugares de verdad, como siempre.'), ('Grano de película', 'Ese aire de foto vieja que es tan suyo.'),
-     ('De casa a la ruta', 'Su último disco pasa adentro. Este sale afuera: irse lejos.'), ('Frío en vez de cálido', 'Verde azulado con el ámbar de un solo farol.')],
-    ['#0E1A1C', '#23403F', '#6E2A22', '#D9A15A', '#F3EBDD'], ['Ruta', 'Noche', 'Irse', 'Película'],
-    'Un auto viejo estacionado bajo el único farol de una calle vacía. Después de “lo mismo de siempre”, lo que sigue es irse. El título va en letra de máquina, como un pasaje.',
-    [b(f'{A}/16007818.jpg', 'image/jpeg'), b(f'{A}/10063762.jpg', 'image/jpeg'), b(f'{A}/10754839.jpg', 'image/jpeg')],
-    'Concepto hecho por mí para practicar, no es una portada oficial. Fotos de Pexels.')
+MORA = slides('mora', 'Mora', 'Boleto', 'Su esencia, con un concepto nuevo',
+    [('Foto real', 'Sus portadas son fotos de momentos cotidianos, no ilustraciones.'), ('Título a mano', 'Escrito como un garabato, como en Estrella.'),
+     ('Concepto nuevo', 'Una parada de colectivo al atardecer: esperar, irse, volver.'), ('Composición de póster', 'Centrada, simétrica y con mucho aire.')],
+    ['#2B2A33', '#4A3C3A', '#E8A37A', '#F6C9B3', '#F3E9E4'], ['Esperar', 'Atardecer', 'Barrio', 'Silencio'],
+    'Alguien solo en una parada de colectivo al atardecer, con la cabeza baja. No se sabe si espera a alguien o si se está yendo: eso es “Boleto”.',
+    [b(f'{P}/mora-det-persona.png'), b(f'{P}/mora-det-titulo.png'), b(f'{P}/mora-det-barrio.png')],
+    'Concepto hecho por mí para practicar, no es una portada oficial.')
 OMAR = slides('omar', 'Omar Courtz', 'Otra vuelta', 'Su esencia, con un concepto nuevo',
     [('Ilustración y personajes', 'Sus portadas no son fotos: son dibujos con personajes.'), ('Letra a mano que brilla', 'Como un neón dibujado a mano.'),
      ('Concepto nuevo', 'Nada de hadas: una máquina de peluches y un corazón que se escapa.'), ('Otro color', 'Verde lima y negro, que nunca usó.')],
@@ -64,4 +64,5 @@ OMAR = slides('omar', 'Omar Courtz', 'Otra vuelta', 'Su esencia, con un concepto
     'Concepto hecho por mí para practicar, no es una portada oficial.')
 
 if __name__ == '__main__':
+    print(render('portada-concepto-mora', MORA, EXT))
     print(render('portada-concepto-omar-courtz', OMAR, EXT))
