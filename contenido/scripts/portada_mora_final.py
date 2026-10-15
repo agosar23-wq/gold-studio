@@ -1,4 +1,4 @@
-"""Mora · 'Boleto' (concepto no oficial): foto (Canva) tal cual + título a mano en blanco. Boceto y final 1500×1500."""
+"""Mora · 'Boleto': foto (Canva) tal cual + título a mano en bordó (con MORA al lado). Boceto y final 1500×1500."""
 import sys, subprocess, os; sys.path.insert(0, '/home/user/gold-studio-contenido')
 import numpy as np
 from PIL import Image, ImageFilter
@@ -9,12 +9,12 @@ base = Image.open(f'{SCR}/mora-boleto-canva.jpg').convert('RGB').resize((N, N), 
 TXT = f'''<!doctype html><meta charset="utf-8"><style>{PA.CSSF}
 .t{{position:absolute;left:110px;top:120px;font-family:Mark;font-size:150px;color:#3B1424;transform:rotate(-6deg);text-shadow:0 3px 12px rgba(255,240,230,.55)}}
 .u{{position:absolute;left:120px;top:300px;width:430px;height:14px;border-radius:7px;background:#3B1424;transform:rotate(-6deg);opacity:.9}}
-.m{{position:absolute;right:110px;bottom:90px;font-family:Mark;font-size:64px;color:#FFFFFF;letter-spacing:3px;transform:rotate(-3deg);opacity:.95}}
+.m{{position:absolute;left:640px;top:205px;font-family:Mark;font-size:62px;color:#3B1424;letter-spacing:3px;transform:rotate(-6deg);text-shadow:0 3px 12px rgba(255,240,230,.55)}}
 </style><div class="c"><div class="t">boleto</div><div class="u"></div><div class="m">MORA</div></div>'''
 ov = Image.open(PA.render_overlay('mora-boleto2-texto', TXT)).convert('RGBA')
 fin = base.convert('RGBA'); fin.alpha_composite(ov); fin.convert('RGB').save(f'{OUT}/mora-final.png')
 # (texto, x, y, flecha desde (sx, sy) hasta (ax, ay)) - notas en zonas libres y con fondo papel para que nada tape las letras
-NOTES = [('título a mano, como garabato', 690, 70, 680, 120, 600, 190), ('foto real, color natural', 700, 220, 1150, 250, 1220, 160),
+NOTES = [('título a mano, como garabato', 640, 60, 640, 100, 560, 165), ('foto real,\ncolor natural', 30, 420, 300, 550, 520, 640),
          ('una persona sola,\nesperando', 60, 1290, 330, 1290, 600, 1060), ('composición centrada', 800, 1240, 820, 1240, 760, 1150)]
 arr = ''.join(f'<path d="M{sx} {sy} Q{(sx+ax)/2+40} {(sy+ay)/2-40} {ax} {ay}"/>' for t, x, y, sx, sy, ax, ay in NOTES)
 def head(sx, sy, ax, ay):
