@@ -12,6 +12,7 @@ PNG64 = lambda p: 'data:image/png;base64,' + base64.b64encode(open(p, 'rb').read
 LOGO = SCR + '/sunekos/logo_taupe.png'     # logo real del consultorio, en su color
 PACK = SCR + '/sunekos/pack_final.png'     # producto recortado
 PARED = SCR + '/sunekos/bg/4207776.jpg'    # pared beige con sombra de hojas (Pexels)
+ESCENA = SCR + '/sunekos/escena.png'      # foto del producto sobre mármol (la que mandó Agos)
 MONO = (f'<svg width="96" height="140" viewBox="0 0 96 140" fill="none" stroke="#8F857C" stroke-width="2.4">'
         '<path d="M8 62 V48 a40 40 0 0 1 80 0 V62 M8 78 V92 a40 40 0 0 0 80 0 V78"/>'
         '<text x="40" y="100" font-family="J" font-weight="300" font-size="62" fill="none" stroke="#8F857C" stroke-width="1.6" text-anchor="middle">S</text>'
@@ -69,6 +70,8 @@ body{{margin:0;background:#EFE8DE}}
 .prod{{position:absolute;left:50%;bottom:322px;width:470px;transform:translateX(-50%)}}
 .prod img{{width:100%;display:block;position:relative;filter:drop-shadow(-24px 18px 26px rgba(70,50,30,.28))}}
 .cs{{position:absolute;border-radius:50%;background:rgba(40,28,18,.55);filter:blur(9px)}}
+.eb2{{position:absolute;inset:-60px;background-size:520% auto;background-position:78% 0%;filter:blur(30px) brightness(1.06)}}
+.shot{{position:absolute;bottom:0;left:-165px;height:780px;-webkit-mask-image:linear-gradient(transparent 16%,#000 46%);mask-image:linear-gradient(transparent 16%,#000 46%)}}
 .veil{{position:absolute;inset:0;background:linear-gradient(rgba(250,245,238,.45),rgba(250,245,238,0) 40%)}}
 .tag{{position:absolute;top:118px;left:0;right:0;text-align:center;font-size:31px;letter-spacing:.2em;line-height:1.55;color:#4A3C34;font-weight:400}}
 .tag .orn i{{background:#B9A88F}}
@@ -80,7 +83,7 @@ body{{margin:0;background:#EFE8DE}}
 <div class="box">{icon('face')}<div><b style="display:block;font-size:19px;letter-spacing:.06em;color:{G};font-weight:500;margin-bottom:4px">NO ES UN RELLENO</b>
 <span style="font-size:18px;line-height:1.4;color:{TX}">Mejora la calidad de la piel sin agregar volumen. Rostro, cuello y escote.</span></div></div>
 </div>
-<div class="r"><div class="ph"></div><div class="veil"></div><div class="floor"></div><div class="pshadow"></div><div class="ped"><div class="side"></div><div class="tex"></div><div class="top"></div></div><div class="prod"><div class="cs" style="left:2%;bottom:-4px;width:62%;height:26px;transform:rotate(-15deg);transform-origin:left"></div><div class="cs" style="right:0;bottom:-6px;width:30%;height:20px"></div><img src="{PNG64(PACK)}"></div><div class="tag">CIENCIA QUE REGENERA<br>TU PIEL{ORN}</div></div>
+<div class="r"><div class="eb2" style="background-image:url({PNG64(ESCENA)})"></div><img class="shot" src="{PNG64(ESCENA)}"><div class="veil"></div><div class="tag">CIENCIA QUE REGENERA<br>TU PIEL{ORN}</div></div>
 </div>'''
 
 def render():
