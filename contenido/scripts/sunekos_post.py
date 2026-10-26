@@ -18,12 +18,15 @@ MONO = (f'<svg width="96" height="140" viewBox="0 0 96 140" fill="none" stroke="
         '<text x="40" y="100" font-family="J" font-weight="300" font-size="62" fill="none" stroke="#8F857C" stroke-width="1.6" text-anchor="middle">S</text>'
         '<text x="58" y="88" font-family="J" font-weight="300" font-size="50" fill="none" stroke="#8F857C" stroke-width="1.6" text-anchor="middle">C</text></svg>')
 def icon(kind):
-    s = {'mol': '<circle cx="32" cy="32" r="6"/><circle cx="18" cy="20" r="4.5"/><circle cx="46" cy="20" r="4.5"/><circle cx="20" cy="46" r="4.5"/><circle cx="46" cy="44" r="4.5"/><path d="M27 28 L21 23 M37 28 L43 23 M27 36 L23 43 M37 36 L42 41"/>',
-         'spark': '<path d="M32 12 C33.5 26 38 30.5 52 32 C38 33.5 33.5 38 32 52 C30.5 38 26 33.5 12 32 C26 30.5 30.5 26 32 12Z"/><path d="M48 12 v8 M44 16 h8"/>',
-         'drop': '<path d="M32 12 C26 22 19 30 19 38 a13 13 0 0 0 26 0 C45 30 38 22 32 12Z"/>',
-         'line': '<path d="M14 44 C22 44 24 24 32 24 S42 40 50 20"/><circle cx="50" cy="20" r="3" fill="currentColor"/>',
-         'face': '<path d="M32 10 C20 10 14 20 14 31 C14 44 22 54 32 54 C42 54 50 44 50 31 C50 20 44 10 32 10Z"/><path d="M24 30 h4 M36 30 h4 M26 41 c3 3 9 3 12 0"/>'}[kind]
-    return (f'<div class="ic"><svg viewBox="0 0 64 64" width="58" height="58" fill="none" stroke="currentColor" stroke-width="2.4" '
+    s = {  # íconos de línea fina, dibujados en una grilla de 64
+     'mol': '<circle cx="32" cy="32" r="7"/><circle cx="14" cy="18" r="5"/><circle cx="50" cy="18" r="5"/><circle cx="14" cy="46" r="5"/><circle cx="50" cy="46" r="5"/>'
+            '<path d="M18.3 20.6 L26.2 27.8 M45.7 20.6 L37.8 27.8 M18.3 43.4 L26.2 36.2 M45.7 43.4 L37.8 36.2"/>',
+     'spark': '<path d="M30 12 C31.6 25 35 28.4 48 30 C35 31.6 31.6 35 30 48 C28.4 35 25 31.6 12 30 C25 28.4 28.4 25 30 12Z"/>'
+              '<path d="M48 40 C48.6 45 50 46.4 55 47 C50 47.6 48.6 49 48 54 C47.4 49 46 47.6 41 47 C46 46.4 47.4 45 48 40Z"/>',
+     'drop': '<path d="M32 9 C25 19 17 28 17 38 a15 15 0 0 0 30 0 C47 28 39 19 32 9Z"/><path d="M25 39 a8 8 0 0 0 6 7"/>',
+     'line': '<path d="M12 50 H52"/><path d="M14 42 C22 42 24 30 31 30 S40 36 47 20"/><path d="M41 19 L47.5 18.5 L48.5 25"/>',
+     'face': '<path d="M38 11 C27 9 18 16 17 27 C16 33 14 36 12 39 L17 41 L17 47 C17 51 21 53 27 52 L29 57 H45"/><path d="M35 30 h4 M30 43 c3 1.6 6 1.6 8 0"/>'}[kind]
+    return (f'<div class="ic"><svg viewBox="0 0 64 64" width="62" height="62" fill="none" stroke="currentColor" stroke-width="2.3" '
             f'stroke-linecap="round" stroke-linejoin="round">{s}</svg></div>')
 STAR = f'<svg width="22" height="22" viewBox="0 0 100 100"><path d="M50 0 C54.5 40 60 45.5 100 50 C60 54.5 54.5 60 50 100 C45.5 60 40 54.5 0 50 C40 45.5 45.5 40 50 0Z" fill="{G}"/></svg>'
 ORN = f'<div class="orn"><i></i>{STAR}<i></i></div>'
@@ -51,13 +54,13 @@ body{{margin:0;background:#EFE8DE}}
 .lead em{{font-style:normal;color:{G}}}
 .its{{display:flex;flex-direction:column;gap:22px;width:100%;margin-top:6px}}
 .it{{display:flex;gap:22px;align-items:center}}
-.ic{{width:96px;height:96px;border-radius:50%;border:1.6px solid {G};color:{G};display:grid;place-items:center;flex:none}}
+.ic{{width:92px;height:92px;border-radius:50%;color:#2E8FCB;display:grid;place-items:center;flex:none;position:relative;background:radial-gradient(circle at 35% 30%,#FFFFFF,#E7F3FB 70%);box-shadow:0 0 0 1.5px rgba(58,159,216,.55),0 0 0 7px #F6F1EA,0 0 0 8px rgba(58,159,216,.18),0 10px 18px -10px rgba(46,143,203,.45)}}
 .it b{{display:block;font-size:19px;letter-spacing:.06em;text-transform:uppercase;color:{G};font-weight:500;margin-bottom:5px}}
 .it span{{display:block;font-size:18.5px;line-height:1.42;color:{TX}}}
 .box{{margin-top:auto;width:100%;border:1.5px solid {LN};border-radius:18px;padding:16px 22px;display:flex;gap:20px;align-items:center;box-sizing:border-box;background:#FBF8F3}}
 .mono{{width:92px;margin-top:4px}}
 .brand sup{{color:{G}}}
-.box .ic{{width:76px;height:76px}} .box .ic svg{{width:52px;height:52px}}
+.box .ic{{width:74px;height:74px;box-shadow:0 0 0 1.5px rgba(58,159,216,.55),0 0 0 6px #FBF8F3,0 0 0 7px rgba(58,159,216,.18)}} .box .ic svg{{width:50px;height:50px}}
 .r{{flex:1;border-radius:26px;overflow:hidden;position:relative}}
 .ph{{position:absolute;inset:0;background:url({B64(PARED)}) 50% 30%/cover;filter:sepia(.25) saturate(.85) brightness(1.22) contrast(.82)}}
 .floor{{position:absolute;left:0;right:0;bottom:0;height:300px;background:linear-gradient(#E3D7C7,#D8CAB8);box-shadow:0 -1px 0 rgba(255,255,255,.4)}}
