@@ -6,10 +6,10 @@ FOTO = SCR + '/sunekos/foto.jpg'      # foto del consultorio (producto sobre má
 OUT = '/home/user/gold-studio-final/consultorio/sunekos-performa.png'
 B64 = lambda p: 'data:image/jpeg;base64,' + base64.b64encode(open(p, 'rb').read()).decode()
 
-G, INK, TX, IV, LN = '#3FA9E0', '#FFFFFF', '#C3C8CE', '#141517', '#2C2F33'   # colores de la caja: negro, blanco y celeste
+G, INK, TX, IV, LN = '#3A9FD8', '#3A2E28', '#6B5E55', '#F6F1EA', '#E4D8C6'   # como la pieza de Profhilo, con celeste (de la caja) en vez de dorado
 NAVY = '#1F3A6B'
 PNG64 = lambda p: 'data:image/png;base64,' + base64.b64encode(open(p, 'rb').read()).decode()
-LOGO = SCR + '/sunekos/logo_white.png'     # logo real del consultorio, en blanco
+LOGO = SCR + '/sunekos/logo_taupe.png'     # logo real del consultorio, en su color
 PACK = SCR + '/sunekos/pack_final.png'     # producto recortado
 PARED = SCR + '/sunekos/bg/4207776.jpg'    # pared beige con sombra de hojas (Pexels)
 MONO = (f'<svg width="96" height="140" viewBox="0 0 96 140" fill="none" stroke="#8F857C" stroke-width="2.4">'
@@ -53,9 +53,8 @@ body{{margin:0;background:#EFE8DE}}
 .ic{{width:96px;height:96px;border-radius:50%;border:1.6px solid {G};color:{G};display:grid;place-items:center;flex:none}}
 .it b{{display:block;font-size:19px;letter-spacing:.06em;text-transform:uppercase;color:{G};font-weight:500;margin-bottom:5px}}
 .it span{{display:block;font-size:18.5px;line-height:1.42;color:{TX}}}
-.box{{margin-top:auto;width:100%;border:1.5px solid #2E4C80;border-radius:18px;padding:16px 22px;display:flex;gap:20px;align-items:center;box-sizing:border-box;background:{NAVY}}}
-.box span{{color:#D6E2F2 !important}}
-.mono{{width:84px;margin-top:4px}}
+.box{{margin-top:auto;width:100%;border:1.5px solid {LN};border-radius:18px;padding:16px 22px;display:flex;gap:20px;align-items:center;box-sizing:border-box;background:#FBF8F3}}
+.mono{{width:92px;margin-top:4px}}
 .brand sup{{color:{G}}}
 .box .ic{{width:76px;height:76px}} .box .ic svg{{width:52px;height:52px}}
 .r{{flex:1;border-radius:26px;overflow:hidden;position:relative}}
