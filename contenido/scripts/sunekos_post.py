@@ -70,8 +70,8 @@ body{{margin:0;background:#EFE8DE}}
 .prod{{position:absolute;left:50%;bottom:322px;width:470px;transform:translateX(-50%)}}
 .prod img{{width:100%;display:block;position:relative;filter:drop-shadow(-24px 18px 26px rgba(70,50,30,.28))}}
 .cs{{position:absolute;border-radius:50%;background:rgba(40,28,18,.55);filter:blur(9px)}}
-.eb2{{position:absolute;inset:-60px;background-size:520% auto;background-position:78% 0%;filter:blur(30px) brightness(1.06)}}
-.shot{{position:absolute;bottom:0;left:-165px;height:780px;-webkit-mask-image:linear-gradient(transparent 16%,#000 46%);mask-image:linear-gradient(transparent 16%,#000 46%)}}
+.eb2{{position:absolute;inset:0;background:radial-gradient(ellipse 80% 45% at 70% 8%,rgba(255,244,226,.55),rgba(255,244,226,0)),linear-gradient(#E6D6BE,#D9C5A8 30%,#CEB897 38%)}}
+.shot{{position:absolute;bottom:0;left:-163px;height:800px;-webkit-mask-image:linear-gradient(transparent 0%,#000 16%);mask-image:linear-gradient(transparent 0%,#000 16%)}}
 .veil{{position:absolute;inset:0;background:linear-gradient(rgba(250,245,238,.45),rgba(250,245,238,0) 40%)}}
 .tag{{position:absolute;top:118px;left:0;right:0;text-align:center;font-size:31px;letter-spacing:.2em;line-height:1.55;color:#4A3C34;font-weight:400}}
 .tag .orn i{{background:#B9A88F}}
@@ -83,7 +83,7 @@ body{{margin:0;background:#EFE8DE}}
 <div class="box">{icon('face')}<div><b style="display:block;font-size:19px;letter-spacing:.06em;color:{G};font-weight:500;margin-bottom:4px">NO ES UN RELLENO</b>
 <span style="font-size:18px;line-height:1.4;color:{TX}">Mejora la calidad de la piel sin agregar volumen. Rostro, cuello y escote.</span></div></div>
 </div>
-<div class="r"><div class="eb2" style="background-image:url({PNG64(ESCENA)})"></div><img class="shot" src="{PNG64(ESCENA)}"><div class="veil"></div><div class="tag">CIENCIA QUE REGENERA<br>TU PIEL{ORN}</div></div>
+<div class="r"><div class="eb2"></div><img class="shot" src="{PNG64(ESCENA)}"><div class="veil"></div><div class="tag">CIENCIA QUE REGENERA<br>TU PIEL{ORN}</div></div>
 </div>'''
 
 def render():
