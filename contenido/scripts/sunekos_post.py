@@ -25,7 +25,9 @@ def icon(kind):
               '<path d="M48 40 C48.6 45 50 46.4 55 47 C50 47.6 48.6 49 48 54 C47.4 49 46 47.6 41 47 C46 46.4 47.4 45 48 40Z"/>',
      'drop': '<path d="M32 9 C25 19 17 28 17 38 a15 15 0 0 0 30 0 C47 28 39 19 32 9Z"/><path d="M25 39 a8 8 0 0 0 6 7"/>',
      'line': '<path d="M12 50 H52"/><path d="M14 42 C22 42 24 30 31 30 S40 36 47 20"/><path d="M41 19 L47.5 18.5 L48.5 25"/>',
-     'face': '<path d="M38 11 C27 9 18 16 17 27 C16 33 14 36 12 39 L17 41 L17 47 C17 51 21 53 27 52 L29 57 H45"/><path d="M35 30 h4 M30 43 c3 1.6 6 1.6 8 0"/>'}[kind]
+     'face': '<path d="M30 11 C19 11 13 20 13 31 C13 43 21 53 30 53 C39 53 47 43 47 31 C47 20 41 11 30 11Z"/>'
+             '<path d="M21 30 q3.5 3 7 0 M32 30 q3.5 3 7 0"/><path d="M25 41 q5 4 10 0"/>'
+             '<path d="M52 9 C52.5 13 53.5 14 57 14.5 C53.5 15 52.5 16 52 20 C51.5 16 50.5 15 47 14.5 C50.5 14 51.5 13 52 9Z"/>'}[kind]
     return (f'<div class="ic"><svg viewBox="0 0 64 64" width="62" height="62" fill="none" stroke="currentColor" stroke-width="2.3" '
             f'stroke-linecap="round" stroke-linejoin="round">{s}</svg></div>')
 STAR = f'<svg width="22" height="22" viewBox="0 0 100 100"><path d="M50 0 C54.5 40 60 45.5 100 50 C60 54.5 54.5 60 50 100 C45.5 60 40 54.5 0 50 C40 45.5 45.5 40 50 0Z" fill="{G}"/></svg>'
