@@ -6,7 +6,12 @@ FOTO = SCR + '/sunekos/foto.jpg'      # foto del consultorio (producto sobre má
 OUT = '/home/user/gold-studio-final/consultorio/sunekos-performa.png'
 B64 = lambda p: 'data:image/jpeg;base64,' + base64.b64encode(open(p, 'rb').read()).decode()
 
-G, INK, TX, IV, LN = '#B08A4E', '#3A2E28', '#6B5E55', '#F6F1EA', '#E4D8C6'
+G, INK, TX, IV, LN = '#3FA9E0', '#FFFFFF', '#C3C8CE', '#141517', '#2C2F33'   # colores de la caja: negro, blanco y celeste
+NAVY = '#1F3A6B'
+PNG64 = lambda p: 'data:image/png;base64,' + base64.b64encode(open(p, 'rb').read()).decode()
+LOGO = SCR + '/sunekos/logo_white.png'     # logo real del consultorio, en blanco
+PACK = SCR + '/sunekos/pack_final.png'     # producto recortado
+PARED = SCR + '/sunekos/bg/4207776.jpg'    # pared beige con sombra de hojas (Pexels)
 MONO = (f'<svg width="96" height="140" viewBox="0 0 96 140" fill="none" stroke="#8F857C" stroke-width="2.4">'
         '<path d="M8 62 V48 a40 40 0 0 1 80 0 V62 M8 78 V92 a40 40 0 0 0 80 0 V78"/>'
         '<text x="40" y="100" font-family="J" font-weight="300" font-size="62" fill="none" stroke="#8F857C" stroke-width="1.6" text-anchor="middle">S</text>'
@@ -48,21 +53,35 @@ body{{margin:0;background:#EFE8DE}}
 .ic{{width:96px;height:96px;border-radius:50%;border:1.6px solid {G};color:{G};display:grid;place-items:center;flex:none}}
 .it b{{display:block;font-size:19px;letter-spacing:.06em;text-transform:uppercase;color:{G};font-weight:500;margin-bottom:5px}}
 .it span{{display:block;font-size:18.5px;line-height:1.42;color:{TX}}}
-.box{{margin-top:auto;width:100%;border:1.5px solid {LN};border-radius:18px;padding:16px 22px;display:flex;gap:20px;align-items:center;box-sizing:border-box;background:#FBF8F3}}
+.box{{margin-top:auto;width:100%;border:1.5px solid #2E4C80;border-radius:18px;padding:16px 22px;display:flex;gap:20px;align-items:center;box-sizing:border-box;background:{NAVY}}}
+.box span{{color:#D6E2F2 !important}}
+.mono{{width:84px;margin-top:4px}}
+.brand sup{{color:{G}}}
 .box .ic{{width:76px;height:76px}} .box .ic svg{{width:52px;height:52px}}
 .r{{flex:1;border-radius:26px;overflow:hidden;position:relative}}
-.ph{{position:absolute;inset:0;background:url({B64(FOTO)}) 50% 62%/cover;filter:sepia(.18) saturate(1.05) brightness(1.04) contrast(1.02)}}
-.veil{{position:absolute;inset:0;background:linear-gradient(rgba(246,241,234,.55),rgba(246,241,234,0) 38%)}}
+.ph{{position:absolute;inset:0;background:url({B64(PARED)}) 50% 30%/cover;filter:sepia(.25) saturate(.85) brightness(1.22) contrast(.82)}}
+.floor{{position:absolute;left:0;right:0;bottom:0;height:300px;background:linear-gradient(#E3D7C7,#D8CAB8);box-shadow:0 -1px 0 rgba(255,255,255,.4)}}
+.floor::before{{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 30% 0%,rgba(255,255,255,.35),rgba(255,255,255,0))}}
+.ped{{position:absolute;left:50%;transform:translateX(-50%);bottom:130px;width:660px;height:270px}}
+.ped .side{{position:absolute;left:0;right:0;top:62px;bottom:0;border-radius:0 0 330px 330px/0 0 60px 60px;background:linear-gradient(90deg,#C9BBA8,#E9E0D3 30%,#F2EBE1 48%,#DCD0C0 75%,#BFB09C)}}
+.ped .top{{position:absolute;left:0;right:0;top:0;height:124px;border-radius:50%;background:radial-gradient(ellipse at 45% 40%,#F7F2EA,#E8DFD2 70%,#DCD1C2)}}
+.ped .tex{{position:absolute;inset:0;background:url(grain.png);opacity:.18;mix-blend-mode:multiply;border-radius:0 0 330px 330px/0 0 60px 60px;top:62px}}
+.pshadow{{position:absolute;left:50%;bottom:100px;width:760px;height:80px;transform:translateX(-50%);border-radius:50%;background:rgba(80,60,40,.35);filter:blur(22px)}}
+.prod{{position:absolute;left:50%;bottom:322px;width:470px;transform:translateX(-50%)}}
+.prod img{{width:100%;display:block;position:relative;filter:drop-shadow(-24px 18px 26px rgba(70,50,30,.28))}}
+.cs{{position:absolute;border-radius:50%;background:rgba(40,28,18,.55);filter:blur(9px)}}
+.veil{{position:absolute;inset:0;background:linear-gradient(rgba(250,245,238,.45),rgba(250,245,238,0) 40%)}}
 .tag{{position:absolute;top:118px;left:0;right:0;text-align:center;font-size:31px;letter-spacing:.2em;line-height:1.55;color:#4A3C34;font-weight:400}}
+.tag .orn i{{background:#B9A88F}}
 .tag .orn{{width:180px;margin:18px auto 0}}
 </style><div class="p">
-<div class="l">{MONO}<div class="brand">SUNEKOS<sup>®</sup></div><div class="perf">PERFORMA</div>{ORN}
+<div class="l"><img class="mono" src="{PNG64(LOGO)}"><div class="brand">SUNEKOS<sup>®</sup></div><div class="perf">PERFORMA</div>{ORN}
 <div class="lead">Regeneración de la piel para<br>un rostro más firme,<br><em>elástico y luminoso.</em></div>{ORN}
 <div class="its">{items}</div>
 <div class="box">{icon('face')}<div><b style="display:block;font-size:19px;letter-spacing:.06em;color:{G};font-weight:500;margin-bottom:4px">NO ES UN RELLENO</b>
 <span style="font-size:18px;line-height:1.4;color:{TX}">Mejora la calidad de la piel sin agregar volumen. Rostro, cuello y escote.</span></div></div>
 </div>
-<div class="r"><div class="ph"></div><div class="veil"></div><div class="tag">TU PIEL, REGENERADA<br>DESDE ADENTRO{ORN}</div></div>
+<div class="r"><div class="ph"></div><div class="veil"></div><div class="floor"></div><div class="pshadow"></div><div class="ped"><div class="side"></div><div class="tex"></div><div class="top"></div></div><div class="prod"><div class="cs" style="left:2%;bottom:-4px;width:62%;height:26px;transform:rotate(-15deg);transform-origin:left"></div><div class="cs" style="right:0;bottom:-6px;width:30%;height:20px"></div><img src="{PNG64(PACK)}"></div><div class="tag">CIENCIA QUE REGENERA<br>TU PIEL{ORN}</div></div>
 </div>'''
 
 def render():
